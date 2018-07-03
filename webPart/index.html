@@ -24,15 +24,25 @@
             </tr>
         </tbody>
     </table>
+
+    <xml id="toolbox" style="display: none">
+        <block type="controls_if"></block>
+        <block type="controls_repeat_ext"></block>
+        <block type="logic_compare"></block>
+        <block type="math_number"></block>
+        <block type="math_arithmetic"></block>
+        <block type="text"></block>
+        <block type="text_print"></block>
+    </xml>
 </body>
 
 <div id="blocklyDiv"></div>
 
 
 <!-- JS files -->
-<!-- 
-        <script src="blockly_compressed.js"></script>
-        <script src="javascript_compressed.js"></script>
-    -->
-
+<script src="js/blockly/blockly_compressed.js"></script>
+<script src="js/blockly/blocks_compressed.js"></script>
+<script src="js/blockly/javascript_compressed.js"></script>
+<script src="js/blockly/fr.js"></script>
+<script src="js/blockly/blocklyInjection.js"></script>
 </html>
