@@ -16,7 +16,7 @@ function init() {
     // une fois chargée, que doit on voir
     injectBlockly();
     window.addEventListener('resize', resizeAll(), false);
-    workspace.addChangeListener(updateGeneratedCode());
+    workspace.addChangeListener(updateGeneratedCode);
     Blockly.svgResize(workspace);
     console.log("page loaded"); // TODO : faire ecran chargements
 }
@@ -43,10 +43,11 @@ function resizeAll() {
 
 function updateGeneratedCode(event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
-    document.getElementById('generatedCodeArea').value = code;
+    console.log('before : ' + document.getElementById('generated').value);
+    document.getElementById('generated').value = code;
+    console.log('after : ' + document.getElementById('generated').value);
+
 }
-
-
 
 function injectBlockly() {
     blocklyArea = document.getElementById('blocklyArea');

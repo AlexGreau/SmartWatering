@@ -33,5 +33,10 @@ table{
 
 #generatedCodeArea {
     height: 99%;
-    background-color: blueviolet;
+}
+
+#generated {
+    height: 100%;
+    width: 100%;
+    resize: none;
 }

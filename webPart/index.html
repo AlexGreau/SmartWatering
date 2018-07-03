@@ -15,6 +15,7 @@
 <script src="js/blockly/javascript_compressed.js"></script>
 <script src="js/blockly/fr.js"></script>
 <script src="js/main.js"></script>
+
 <body>
     <table>
         <tbody>
@@ -26,7 +27,7 @@
             </tr>
             <tr>
                 <td id="blocklyArea">Blockly is here</td>
-               <div id="blocklyDiv"></div>
+                <div id="blocklyDiv"></div>
                 <xml id="toolbox" style="display: none">
                     <block type="controls_if"></block>
                     <block type="controls_repeat_ext"></block>
@@ -36,16 +37,14 @@
                     <block type="text"></block>
                     <block type="text_print"></block>
                 </xml>
-        
             </tr>
             <tr>
-                <td id="generatedCodeArea"> here is the generated code from blocks</td>
+                <td id="generatedCodeArea">
+                    <textarea id="generated">code</textarea>
+                </td>
             </tr>
         </tbody>
     </table>
-
-
 </body>
-
 
 </html>
