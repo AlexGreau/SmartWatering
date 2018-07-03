@@ -8,24 +8,29 @@
  heck meteo & code postal
 */
 window.onload = init;
+var blocklyArea;
+var blocklyDiv;
+var workspace;
 
-function init(){
-    console.log("page loaded"); // TODO : faire ecran chargements
+function init() {
     // une fois chargée, que doit on voir
+    injectBlockly();
     window.addEventListener('resize', resizeAll, false);
-    workspace.addChangeListener(updateGeneratedCode);
+    workspace.addChangeListener(updateGeneratedCode());
+    console.log("page loaded"); // TODO : faire ecran chargements
+
 }
 
 
-function resizeAll(){
+function resizeAll() {
     // Compute the absolute coordinates and dimensions of blocklyArea.
     var element = blocklyArea;
     var x = 0;
     var y = 0;
     do {
-      x += element.offsetLeft;
-      y += element.offsetTop;
-      element = element.offsetParent;
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
     } while (element);
     // Position blocklyDiv over blocklyArea.
     blocklyDiv.style.left = x + 'px';
@@ -39,6 +44,24 @@ function resizeAll(){
 function updateGeneratedCode(event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
     document.getElementById('generatedCodeArea').value = code;
-  }
+}
 
+
+
+function injectBlockly() {
+    blocklyArea = document.getElementById('blocklyArea');
+    blocklyDiv = document.getElementById('blocklyDiv');
+    workspace = Blockly.inject('blocklyDiv',
+        {
+            toolbox: document.getElementById('toolbox'),
+            grid:
+            {
+                spacing: 20,
+                length: 3,
+                colour: '#ccc',
+                snap: true
+            },
+            trashcan: true
+        });
+}
 
