@@ -18,13 +18,20 @@ table{
 }
 
 #blocklyArea {
-    height: 99%;
+    height: 60%;
+    width: 99%;
     background-color: blanchedalmond;
     text-align: center;
 }
 
 #blocklyDiv{
+    height: 30%;
     position: absolute;
     left: 2px;
+    max-height: 60%;
+}
 
+#generatedCodeArea {
+    height: 99%;
+    background-color: blueviolet;
 }
