@@ -15,10 +15,10 @@ var workspace;
 function init() {
     // une fois chargée, que doit on voir
     injectBlockly();
-    window.addEventListener('resize', resizeAll, false);
+    window.addEventListener('resize', resizeAll(), false);
     workspace.addChangeListener(updateGeneratedCode());
+    Blockly.svgResize(workspace);
     console.log("page loaded"); // TODO : faire ecran chargements
-
 }
 
 
