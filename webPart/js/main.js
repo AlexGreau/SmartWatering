@@ -85,7 +85,7 @@ function injectBlockly() {
                 controls: true,
                 wheel: true,
                 startScale: 1.0,
-                maxScale: 2,
+                maxScale: 1.5,
                 minScale: 0.6,
                 scaleSpeed: 1.2
             },

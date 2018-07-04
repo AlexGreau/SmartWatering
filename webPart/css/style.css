@@ -40,3 +40,10 @@ table{
     width: 100%;
     resize: none;
 }
+
+#cardZone {
+    max-width: 99%;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
