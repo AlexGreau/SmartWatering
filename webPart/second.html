@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Blockly Arrosage</title>
+	<script src="js/blockly/blockly_compressed.js"></script>
+	<script src="js/blockly/blocks_compressed.js"></script>
+	<script src="js/blockly/javascript_compressed.js"></script>
+	<script src="js/blockly/fr.js"></script>
+	<script src="js/main.js"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+
+
+
+
+	<!-- <style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+
+		body {
+			background-color: #fff;
+			font-family: sans-serif;
+			overflow: hidden;
+		}
+
+		h1 {
+			font-weight: normal;
+			font-size: 140%;
+		}
+
+		table {
+			height: 100%;
+			width: 100%;
+		}
+
+		#blocklyArea {
+			height: 99%;
+		}
+	</style> -->
+</head>
+<body>
+
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<h1>TTTTT</h1>
+				</td>
+			</tr>
+			<tr>
+				<td id="blocklyArea">Blockly is here</td>
+				<div id="blocklyDiv"></div>
+
+				<xml id="toolbox" style="display: none">
+					<block type="block_type"></block>
+					
+				</xml>
+
+			</tr>
+			<tr>
+				<td id="generatedCodeArea">
+					<textarea id="generated">code</textarea>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+	<script>
+
+		Blockly.Blocks['block_type'] = {
+			init: function() {
+				this.jsonInit({
+					"type": "block_type",
+					"message0": "%hhhhhh",
+					"colour": 10,
+					"tooltip": "",
+					"helpUrl": ""
+				});
+			}
+		};
+
+
+	</script>
+</body>
+</html>
