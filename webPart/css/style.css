@@ -40,3 +40,7 @@ table{
     width: 100%;
     resize: none;
 }
+
+#navbar{
+    background-color: bisque
+}
