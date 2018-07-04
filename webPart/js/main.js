@@ -13,11 +13,29 @@ var blocklyDiv;
 var workspace;
 
 function init() {
-    // une fois chargée, que doit on voir
-    injectBlockly();
-    window.addEventListener('resize', resizeAll(), false);
-    workspace.addChangeListener(updateGeneratedCode);
-    Blockly.svgResize(workspace);
+    $.getJSON('js/customize_blocks.json').done(function (block_list) 
+    {
+        console.log("leo");
+        block_list.forEach(block => { 
+        console.log("creo");
+        Blockly.Blocks[block.type] = {
+          init: function() {
+                this.jsonInit(block);
+
+                console.log(block);
+              }
+            };
+        });
+
+        // une fois chargée, que doit on voir
+        injectBlockly();
+        window.addEventListener('resize', resizeAll(), false);
+        //workspace.addChangeListener(updateGeneratedCode);
+        Blockly.svgResize(workspace);
+
+    });
+
+    
     console.log("page loaded");
 }
 
