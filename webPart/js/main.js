@@ -5,7 +5,7 @@
  duree
  heure de depart
  seuil humidite
- heck meteo & code postal
+ check meteo & code postal
 */
 window.onload = init;
 var blocklyArea;
@@ -18,7 +18,7 @@ function init() {
     window.addEventListener('resize', resizeAll(), false);
     workspace.addChangeListener(updateGeneratedCode);
     Blockly.svgResize(workspace);
-    console.log("page loaded"); // TODO : faire ecran chargements
+    console.log("page loaded");
 }
 
 
@@ -43,10 +43,7 @@ function resizeAll() {
 
 function updateGeneratedCode(event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
-    console.log('before : ' + document.getElementById('generated').value);
     document.getElementById('generated').value = code;
-    console.log('after : ' + document.getElementById('generated').value);
-
 }
 
 function injectBlockly() {
@@ -55,6 +52,9 @@ function injectBlockly() {
     workspace = Blockly.inject('blocklyDiv',
         {
             toolbox: document.getElementById('toolbox'),
+            toolboxPosition: 'start',
+            horizontalLayout: true,
+
             grid:
             {
                 spacing: 20,
@@ -67,10 +67,11 @@ function injectBlockly() {
                 controls: true,
                 wheel: true,
                 startScale: 1.0,
-                maxScale: 3,
+                maxScale: 2,
                 minScale: 0.6,
                 scaleSpeed: 1.2
-            }
+            },
+            sounds: false,
         });
 }
 
