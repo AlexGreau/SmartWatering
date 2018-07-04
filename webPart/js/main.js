@@ -62,7 +62,15 @@ function injectBlockly() {
                 colour: '#ccc',
                 snap: true
             },
-            trashcan: true
+            trashcan: true,
+            zoom: {
+                controls: true,
+                wheel: true,
+                startScale: 1.0,
+                maxScale: 3,
+                minScale: 0.6,
+                scaleSpeed: 1.2
+            }
         });
 }
 
