@@ -41,6 +41,9 @@ table{
     resize: none;
 }
 
-#navbar{
-    background-color: bisque
+#cardZone {
+    max-width: 99%;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
 }
