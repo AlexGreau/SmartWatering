@@ -284,7 +284,7 @@ var customize_blocks =
     },
     {
       "type": "input_statement",
-      "name": "NAME",
+      "name": "sprinkler_settings",
       "check": "spklr_setting"
     }
   ],
@@ -313,12 +313,11 @@ function createToolboxXml() {
         toolbox += createWinterModeBlock(block.type);
       }
       else if (block.type.indexOf("summer_mode") != -1) {
-       // toolbox += createWinterModeBlock(block.type);
+        toolbox += createSummerModeBlock(block.type);
       }
       else {
         toolbox += '<block type="' + block.type + '"></block>';
       }
-
     });
     toolbox += '</xml>';
 }
@@ -345,6 +344,43 @@ function createWinterModeBlock(blockType) {
                         <field name='watering_hour'>10</field> \
                         <field name='watering_min'>0</field> \
                         <field name='watering_unit'>am</field> \
+                      </block> \
+                    </next> \
+                  </block> \
+                </next> \
+              </block> \
+            </next> \
+          </block> \
+        </next> \
+      </block> \
+    </statement> \
+  </block>";
+
+  return xml;
+}
+
+
+function createSummerModeBlock(blockType) {
+  var xml = "<block type='" + blockType + "'> \
+    <statement name='sprinkler_settings'> \
+      <block type='spklr_setting_duration'> \
+        <field name='duration_num'>15</field> \
+        <field name='duration_unit'>min</field> \
+        <next> \
+          <block type='spklr_setting_frequency'> \
+            <field name='freq_num'>5</field> \
+            <field name='freq_time'>week</field> \
+            <next> \
+              <block type='spklr_setting_moisture'> \
+                <field name='moist_level'>200</field> \
+                <next> \
+                  <block type='spklr_setting_intensity'> \
+                    <field name='water_intensity'>medium</field> \
+                    <next> \
+                      <block type='spklr_setting_start_time'> \
+                        <field name='watering_hour'>9</field> \
+                        <field name='watering_min'>0</field> \
+                        <field name='watering_unit'>pm</field> \
                       </block> \
                     </next> \
                   </block> \

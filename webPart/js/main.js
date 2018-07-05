@@ -13,7 +13,7 @@ var blocklyDiv;
 var workspace;
 
 function init() {
-    // create the toolbox fro
+    // create the toolbox with the customize blocks
     createToolboxXml();
     
     // une fois chargée, que doit on voir
