@@ -13,28 +13,14 @@ var blocklyDiv;
 var workspace;
 
 function init() {
-    $.getJSON('js/customize_blocks.json').done(function (block_list) 
-    {
-        console.log("leo");
-        block_list.forEach(block => { 
-        console.log("creo");
-        Blockly.Blocks[block.type] = {
-          init: function() {
-                this.jsonInit(block);
-
-                console.log(block);
-              }
-            };
-        });
-
-        // une fois chargée, que doit on voir
-        injectBlockly();
-        window.addEventListener('resize', resizeAll(), false);
-        //workspace.addChangeListener(updateGeneratedCode);
-        Blockly.svgResize(workspace);
-
-    });
-
+    // create the toolbox fro
+    createToolboxXml();
+    
+    // une fois chargée, que doit on voir
+    injectBlockly();
+    window.addEventListener('resize', resizeAll(), false);
+    //workspace.addChangeListener(updateGeneratedCode);
+    Blockly.svgResize(workspace);
     
     console.log("page loaded");
 }
@@ -69,7 +55,7 @@ function injectBlockly() {
     blocklyDiv = document.getElementById('blocklyDiv');
     workspace = Blockly.inject('blocklyDiv',
         {
-            toolbox: document.getElementById('toolbox'),
+            toolbox: toolbox,
             toolboxPosition: 'start',
             horizontalLayout: true,
 
@@ -92,4 +78,5 @@ function injectBlockly() {
             sounds: false,
         });
 }
+
 

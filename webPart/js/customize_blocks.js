@@ -1,3 +1,8 @@
+// include before main.js
+
+var toolbox;
+
+var customize_blocks = 
 [{
   "type": "sprinkler_type",
   "message0": "I'm sprinkler number: %1 %2 I'm actived: %3 %4 %5",
@@ -248,4 +253,109 @@
   "colour": 195,
   "tooltip": "",
   "helpUrl": ""
-}]
+},
+{
+  "type": "spklr_setting_winter_mode",
+  "message0": "Winter mode %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "sprinkler_settings",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": [
+    "sprinkler_type",
+    "plant_type"
+  ],
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_summer_mode",
+  "message0": "Summer mode %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "NAME",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": [
+    "sprinkler_type",
+    "plant_type"
+  ],
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+}];
+
+
+function createToolboxXml() {
+    toolbox = '<xml>';
+
+    // Create the customize blocks
+    customize_blocks.forEach(block => { 
+      Blockly.Blocks[block.type] = {
+        init: function() {
+          this.jsonInit(block);
+        }
+      };
+
+      if (block.type.indexOf("winter_mode") != -1) {
+        toolbox += createWinterModeBlock(block.type);
+      }
+      else if (block.type.indexOf("summer_mode") != -1) {
+       // toolbox += createWinterModeBlock(block.type);
+      }
+      else {
+        toolbox += '<block type="' + block.type + '"></block>';
+      }
+
+    });
+    toolbox += '</xml>';
+}
+
+
+function createWinterModeBlock(blockType) {
+  var xml = "<block type='" + blockType + "'> \
+    <statement name='sprinkler_settings'> \
+      <block type='spklr_setting_duration'> \
+        <field name='duration_num'>5</field> \
+        <field name='duration_unit'>min</field> \
+        <next> \
+          <block type='spklr_setting_frequency'> \
+            <field name='freq_num'>2</field> \
+            <field name='freq_time'>week</field> \
+            <next> \
+              <block type='spklr_setting_moisture'> \
+                <field name='moist_level'>100</field> \
+                <next> \
+                  <block type='spklr_setting_intensity'> \
+                    <field name='water_intensity'>drop</field> \
+                    <next> \
+                      <block type='spklr_setting_start_time'> \
+                        <field name='watering_hour'>10</field> \
+                        <field name='watering_min'>0</field> \
+                        <field name='watering_unit'>am</field> \
+                      </block> \
+                    </next> \
+                  </block> \
+                </next> \
+              </block> \
+            </next> \
+          </block> \
+        </next> \
+      </block> \
+    </statement> \
+  </block>";
+
+  return xml;
+}

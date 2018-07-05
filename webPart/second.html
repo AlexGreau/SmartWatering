@@ -10,12 +10,15 @@
 </head>
 <!-- JS files -->
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script src="js/blockly/blockly_compressed.js"></script>
 <script src="js/blockly/blocks_compressed.js"></script>
 <script src="js/blockly/javascript_compressed.js"></script>
 <script src="js/blockly/fr.js"></script>
-<script src="js/upload_blocks.js"></script>
+
+<script src="js/customize_blocks.js"></script>
 <script src="js/main.js"></script>
+
 
 <body>
     <table>
@@ -29,17 +32,6 @@
             <tr>
                 <td id="blocklyArea">Blockly is here</td>
                 <div id="blocklyDiv"></div>
-                <xml id="toolbox" style="display: none">
-                    <block type="block_type"></block>
-                    <block type="sprinkler_type"></block>
-                    <block type="plant_type"></block>
-                    <block type="spklr_setting_duration"></block>
-                    <block type="spklr_setting_start_time"></block>
-                    <block type="spklr_setting_meteo"></block>
-                    <block type="spklr_setting_frequency"></block>
-                    <block type="spklr_setting_intensity"></block>
-                    <block type="spklr_setting_moisture"></block>
-                </xml>
             </tr>
             <tr>
                 <td id="generatedCodeArea">
@@ -48,20 +40,5 @@
             </tr>
         </tbody>
     </table>
-
-	<script>
-		Blockly.Blocks['block_type'] = {
-			init: function() {
-				this.jsonInit({
-					"type": "block_type",
-					"message0": "%hhhhhh",
-					"colour": 10,
-					"tooltip": "",
-					"helpUrl": ""
-				});
-			}
-		};
-	</script>
-
 </body>
 </html>
