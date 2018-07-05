@@ -1,0 +1,71 @@
+html, body {
+    height: 100%;
+    margin: 0%;
+}
+body{
+    background-color: aquamarine;
+    font-family: 'Times New Roman', Times, serif;
+    overflow: hidden;
+}
+h1{
+    font-weight: normal;
+    font-size: 140%;
+}
+
+table{
+    height: 100%;
+    width: 100%;
+}
+
+#blocklyArea {
+    height: 60%;
+    width: 99%;
+    background-color: blanchedalmond;
+    text-align: center;
+}
+
+#blocklyDiv{
+    height: 30%;
+    position: absolute;
+    left: 2px;
+    max-height: 60%;
+}
+
+#generatedCodeArea {
+    height: 99%;
+}
+
+#generated {
+    height: 100%;
+    width: 100%;
+    resize: none;
+}
+
+#cardZone {
+    max-width: 99%;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
+
+/*
+.btn {
+    display: inline-block;
+    position: relative;
+    background-color: #f39c12;
+    padding: 14px;
+  
+    border-radius: 5px;
+    border-bottom-style: solid;
+    border-width: 4px;
+    border-color: #DA8300;
+  }
+
+  .btn:active {
+    background-color: #E68F05;
+    border-color: #CD7600;
+    border-width: 2px;
+    top: 2px;
+  }
+
+  */
