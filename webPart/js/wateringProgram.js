@@ -18,7 +18,7 @@ class wateringProgram{
     }
 
     sendToArduino(){
-
+        
     }
 }
 

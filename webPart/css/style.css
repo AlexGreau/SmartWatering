@@ -47,3 +47,25 @@ table{
     float: none;
     margin-bottom: 10px;
 }
+
+/*
+.btn {
+    display: inline-block;
+    position: relative;
+    background-color: #f39c12;
+    padding: 14px;
+  
+    border-radius: 5px;
+    border-bottom-style: solid;
+    border-width: 4px;
+    border-color: #DA8300;
+  }
+
+  .btn:active {
+    background-color: #E68F05;
+    border-color: #CD7600;
+    border-width: 2px;
+    top: 2px;
+  }
+
+  */
