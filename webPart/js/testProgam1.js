@@ -3,3 +3,4 @@
 let prog1 = new wateringProgram(1);
 
 prog1.sprinklers[0].duration = 60;
+prog1.sprinklers[0].on = false;

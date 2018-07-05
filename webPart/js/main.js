@@ -71,7 +71,7 @@ function injectBlockly() {
         {
             toolbox: document.getElementById('toolbox'),
             toolboxPosition: 'start',
-            horizontalLayout: true,
+           // horizontalLayout: true,
 
             grid:
             {
