@@ -40,10 +40,29 @@ int pompe4 = 4;
  Tension d'Alimentation     3 ~ 5 Volts
  Stabilite a long terme     +/- 1% par an
  */
-dht11 DHT11_1;
-dht11 DHT11_2;
-dht11 DHT11_3;
-dht11 DHT11_4;
+
+// PINs "DATA" du capteur DHT11
+const byte PIN_SENSOR_DHT11_1 = 3;
+const byte PIN_SENSOR_DHT11_2 = 9;
+const byte PIN_SENSOR_DHT11_3 = 10;
+const byte PIN_SENSOR_DHT11_4 = 11;
+
+// Code d'erreur de la fonction readDHT11()
+const byte DHT11_SUCCESS = 0;         // Pas d'erreur
+const byte DHT11_TIMEOUT_ERROR = 1;   // Temps d'attente depasse
+const byte DHT11_CHECKSUM_ERROR = 2;  // Donnees recues erronees
+
+// const byte DHT11_SUCCESS_2 = 0;
+// const byte DHT11_TIMEOUT_ERROR_2 = 1;
+// const byte DHT11_CHECKSUM_ERROR_2 = 2;
+//
+// const byte DHT11_SUCCESS_3 = 0;
+// const byte DHT11_TIMEOUT_ERROR_3 = 1;
+// const byte DHT11_CHECKSUM_ERROR_3 = 2;
+//
+// const byte DHT11_SUCCESS_4 = 0;
+// const byte DHT11_TIMEOUT_ERROR_4 = 1;
+// const byte DHT11_CHECKSUM_ERROR_4 = 2;
 
 
 
