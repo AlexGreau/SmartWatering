@@ -16,7 +16,8 @@
 <script src="js/blockly/javascript_compressed.js"></script>
 <script src="js/blockly/fr.js"></script>
 
-<script src="js/customize_blocks.js"></script>
+<script src="js/customizedBlocks/customize_blocks_defs.js"></script>
+<script src="js/customizedBlocks/customize_blocks_stubs.js"></script>
 <script src="js/main.js"></script>
 
 <body>
@@ -25,22 +26,9 @@
         <div id="blocklyDiv"></div>
     </div>
 
-    <!-- 
-    <table>
-        <tbody>
-            <tr>
-                
-                <td id="blocklyArea">Blockly is here</td>
-                <div id="blocklyDiv"></div>
-            </tr>
-          <tr>
-                           <td id="generatedCodeArea">
-                               <textarea id="generated">code</textarea>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-     -->
+    <div id="generatedCodeArea">
+        <textarea id="generated">code</textarea>
+    </div>
 </body>
 
 </html>

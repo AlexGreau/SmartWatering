@@ -19,7 +19,7 @@ function init() {
 
     //listenners
     window.addEventListener('resize', resizeAll(), false);
-    //workspace.addChangeListener(updateGeneratedCode);
+    workspace.addChangeListener(updateGeneratedCode);
 
    Blockly.svgResize(workspace);
     console.log("page loaded");
@@ -57,7 +57,6 @@ function injectBlockly() {
         {
             toolbox: toolbox,
             toolboxPosition: 'start',
-
             grid:
             {
                 spacing: 20,

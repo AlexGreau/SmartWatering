@@ -1,4 +1,29 @@
-[{
+
+/*$.getJSON('js/customize_blocks.json').done(function (block_list) 
+{
+  console.log("leo");
+  block_list.forEach(block => { 
+    console.log("creo");
+    Blockly.Blocks[block.type] = {
+      init: function() {
+        this.jsonInit(block);
+
+          console.log(block);
+      }
+    };
+  });
+
+
+  workspace.toolbox.refreshSelection();
+});
+
+*/
+
+
+
+
+
+var a = [{
   "type": "sprinkler_type",
   "message0": "I'm sprinkler number: %1 %2 I'm actived: %3 %4 %5",
   "args0": [
@@ -249,3 +274,16 @@
   "tooltip": "",
   "helpUrl": ""
 }]
+
+a.forEach(block => { 
+    console.log("creo");
+    Blockly.Blocks[block.type] = {
+      init: function() {
+        this.jsonInit(block);
+
+          console.log(block);
+      }
+    };
+  });
+
+
