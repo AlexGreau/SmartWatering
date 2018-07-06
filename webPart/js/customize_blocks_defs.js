@@ -56,14 +56,14 @@ var customize_blocks =
     {
       "type": "field_input",
       "name": "plant_name",
-      "text": "plant's name"
+      "text": "name of plant"
     },
     {
       "type": "input_dummy"
     },
     {
       "type": "input_statement",
-      "name": "sprinkler_settings"
+      "name": "plants_settings"
     }
   ],
   "previousStatement": "sprinkler_type",
@@ -175,13 +175,13 @@ var customize_blocks =
   "args0": [
     {
       "type": "field_number",
-      "name": "freq_num",
+      "name": "freq_time",
       "value": 0,
       "min": 0
     },
     {
       "type": "field_dropdown",
-      "name": "freq_time",
+      "name": "freq_unit",
       "options": [
         [
           "day",
@@ -263,7 +263,7 @@ var customize_blocks =
     },
     {
       "type": "input_statement",
-      "name": "sprinkler_settings",
+      "name": "mode_settings",
       "check": "spklr_setting"
     }
   ],
@@ -284,7 +284,7 @@ var customize_blocks =
     },
     {
       "type": "input_statement",
-      "name": "sprinkler_settings",
+      "name": "mode_settings",
       "check": "spklr_setting"
     }
   ],
@@ -299,7 +299,18 @@ var customize_blocks =
 
 
 function createToolboxXml() {
+ /* Blockly.Blocks['example_date'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField('date:')
+            .appendField(new Blockly.FieldDate('2015-02-05'), 'FIELDNAME');
+      }
+    };
+
+*/
+
     toolbox = '<xml>';
+    //toolbox += '<block type="example_date"></block>';
 
     // Create the customize blocks
     customize_blocks.forEach(block => { 
@@ -319,20 +330,22 @@ function createToolboxXml() {
         toolbox += '<block type="' + block.type + '"></block>';
       }
     });
+
+    
     toolbox += '</xml>';
 }
 
 
 function createWinterModeBlock(blockType) {
   var xml = "<block type='" + blockType + "'> \
-    <statement name='sprinkler_settings'> \
+    <statement name='mode_settings'> \
       <block type='spklr_setting_duration'> \
         <field name='duration_num'>5</field> \
         <field name='duration_unit'>min</field> \
         <next> \
           <block type='spklr_setting_frequency'> \
-            <field name='freq_num'>2</field> \
-            <field name='freq_time'>week</field> \
+            <field name='freq_time'>2</field> \
+            <field name='freq_unit'>week</field> \
             <next> \
               <block type='spklr_setting_moisture'> \
                 <field name='moist_level'>100</field> \
@@ -362,14 +375,14 @@ function createWinterModeBlock(blockType) {
 
 function createSummerModeBlock(blockType) {
   var xml = "<block type='" + blockType + "'> \
-    <statement name='sprinkler_settings'> \
+    <statement name='mode_settings'> \
       <block type='spklr_setting_duration'> \
         <field name='duration_num'>15</field> \
         <field name='duration_unit'>min</field> \
         <next> \
           <block type='spklr_setting_frequency'> \
-            <field name='freq_num'>5</field> \
-            <field name='freq_time'>week</field> \
+            <field name='freq_time'>5</field> \
+            <field name='freq_unit'>week</field> \
             <next> \
               <block type='spklr_setting_moisture'> \
                 <field name='moist_level'>200</field> \
