@@ -12,27 +12,22 @@ h1{
     font-size: 140%;
 }
 
-table{
+#blocklyArea {
     height: 100%;
     width: 100%;
-}
-
-#blocklyArea {
-    height: 60%;
-    width: 99%;
     background-color: blanchedalmond;
     text-align: center;
+    margin: 0%;
 }
 
 #blocklyDiv{
-    height: 30%;
-    position: absolute;
-    left: 2px;
-    max-height: 60%;
+    height: 100%;
+    /*position: absolute;*/
+    max-height: 100%;
 }
 
 #generatedCodeArea {
-    height: 99%;
+    height: 100%;
 }
 
 #generated {
