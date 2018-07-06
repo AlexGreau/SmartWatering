@@ -13,7 +13,7 @@ var blocklyDiv;
 var workspace;
 
 function init() {
-    // create the toolbox fro
+    // create the toolbox with the customize blocks
     createToolboxXml();
     injectBlockly();
 
@@ -21,7 +21,8 @@ function init() {
     window.addEventListener('resize', resizeAll(), false);
     workspace.addChangeListener(updateGeneratedCode);
 
-   Blockly.svgResize(workspace);
+    Blockly.svgResize(workspace);
+
     console.log("page loaded");
 }
 

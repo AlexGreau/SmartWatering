@@ -299,18 +299,18 @@ var customize_blocks =
 
 
 function createToolboxXml() {
- /* Blockly.Blocks['example_date'] = {
+   /* goog.require('Blockly.FieldDate');
+
+    Blockly.Blocks['example_date'] = {
       init: function() {
         this.appendDummyInput()
             .appendField('date:')
             .appendField(new Blockly.FieldDate('2015-02-05'), 'FIELDNAME');
       }
-    };
-
-*/
+    };*/
 
     toolbox = '<xml>';
-    //toolbox += '<block type="example_date"></block>';
+  //  toolbox += '<block type="example_date"></block>';
 
     // Create the customize blocks
     customize_blocks.forEach(block => { 
