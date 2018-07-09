@@ -10,22 +10,23 @@
 window.onload = init;
 var blocklyArea;
 var blocklyDiv;
-var workspace;
+let workspace;
 
 function init() {
     // create the toolbox with the customize blocks
     createToolboxXml();
     injectBlockly();
-
-    //listenners
-    window.addEventListener('resize', resizeAll(), false);
-    workspace.addChangeListener(updateGeneratedCode);
+    addListeners();
 
     Blockly.svgResize(workspace);
-
     console.log("page loaded");
+    customizeToolbox(workspace);
 }
 
+function addListeners() {
+    window.addEventListener('resize', resizeAll(), false);
+    //workspace.addChangeListener(updateGeneratedCode);
+}
 
 function resizeAll() {
     // Compute the absolute coordinates and dimensions of blocklyArea.
@@ -54,6 +55,7 @@ function updateGeneratedCode(event) {
 function injectBlockly() {
     blocklyArea = document.getElementById('blocklyArea');
     blocklyDiv = document.getElementById('blocklyDiv');
+
     workspace = Blockly.inject('blocklyDiv',
         {
             toolbox: toolbox,
@@ -68,14 +70,20 @@ function injectBlockly() {
             trashcan: true,
             zoom: {
                 controls: true,
-                wheel: true,
                 startScale: 0.6,
                 maxScale: 1,
-                minScale: 0.6,
+                minScale: 0.3,
                 scaleSpeed: 1.2
             },
-            sounds: false,
+            scrollbars: true,
+            // sounds: false,
+
         });
 }
 
-
+function customizeToolbox(space) {
+    let toolBx = document.getElementById("toolbox");
+    // toolBx = space.getToolbox(); 
+    // toolBx.width = 500; 
+    console.log(toolBx);
+} 

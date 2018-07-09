@@ -6,6 +6,8 @@ body{
     background-color: aquamarine;
     font-family: 'Times New Roman', Times, serif;
     overflow: hidden;
+    height: 100%;
+    margin: 0%;
 }
 h1{
     font-weight: normal;
@@ -16,13 +18,12 @@ h1{
     height: 100%;
     width: 100%;
     background-color: blanchedalmond;
-    text-align: center;
     margin: 0%;
 }
 
 #blocklyDiv{
     height: 100%;
-    /*position: absolute;*/
+    position: absolute;
     max-height: 100%;
 }
 
@@ -41,6 +42,10 @@ h1{
     margin: 0 auto;
     float: none;
     margin-bottom: 10px;
+}
+
+.button1{
+    width: 100%;
 }
 
 .btn {

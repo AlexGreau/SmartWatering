@@ -1,6 +1,6 @@
 // include before main.js
 
-var toolbox;
+let toolbox;
 
 var customize_blocks = 
 [{
@@ -309,9 +309,10 @@ function createToolboxXml() {
       }
     };*/
 
-    toolbox = '<xml>';
-  //  toolbox += '<block type="example_date"></block>';
-
+    toolbox = '<xml id="toolbox" style="display: none;">';
+  //  toolbox +=  ' <button text="A button" callbackKey="myFirstButtonPressed" id="button1"></button>'
+    ;
+    
     // Create the customize blocks
     customize_blocks.forEach(block => { 
       Blockly.Blocks[block.type] = {
