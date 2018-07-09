@@ -1,44 +1,103 @@
 #include "variable.h"
 
-
-int getMoisture(int moisture_sensor) {
-  return analogRead(moisture_sensor);
-}
-
 void setup() {
     Serial.begin(115200);   // Initialisation du port serie
     Serial.println();
 
     // Place le pin du capteur en entree avec pull-up
     pinMode(PIN_SENSOR_DHT11_1, INPUT_PULLUP);    // ceci afin d'eviter que le capteur se reveille prematurement
-    pinMode(PIN_SENSOR_DHT11_2, INPUT_PULLUP);
-    pinMode(PIN_SENSOR_DHT11_3, INPUT_PULLUP);
-    pinMode(PIN_SENSOR_DHT11_4, INPUT_PULLUP);
 }
 
 void loop() {
+
+    // moisture1 = analogRead(PIN_MOISTURE_1);
+    initSensorMoisture();
+
+    Serial.print("Humidite (%): ");
+    Serial.println(moisture1);
+    receiveProgram();
+
+
     float temperature, humidity;
 
     /* Lecture de la temperature et de l'humidite, avec la gestion des erreurs */
-    switch (readDHT11(PIN_SENSOR_DHT11_1, &temperature, &humidity)) {
-        case DHT11_SUCCESS:
-            Serial.print("Humidite (%): ");
-            Serial.println(humidity, 2);
-            Serial.print("Temperature (^C): ");
-            Serial.println(temperature, 2);
-            break;
-        case DHT11_TIMEOUT_ERROR:
-            Serial.println("Pas de reponse !");
-            break;
-        case DHT11_CHECKSUM_ERROR:
-            Serial.println("Probleme de communication !");
-            break;
-    }
+    // switch (readDHT11(PIN_SENSOR_DHT11_1, &temperature, &humidity)) {
+    //     case DHT11_SUCCESS:
+    //         Serial.print("Humidite (%): ");
+    //         Serial.println(humidity, 2);
+    //         Serial.print("Temperature (^C): ");
+    //         Serial.println(temperature, 2);
+    //         break;
+    //     case DHT11_TIMEOUT_ERROR:
+    //         Serial.println("Pas de reponse !");
+    //         break;
+    //     case DHT11_CHECKSUM_ERROR:
+    //         Serial.println("Probleme de communication !");
+    //         break;
+    // }
 
     // Pas plus d'une mesure par seconde
 
     delay(1000);
 }
+
+void receiveProgram() {
+    while (Serial.available()) {
+        programm_receive = Serial.readString();/* lit la data entrant */
+        Serial.println(programm_receive);
+    }
+}
+
+
+void initSensorMoisture() {
+    moisture1 = analogRead(PIN_MOISTURE_1);
+}
+
+
+/**
+ * Detecte si le Sensor est dans : air, sol sec, sol humide ou dans l'eau
+ *
+ * @param moisture la valeur returne par le sensor.
+*/
+byte sensorMoistureIsIn(int moisture) {
+    if (moisture > m_D_S && moisture <= M_D_S) {
+        /* Je suis dans un sol sec */
+        return DRY_SOIL;
+    }
+    if (moisture > m_H_S && moisture <= M_H_S) {
+        /* Je suis dans un sol humide */
+        return HUMID_SOIL;
+    }
+    if (moisture > m_W && moisture <= M_W) {
+        /* Je suis dans l'eau */
+        return WATER;
+    }
+    /* Je suis dans l'air */
+    return AIR;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Lit la temperature et le taux d'humidite mesure par un capteur DHT11.
@@ -62,7 +121,6 @@ byte readDHT11(byte pin, float *temperature, float *humidity) {
     /* Ok */
     return DHT11_SUCCESS;
 }
-
 /**
  * Fonction de bas niveau permettant de lire la temperature et le taux d'humidité (en valeurs brutes)
  * mesure par un capteur DHTxx
@@ -71,37 +129,30 @@ byte readDHTxx(byte pin, byte *data, unsigned long start_time, unsigned long tim
     data[0] = data[1] = data[2] = data[3] = data[4] = 0;
     // start_time est en millisecondes
     // timeout est en microsecondes
-
     /* Conversion du numéro de broche Arduino en ports / masque binaire "bas niveau" */
     uint8_t bit = digitalPinToBitMask(pin);
     uint8_t port = digitalPinToPort(pin);
     volatile uint8_t *ddr = portModeRegister(port);   // Registre MODE (INPUT / OUTPUT)
     volatile uint8_t *out = portOutputRegister(port); // Registre OUT (écriture)
     volatile uint8_t *in = portInputRegister(port);   // Registre IN (lecture)
-
     /* Conversion du temps de timeout en nombre de cycles processeur */
     unsigned long max_cycles = microsecondsToClockCycles(timeout);
-
     /* Evite les problèmes de pull-up */
     *out |= bit;  // PULLUP
     *ddr &= ~bit; // INPUT
     delay(100);   // Laisse le temps à la résistance de pullup de mettre la ligne de données à HIGH
-
     /* Réveil du capteur */
     *ddr |= bit;  // OUTPUT
     *out &= ~bit; // LOW
     delay(start_time); // Temps d'attente à LOW causant le réveil du capteur
     // N.B. Il est impossible d'utilise delayMicroseconds() ici car un délai
     // de plus de 16 millisecondes ne donne pas un timing assez précis.
-
     /* Portion de code critique - pas d'interruptions possibles */
     noInterrupts();
-
     /* Passage en écoute */
     *out |= bit;  // PULLUP
     delayMicroseconds(40);
     *ddr &= ~bit; // INPUT
-
     /* Attente de la réponse du capteur */
     timeout = 0;
     while(!(*in & bit)) { /* Attente d'un état LOW */
@@ -110,7 +161,6 @@ byte readDHTxx(byte pin, byte *data, unsigned long start_time, unsigned long tim
             return DHT11_TIMEOUT_ERROR;
         }
     }
-
     timeout = 0;
     while(*in & bit) { /* Attente d'un état HIGH */
         if (++timeout == max_cycles) {
@@ -118,10 +168,8 @@ byte readDHTxx(byte pin, byte *data, unsigned long start_time, unsigned long tim
             return DHT11_TIMEOUT_ERROR;
         }
     }
-
     /* Lecture des données du capteur (40 bits) */
     for (byte i = 0; i < 40; ++i) {
-
         /* Attente d'un état LOW */
         unsigned long cycles_low = 0;
         while(!(*in & bit)) {
@@ -130,7 +178,6 @@ byte readDHTxx(byte pin, byte *data, unsigned long start_time, unsigned long tim
                 return DHT11_TIMEOUT_ERROR;
             }
         }
-
         /* Attente d'un état HIGH */
         unsigned long cycles_high = 0;
         while(*in & bit) {
@@ -139,24 +186,20 @@ byte readDHTxx(byte pin, byte *data, unsigned long start_time, unsigned long tim
                 return DHT11_TIMEOUT_ERROR;
             }
         }
-
         /* Si le temps haut est supérieur au temps bas c'est un "1", sinon c'est un "0" */
         data[i / 8] <<= 1;
         if (cycles_high > cycles_low) {
             data[i / 8] |= 1;
         }
     }
-
     /* Fin de la portion de code critique */
     interrupts();
-
     /*
     * Format des données :
     * [1, 0] = humidité en %
     * [3, 2] = température en degrés Celsius
     * [4] = checksum (humidité + température)
     */
-
     /* Vérifie la checksum */
     byte checksum = (data[0] + data[1] + data[2] + data[3]) & 0xff;
     if (data[4] != checksum)
