@@ -13,7 +13,7 @@ h1{
 }
 
 #blocklyArea {
-    height: 70%;
+    height: 100%;
     width: 100%;
     background-color: blanchedalmond;
     text-align: center;
@@ -43,7 +43,6 @@ h1{
     margin-bottom: 10px;
 }
 
-/*
 .btn {
     display: inline-block;
     position: relative;
@@ -62,5 +61,3 @@ h1{
     border-width: 2px;
     top: 2px;
   }
-
-  */
