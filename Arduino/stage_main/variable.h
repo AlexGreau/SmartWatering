@@ -1,25 +1,40 @@
-#define DHT11PIN 2
-
-/**
- * Module capteur d'Humidite
- */
-const int moisture_sensor1 = A0;
-const int moisture_sensor2 = A1;
-const int moisture_sensor3 = A2;
-const int moisture_sensor4 = A3;
-int sensor_humidite1 = 0;
-int sensor_humidite2 = 0;
-int sensor_humidite3 = 0;
-int sensor_humidite4 = 0;
-
 /**
  * Pin de gestion des pompes
  * 7, 6, 5 et 4 correspondent au Relay utilise
  */
-int pompe1 = 7;
-int pompe2 = 6;
-int pompe3 = 5;
-int pompe4 = 4;
+#define POMPE1 = 7;
+#define POMPE2 = 6;
+#define POMPE3 = 5;
+#define POMPE4 = 4;
+
+/**
+ * Specifications capteur Humidite
+ */
+#define m_D_S 0    // MIN_MOISTURE_IN_DRY_SOIL
+#define M_D_S 300  // MAX_MOISTURE_IN_DRY_SOIL
+#define m_H_S 300  // MIN_MOISTURE_IN_HUMID_SOIL
+#define M_H_S 700  // MAX_MOISTURE_IN_HUMID_SOIL
+#define m_W 700    // MIN_MOISTURE_IN_WATER
+#define M_W 950    // MAX_MOISTURE_IN_WATER
+
+const byte AIR = 0;
+const byte DRY_SOIL = 1;
+const byte HUMID_SOIL = 2;
+const byte WATER = 3;
+
+/**
+ * Module capteur d'Humidite
+ * Utilise des PINs Analog
+ */
+const int PIN_MOISTURE_1 = A0;
+const int PIN_MOISTURE_2 = A1;
+const int PIN_MOISTURE_3 = A2;
+const int PIN_MOISTURE_4 = A3;
+
+int moisture1 = 0;
+int moisture2 = 0;
+int moisture3 = 0;
+int moisture4 = 0;
 
 /**
  * Module utilise pour le capteur de temperature et d'humidite
@@ -41,45 +56,13 @@ int pompe4 = 4;
  Stabilite a long terme     +/- 1% par an
  */
 
-// PINs "DATA" du capteur DHT11
+// PIN "DATA" du capteur DHT11
 const byte PIN_SENSOR_DHT11_1 = 3;
-const byte PIN_SENSOR_DHT11_2 = 9;
-const byte PIN_SENSOR_DHT11_3 = 10;
-const byte PIN_SENSOR_DHT11_4 = 11;
 
 // Code d'erreur de la fonction readDHT11()
 const byte DHT11_SUCCESS = 0;         // Pas d'erreur
 const byte DHT11_TIMEOUT_ERROR = 1;   // Temps d'attente depasse
 const byte DHT11_CHECKSUM_ERROR = 2;  // Donnees recues erronees
 
-// const byte DHT11_SUCCESS_2 = 0;
-// const byte DHT11_TIMEOUT_ERROR_2 = 1;
-// const byte DHT11_CHECKSUM_ERROR_2 = 2;
-//
-// const byte DHT11_SUCCESS_3 = 0;
-// const byte DHT11_TIMEOUT_ERROR_3 = 1;
-// const byte DHT11_CHECKSUM_ERROR_3 = 2;
-//
-// const byte DHT11_SUCCESS_4 = 0;
-// const byte DHT11_TIMEOUT_ERROR_4 = 1;
-// const byte DHT11_CHECKSUM_ERROR_4 = 2;
 
-
-
-
-
-
-
-struct Zone {
-  int *tabPompe;
-  int *tabMoisture;
-  int *tabTemperature;
-  int nbPompe;
-  int nbMoisture;
-  int nbTemperature;
-};
-
-struct POMPE {
-  int id;
-  bool start;
-};
+String programm_receive;
