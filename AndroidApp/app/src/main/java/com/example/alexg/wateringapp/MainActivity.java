@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportMultipleWindows(true);
         myWebView.setLongClickable(false);
         myWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         myWebView.loadUrl("file:///android_asset/index.html");

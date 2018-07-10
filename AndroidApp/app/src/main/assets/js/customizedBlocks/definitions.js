@@ -1,6 +1,6 @@
 // include before main.js
 
-var customizeBlocks =
+customizeBlocks =
 [{
     "categoryName" : "Sprinkler",
     "blocks" :
@@ -408,6 +408,32 @@ var customizeBlocks =
 function createBlocksAndToolboxXml() {
     var toolboxXml = '<xml>';
 
+    /*
+        goog.require('Blockly.FieldDate');
+
+        Blockly.Blocks["example_date"] = {
+            init: function() {
+              this.jsonInit({
+               "type": "example_date",
+               "message0": "date: %1",
+               "args0": [
+                 {
+                   "type": "field_date",
+                   "name": "FIELDNAME",
+                   "date": "2020-02-20"
+                 }
+               ]
+             });
+            }
+        };
+
+        toolboxXml += '<block type="example_date"></block>';
+    */
+
+
+    toolbox = '<xml id="toolbox" style="display: none;">';
+    //toolbox +=  ' <button text="A button" callbackKey="myFirstButtonPressed" id="button1"></button>';
+    
     // Create the customize blocks
     customizeBlocks.forEach(category =>
     {

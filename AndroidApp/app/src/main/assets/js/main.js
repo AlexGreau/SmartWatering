@@ -7,11 +7,14 @@
  seuil humidite
  check meteo & code postal
 */
-window.onload = init;
 var blocklyArea;
 var blocklyDiv;
 let workspace;
 var toolboxXml;
+let menuBtn;
+var customizeBlocks;
+window.onload = init;
+
 
 function init() {
     // create the toolbox with the customize blocks
@@ -22,6 +25,8 @@ function init() {
     Blockly.svgResize(workspace);
     console.log("page loaded");
     customizeToolbox(workspace);
+    console.log(document.getElementById('toolbox'));
+  //  createButtons(workspace);
 }
 
 function addListeners() {
@@ -39,11 +44,7 @@ function resizeAll() {
         y += element.offsetTop;
         element = element.offsetParent;
     } while (element);
-    // Position blocklyDiv over blocklyArea.
-    blocklyDiv.style.left = x + 'px';
-    blocklyDiv.style.top = y + 'px';
-    blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
-    blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+
     Blockly.svgResize(workspace);
 }
 
@@ -55,9 +56,8 @@ function updateGeneratedCode(event) {
 
 function injectBlockly() {
     blocklyArea = document.getElementById('blocklyArea');
-    blocklyDiv = document.getElementById('blocklyDiv');
 
-    workspace = Blockly.inject('blocklyDiv',
+    workspace = Blockly.inject('blocklyArea',
         {
             toolbox: toolboxXml,
             toolboxPosition: 'start',
@@ -69,7 +69,8 @@ function injectBlockly() {
                 snap: true
             },
             trashcan: true,
-            zoom: {
+            zoom: 
+            {
                 controls: true,
                 startScale: 0.6,
                 maxScale: 1,
@@ -83,8 +84,34 @@ function injectBlockly() {
 }
 
 function customizeToolbox(space) {
-    let toolBx = document.getElementById("toolbox");
+    let toolBx = space.getToolbox();
     // toolBx = space.getToolbox(); 
     // toolBx.width = 500; 
-    console.log(toolBx);
+    console.log(' here is da toolbox ' + toolBx);
 } 
+
+function createButtons(space){
+    var xml = createMenuButtonXML();
+    menuBtn = new FlyoutButton (space,space,xml,false);
+}
+
+function createMenuButtonXML(){
+    var xml = "<button>" +
+    "<text>Button A</text>" +
+    "<font>Arial</font>" +
+    "<font_size>12</font_size>"+
+    "<text_color>0x000000</text_color>" +
+    "<x>45</x>" +
+    "<y>100</y>" +
+    "<height>35</height> "+
+    "<width>75</width>" +
+    "<word_wrap>NO</word_wrap>" +
+        "<button_color>0xDDDDDD</button_color>" +
+        "<bold>YES</bold>" +
+        "<opacity>.3</opacity>" +
+        "<next_node>node_a</next_node>" +
+        "<link>http://www.my_site.com</link>" +
+    "<assign name=" + "user_clicked_button_a" + "expr=" + '1' + "/>" +
+    "</button>";
+    return xml;
+    }

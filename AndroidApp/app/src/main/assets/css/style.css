@@ -19,6 +19,7 @@ h1{
     width: 100%;
     background-color: blanchedalmond;
     margin: 0%;
+    position: absolute;
 }
 
 #blocklyDiv{
@@ -43,21 +44,19 @@ h1{
     float: none;
     margin-bottom: 10px;
 }
-
-.button1{
-    width: 100%;
-}
-
+/*
 .btn {
     display: inline-block;
-    position: relative;
     background-color: #f39c12;
     padding: 14px;
-  
-    border-radius: 5px;
+    margin-top: 1px;
+    left: 97%;
+    border-radius: 50%;
     border-bottom-style: solid;
     border-width: 4px;
     border-color: #DA8300;
+    position: relative;
+    top: 0;
   }
 
   .btn:active {
@@ -66,3 +65,47 @@ h1{
     border-width: 2px;
     top: 2px;
   }
+*/
+#toolbox {
+    background-color: aquamarine;
+    height: 50%;
+
+}
+
+ /* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 99; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 

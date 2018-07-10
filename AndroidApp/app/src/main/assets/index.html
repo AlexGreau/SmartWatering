@@ -19,15 +19,28 @@
 
     <script src="js/customizedBlocks/definitions.js"></script>
     <script src="js/customizedBlocks/generator_stubs.js"></script>
-
     <script src="js/main.js"></script>
+
 </head>
 
 <body>
-    <!-- menus -->
 
-    <div id="blocklyArea"></div>
-    <button id="btn"></button>
+
+<div id="blocklyArea">
+            <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+            </div> 
+        </div>
+        <script src="js/menu.js"></script>
+</div>
+    <button id="menuBtn" class="btn"></button>
 
     <!--
 <div id="generatedCodeArea">
