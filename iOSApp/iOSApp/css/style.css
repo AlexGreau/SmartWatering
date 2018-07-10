@@ -6,29 +6,33 @@ body{
     background-color: aquamarine;
     font-family: 'Times New Roman', Times, serif;
     overflow: hidden;
-    height: 100%;
-    margin: 0%;
 }
 h1{
     font-weight: normal;
     font-size: 140%;
 }
 
-#blocklyArea {
+table{
     height: 100%;
     width: 100%;
+}
+
+#blocklyArea {
+    height: 60%;
+    width: 99%;
     background-color: blanchedalmond;
-    margin: 0%;
+    text-align: center;
 }
 
 #blocklyDiv{
-    height: 100%;
+    height: 30%;
     position: absolute;
-    max-height: 100%;
+    left: 2px;
+    max-height: 60%;
 }
 
 #generatedCodeArea {
-    height: 100%;
+    height: 99%;
 }
 
 #generated {
@@ -44,10 +48,7 @@ h1{
     margin-bottom: 10px;
 }
 
-.button1{
-    width: 100%;
-}
-
+/*
 .btn {
     display: inline-block;
     position: relative;
@@ -66,3 +67,5 @@ h1{
     border-width: 2px;
     top: 2px;
   }
+
+  */
