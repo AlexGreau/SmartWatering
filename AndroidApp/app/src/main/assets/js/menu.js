@@ -8,19 +8,24 @@ var btn = document.getElementById('myBtn');
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
-btn.onclick = function() {
+function Xfunction(x) {
+    x.classList.toggle("change");
+
     modal.style.display = "block";
-    console.log("clicked")
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
+    Xfunction(document.getElementById("menuDiv"));
     modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
+        Xfunction(document.getElementById("menuDiv"));
+
         modal.style.display = "none";
     }
+
 } 
