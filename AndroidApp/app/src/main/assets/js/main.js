@@ -11,10 +11,11 @@ window.onload = init;
 var blocklyArea;
 var blocklyDiv;
 var workspace;
+var toolboxXml;
 
 function init() {
     // create the toolbox with the customize blocks
-    createToolboxXml();
+    toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
 
     //listenners
@@ -56,7 +57,7 @@ function injectBlockly() {
     blocklyDiv = document.getElementById('blocklyDiv');
     workspace = Blockly.inject('blocklyDiv',
         {
-            toolbox: toolbox,
+            toolbox: toolboxXml,
             toolboxPosition: 'start',
             grid:
             {
