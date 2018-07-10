@@ -408,29 +408,6 @@ var customizeBlocks =
 function createBlocksAndToolboxXml() {
     var toolboxXml = '<xml>';
 
-    /*
-        goog.require('Blockly.FieldDate');
-
-        Blockly.Blocks["example_date"] = {
-            init: function() {
-              this.jsonInit({
-               "type": "example_date",
-               "message0": "date: %1",
-               "args0": [
-                 {
-                   "type": "field_date",
-                   "name": "FIELDNAME",
-                   "date": "2020-02-20"
-                 }
-               ]
-             });
-            }
-        };
-
-        toolboxXml += '<block type="example_date"></block>';
-    */
-
-
     // Create the customize blocks
     customizeBlocks.forEach(category =>
     {
@@ -462,6 +439,30 @@ function createBlocksAndToolboxXml() {
 
     // generates all the executing code for the blocks
     generateAllStubs();
+
+    /*
+        PICK DATE BLOCK... MARCHE PAS :(
+
+        goog.require('Blockly.FieldDate');
+
+        Blockly.Blocks["example_date"] = {
+            init: function() {
+              this.jsonInit({
+               "type": "example_date",
+               "message0": "date: %1",
+               "args0": [
+                 {
+                   "type": "field_date",
+                   "name": "FIELDNAME",
+                   "date": "2020-02-20"
+                 }
+               ]
+             });
+            }
+        };
+
+        toolboxXml += '<block type="example_date"></block>';
+    */
 
     return toolboxXml;
 }
