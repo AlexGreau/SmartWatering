@@ -1,5 +1,5 @@
 // Get the modal
-var modal = document.getElementById('myModal');
+var modal = document.getElementById('menuModal');
 
 // Get the button that opens the modal
 var btn = document.getElementById('myBtn');
@@ -10,7 +10,6 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal
 function Xfunction(x) {
     x.classList.toggle("change");
-
     modal.style.display = "block";
 }
 
@@ -24,8 +23,6 @@ span.onclick = function () {
 window.onclick = function (event) {
     if (event.target == modal) {
         Xfunction(document.getElementById("menuDiv"));
-
         modal.style.display = "none";
     }
-
 } 

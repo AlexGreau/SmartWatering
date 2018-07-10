@@ -15,18 +15,14 @@ let menuBtn;
 var customizeBlocks;
 window.onload = init;
 
-
 function init() {
     // create the toolbox with the customize blocks
     toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
     addListeners();
-
+    customizeToolbox(workspace) ;
     Blockly.svgResize(workspace);
     console.log("page loaded");
-    customizeToolbox(workspace);
-    console.log(document.getElementById('toolbox'));
-  //  createButtons(workspace);
 }
 
 function addListeners() {
@@ -84,34 +80,6 @@ function injectBlockly() {
 }
 
 function customizeToolbox(space) {
-    let toolBx = space.getToolbox();
-    // toolBx = space.getToolbox(); 
-    // toolBx.width = 500; 
+    let toolBx = space.getToolbox().getWidth();
     console.log(' here is da toolbox ' + toolBx);
 } 
-
-function createButtons(space){
-    var xml = createMenuButtonXML();
-    menuBtn = new FlyoutButton (space,space,xml,false);
-}
-
-function createMenuButtonXML(){
-    var xml = "<button>" +
-    "<text>Button A</text>" +
-    "<font>Arial</font>" +
-    "<font_size>12</font_size>"+
-    "<text_color>0x000000</text_color>" +
-    "<x>45</x>" +
-    "<y>100</y>" +
-    "<height>35</height> "+
-    "<width>75</width>" +
-    "<word_wrap>NO</word_wrap>" +
-        "<button_color>0xDDDDDD</button_color>" +
-        "<bold>YES</bold>" +
-        "<opacity>.3</opacity>" +
-        "<next_node>node_a</next_node>" +
-        "<link>http://www.my_site.com</link>" +
-    "<assign name=" + "user_clicked_button_a" + "expr=" + '1' + "/>" +
-    "</button>";
-    return xml;
-    }
