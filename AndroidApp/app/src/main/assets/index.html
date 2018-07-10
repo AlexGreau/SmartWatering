@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>SmartWatering</title>
+
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/menuStyle.css">
     <link rel="icon" href="icon.png" />
 
     <!-- JS files -->
@@ -26,22 +28,28 @@
 <body>
 
 
-<div id="blocklyArea">
-            <!-- Trigger/Open The Modal -->
-        <button id="myBtn">Open Modal</button>
-
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
-            </div> 
+    <div id="blocklyArea"></div>
+    <!-- Trigger/Open The Modal -->
+    <!--<button id="myBtn" class='btn'>Menu</button>-->
+    <div id="menuDiv" class="container" onclick="myFunction(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+          <script>
+                function myFunction(x) {
+                    x.classList.toggle("change");
+                }
+                </script>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
         </div>
-        <script src="js/menu.js"></script>
-</div>
-    <button id="menuBtn" class="btn"></button>
-
+    </div>
+    <script src="js/menu.js"></script>
     <!--
 <div id="generatedCodeArea">
     <textarea id="generated">code</textarea>
