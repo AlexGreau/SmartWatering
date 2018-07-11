@@ -1,8 +1,6 @@
 /* Menu icon */
-#menuDiv{
-    z-index: 99; /* Sit on top */
-}
 .container {
+    z-index: 99; /* Sit on top */
     position:absolute;
     top:0;
     right:1%;
@@ -76,9 +74,9 @@
 
 .btn-group {
     position:absolute;
-    top: 35%;
+    top: 30%;
     background-color: #4CAF50; /* Green */
-    border: 1px solid green;
+    border: 3px solid green;
     color: white;
     text-align: center;
     text-decoration: none;
@@ -94,6 +92,7 @@
     border-radius: 100%;
     margin: 20px 30px;
     cursor: pointer;
+    outline: none;
 }
 /*
 .btn-group .button:not(:last-child) {
