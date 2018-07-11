@@ -84,11 +84,11 @@
     width: 100%;
 }
 .button {
-    width: 30%;
-    height: 30%;
+    width: 10em;
+    height: 10em;
     background-color: pink;
     border-radius: 100%;
-    margin: 20px 40px;
+    margin: 20px 30px;
 }
 /*
 .btn-group .button:not(:last-child) {
