@@ -1,3 +1,36 @@
+/* Menu icon */
+#menuDiv{
+    z-index: 99; /* Sit on top */
+}
+.container {
+    position:absolute;
+    top:0;
+    right:1%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+} 
+ 
+ 
  /* The Modal (background) */
  .modal {
     display: none; /* Hidden by default */
@@ -16,7 +49,7 @@
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
+    /*padding: 20px;*/
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
 }
@@ -36,5 +69,25 @@
     cursor: pointer;
 } 
 
+/* Modal content */
 
-
+.btn-group .button {
+    background-color: #4CAF50; /* Green */
+    border: 1px solid green;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
+    width: 25%;
+    height: 100%;
+}
+.btn-group .button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+.btn-group .button:hover {
+    background-color: #3e8e41;
+}
