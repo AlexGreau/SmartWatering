@@ -40,18 +40,21 @@
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    /*overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    /*padding: 20px;*/
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    position: relative;
+    /* background-color: #fefefe; */
+    /* margin: 15% auto; */
+    margin: auto;
+    /* padding: 20px; */
+    /* border: 1px solid #888; */
+    width: 80%;
+    height: 100%;
 }
 
 /* The Close Button */
@@ -72,6 +75,8 @@
 /* Modal content */
 
 .btn-group {
+    position:absolute;
+    top: 35%;
     background-color: #4CAF50; /* Green */
     border: 1px solid green;
     color: white;
@@ -79,7 +84,6 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    cursor: pointer;
     float: left;
     width: 100%;
 }
@@ -89,6 +93,7 @@
     background-color: pink;
     border-radius: 100%;
     margin: 20px 30px;
+    cursor: pointer;
 }
 /*
 .btn-group .button:not(:last-child) {
