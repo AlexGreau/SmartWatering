@@ -514,14 +514,17 @@
         <field name="ALIGN">LEFT</field>
         <statement name="FIELDS">
           <block type="field_static" id=";tl^r+IFx%O-rfXqXOU7">
-            <field name="TEXT">Water if moisture level is less than</field>
+            <field name="TEXT">Water when the soil is</field>
             <next>
-              <block type="field_number" id="[LPZqUTyEl{]J/VTr|r|">
-                <field name="VALUE">10</field>
+              <block type="field_dropdown" id="P*uB,p=5Hw3Swrd]Nqq9">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
                 <field name="FIELDNAME">moist_level</field>
-                <field name="MIN">0</field>
-                <field name="MAX">Infinity</field>
-                <field name="PRECISION">0</field>
+                <field name="USER0">super dry</field>
+                <field name="CPU0">0</field>
+                <field name="USER1">dry</field>
+                <field name="CPU1">1</field>
+                <field name="USER2">slightly moist</field>
+                <field name="CPU2">2</field>
               </block>
             </next>
           </block>

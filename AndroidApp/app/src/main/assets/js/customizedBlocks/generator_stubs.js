@@ -59,12 +59,12 @@ function generateAllStubs() {
       var code = "\n<moisture level = '" + number_moist_level + "'/>";
       return code;
     };
-
+/*
     Blockly.JavaScript['spklr_setting_intensity'] = function(block) {
       var dropdown_water_intensity = block.getFieldValue('water_intensity');
       var code = "\n<intensity level = '" + dropdown_water_intensity + "'/>";
       return code;
-    };
+    };*/
 
 
 

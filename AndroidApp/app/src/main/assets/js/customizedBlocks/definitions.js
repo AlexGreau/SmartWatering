@@ -142,7 +142,7 @@ customizeBlocks =
  {
      "categoryName" : "Water",
      "blocks" :
-         [{
+         [/*{
            "type": "spklr_setting_intensity",
            "message0": "Water intensity: %1",
            "args0": [
@@ -174,8 +174,8 @@ customizeBlocks =
            "colour": 195,
            "tooltip": "",
            "helpUrl": ""
-         },
-          {
+         },*/
+     /*     {
             "type": "spklr_setting_moisture",
             "message0": "Water if moisture level is less than %1",
             "args0": [
@@ -184,6 +184,36 @@ customizeBlocks =
                 "name": "moist_level",
                 "value": 10,
                 "min": 0
+              }
+            ],
+            "previousStatement": "spklr_setting",
+            "nextStatement": "spklr_setting",
+            "colour": 30,
+            "tooltip": "",
+            "helpUrl": ""
+          }*/
+
+          {
+            "type": "spklr_setting_moisture",
+            "message0": "Water when the soil is %1",
+            "args0": [
+              {
+                "type": "field_dropdown",
+                "name": "moist_level",
+                "options": [
+                  [
+                    "super dry",
+                    "0"
+                  ],
+                  [
+                    "dry",
+                    "1"
+                  ],
+                  [
+                    "slightly moist",
+                    "2"
+                  ]
+                ]
               }
             ],
             "previousStatement": "spklr_setting",
@@ -508,15 +538,10 @@ function createBlockXml(blockType, setting) {
               <block type='spklr_setting_moisture'> \
                 <field name='moist_level'>" + setting.moist_level + "</field> \
                 <next> \
-                  <block type='spklr_setting_intensity'> \
-                    <field name='water_intensity'>" + setting.water_intensity + "</field> \
-                    <next> \
-                      <block type='spklr_setting_start_time'> \
-                        <field name='watering_hour'>" + setting.watering_hour + "</field> \
-                        <field name='watering_min'>" + setting.watering_min + "</field> \
-                        <field name='watering_unit'>" + setting.watering_unit + "</field> \
-                      </block> \
-                    </next> \
+                  <block type='spklr_setting_start_time'> \
+                    <field name='watering_hour'>" + setting.watering_hour + "</field> \
+                    <field name='watering_min'>" + setting.watering_min + "</field> \
+                    <field name='watering_unit'>" + setting.watering_unit + "</field> \
                   </block> \
                 </next> \
               </block> \
