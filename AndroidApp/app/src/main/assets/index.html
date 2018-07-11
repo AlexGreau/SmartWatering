@@ -22,33 +22,34 @@
     <script src="js/customizedBlocks/definitions.js"></script>
     <script src="js/customizedBlocks/generator_stubs.js"></script>
 
+    <script src="js/menu.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
 
     <div id="blocklyArea"></div>
-    <!-- Trigger/Open The Modal -->
-    <div id="menuDiv" class="container" onclick="Xfunction(this)">
+
+    <!-- Menu button that triggers/opens The Modal -->
+    <div id="menuBtn" class="container">
         <div class="bar1"></div>
         <div class="bar2"></div>
         <div class="bar3"></div>
     </div>
-    <script src='js/menu.js'></script>
+
+
     <!-- The Modal -->
     <div id="menuModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
+           <!--  <span class="close">&times;</span> -->
             <div class="btn-group">
-                <button class="button">Button</button>
-                <button class="button">Button</button>
-                <button class="button">Button</button>
-                <button class="button">Button</button>
-              </div>
+                <button class="button">Button 1</button>
+                <button class="button">Button 2</button>
+                <button class="button">Button 3</button>
+            </div>
         </div>
     </div>
-    <script src="js/menu.js"></script>
-
 
     <!--
 <div id="generatedCodeArea">
@@ -56,7 +57,5 @@
 </div>
 -->
 </body>
-
-<script src="js/main.js"></script>
 
 </html>

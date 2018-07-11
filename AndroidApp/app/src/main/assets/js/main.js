@@ -11,8 +11,9 @@ var blocklyArea;
 var blocklyDiv;
 let workspace;
 var toolboxXml;
-let menuBtn;
+//let menuBtn;
 var customizeBlocks;
+
 window.onload = init;
 
 function init() {
@@ -27,6 +28,7 @@ function init() {
 
 function addListeners() {
     window.addEventListener('resize', resizeAll(), false);
+    setListenersMenuButtons();
     //workspace.addChangeListener(updateGeneratedCode);
 }
 
