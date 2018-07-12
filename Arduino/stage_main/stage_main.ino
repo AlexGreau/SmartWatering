@@ -41,10 +41,10 @@ void loop() {
         result4 = splitMySring(cmd_recu, ';', 3);
 
         for (int i = 0; i < 5; i++) {
-            param1[i] = splitMySring(splitMySring(result1, ',', i), '_', 1);
-            param2[i] = splitMySring(splitMySring(result2, ',', i), '_', 1);
-            param3[i] = splitMySring(splitMySring(result3, ',', i), '_', 1);
-            param4[i] = splitMySring(splitMySring(result4, ',', i), '_', 1);
+            param1[i] = splitMySring(result1, ',', i);
+            param2[i] = splitMySring(result2, ',', i);
+            param3[i] = splitMySring(result3, ',', i);
+            param4[i] = splitMySring(result4, ',', i);
         }
 
         cmd_recu = "";
