@@ -82,10 +82,10 @@ String programm_receive;
 /**
  * les valeurs de configuration (from Blockly App)
  */
-const byte pomp1 = 1;
-const byte pomp2 = 2;
-const byte pomp3 = 3;
-const byte pomp4 = 4;
+byte pomp1;
+byte pomp2;
+byte pomp3;
+byte pomp4;
 
 // Duree d'arrosage // TODO : int or long
 long waterFor1 = 0;

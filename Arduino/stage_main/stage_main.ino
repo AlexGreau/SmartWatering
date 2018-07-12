@@ -37,8 +37,8 @@ void loop() {
         Serial.println(cmd_recu);
         result1 = splitMySring(cmd_recu, ';', 0);
         result2 = splitMySring(cmd_recu, ';', 1);
-        // result3 = splitMySring(cmd_recu, ';', 2);
-        // result4 = splitMySring(cmd_recu, ';', 3);
+        result3 = splitMySring(cmd_recu, ';', 2);
+        result4 = splitMySring(cmd_recu, ';', 3);
 
         for (int i = 0; i < 5; i++) {
             param1[i] = splitMySring(splitMySring(result1, ',', i), '_', 1);
@@ -49,30 +49,36 @@ void loop() {
 
         cmd_recu = "";
 
+        pomp1 = atoi(param1[0].c_str());
         waterFor1 = atol(param1[1].c_str());
         waterTimes1 = atoi(param1[2].c_str());
         startWatering1 = atol(param1[3].c_str());
         moistureMax1 = atoi(param1[4].c_str());
 
+        pomp2 = atoi(param2[0].c_str());
         waterFor2 = atol(param2[1].c_str());
         waterTimes2 = atoi(param2[2].c_str());
         startWatering2 = atol(param2[3].c_str());
         moistureMax2 = atoi(param2[4].c_str());
 
+        pomp3 = atoi(param3[0].c_str());
         waterFor3 = atol(param3[1].c_str());
         waterTimes3 = atoi(param3[2].c_str());
         startWatering3 = atol(param3[3].c_str());
         moistureMax3 = atoi(param3[4].c_str());
 
+        pomp4 = atoi(param4[0].c_str());
         waterFor4 = atol(param4[1].c_str());
         waterTimes4 = atoi(param4[2].c_str());
         startWatering4 = atol(param4[3].c_str());
         moistureMax4 = atoi(param4[4].c_str());
 
-        relay1 = {1, waterFor1, waterTimes1, startWatering1, moistureMax1};
-        relay2 = {2, waterFor2, waterTimes2, startWatering2, moistureMax2};
-        relay3 = {3, waterFor3, waterTimes3, startWatering3, moistureMax3};
-        relay4 = {4, waterFor4, waterTimes4, startWatering4, moistureMax4};
+        Serial.println(atoi(param1[0].c_str()));
+
+        relay1 = {pomp1, waterFor1, waterTimes1, startWatering1, moistureMax1};
+        relay2 = {pomp2, waterFor2, waterTimes2, startWatering2, moistureMax2};
+        relay3 = {pomp3, waterFor3, waterTimes3, startWatering3, moistureMax3};
+        relay4 = {pomp4, waterFor4, waterTimes4, startWatering4, moistureMax4};
     }
 
     Serial.println("############ POMPE (1) ############");
