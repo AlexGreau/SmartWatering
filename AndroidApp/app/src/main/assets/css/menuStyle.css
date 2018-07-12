@@ -44,12 +44,13 @@
 }
 
 /* Modal Content/Box */
-.modal-content {
+.menu-modal-content {
     background-color: #fefefe;
     margin: 10% auto; /* x% from the top and centered */
-    padding: 20px;
+    padding: 0px;
     border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
+    width: 70%; /* Could be more or less, depending on screen size */
+    text-align: center;
 }
 
 /* The Close Button */
@@ -70,9 +71,10 @@
 /* Modal content */
 
 .btn-group {
-    position: relative;;
-    background-color: #fefefe; /* Green */
+    position: relative;
+    background-color: #fefefe; 
     color: white;
+    border: 1px solid #3e8e41; /* Debug */
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
@@ -88,10 +90,11 @@
 }
 
 .round-button {
-    width:15%;
+    width:28%;
     display: inline-block;
-    margin: 8%;
+    margin: 1%;
 }
+
 .round-button-circle {
 	width: 100%;
 	height:0;
@@ -103,9 +106,11 @@
     background: #4679BD; 
     box-shadow: 0 0 3px gray;
 }
+
 .round-button-circle:hover {
 	background:#30588e;
 }
+
 .round-button a {
     display:block;
 	float:left;
@@ -122,10 +127,27 @@
     font-weight:bold;
     text-decoration:none;
 }
+
+.btn-group .button:not(:first-child) {
+    border-left: none; /* Prevent double borders*/
+}
 /*
-.btn-group .button:not(:last-child) {
-    border-right: none; /* Prevent double borders
-}*/
 .btn-group .button:hover {
     background-color: #3e8e41;
+}
+*/
+
+
+.modal-header { /* not displayed */
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.modal-body {padding: 1px 1px;}
+
+.modal-footer {/* not displayed */
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
 }
