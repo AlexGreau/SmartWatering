@@ -1,4 +1,13 @@
-function setListenersMenuButtons() {
+function setButtonListeners(){
+    setMenuButtonListeners();
+    setCreateNewButtonListener();
+    setTestsButtonListener();
+    setSendButtonListener();
+}
+
+
+
+function setMenuButtonListeners() {
     // Get the modal
     var modal = document.getElementById('menuModal');
 
@@ -29,5 +38,26 @@ function setListenersMenuButtons() {
             menuBtn.classList.toggle("change");
             modal.style.display = "none";
         }
+    }
+}
+
+function setCreateNewButtonListener(){
+    var createBtn = document.getElementById("createBtn");
+    createBtn.onclick = function(){
+        console.log("createnew pressed");
+    }
+}
+
+function setTestsButtonListener(){
+    var createBtn = document.getElementById("testsBtn");
+    createBtn.onclick = function(){
+        console.log("Tests Button pressed");
+    }
+}
+
+function setSendButtonListener(){
+    var createBtn = document.getElementById("sendBtn");
+    createBtn.onclick = function(){
+        console.log("Send button pressed");
     }
 }
