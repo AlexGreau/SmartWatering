@@ -33,7 +33,7 @@
  .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 99; /* Sit on top */
+    z-index: 99;  /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -74,7 +74,7 @@
     position: relative;
     background-color: #fefefe; 
     color: white;
-    border: 1px solid #3e8e41; /* Debug */
+  /*   border: 1px solid #3e8e41; Debug */
     text-decoration: none;
     display: inline-block;
     font-size: 16px;

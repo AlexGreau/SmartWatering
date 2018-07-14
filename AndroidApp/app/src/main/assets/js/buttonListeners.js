@@ -1,5 +1,10 @@
+
+
 function setButtonListeners(){
+    // menu button
     setMenuButtonListeners();
+   
+    // inside the menu :
     setCreateNewButtonListener();
     setTestsButtonListener();
     setSendButtonListener();
@@ -16,35 +21,43 @@ function setMenuButtonListeners() {
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
-
+    
     // When the user clicks on the button, open the modal
     menuBtn.onclick = function () {
         menuBtn.classList.toggle("change");
         modal.style.display = "block";
     }
-
-    
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         menuBtn.classList.toggle("change");
         modal.style.display = "none";
     }
-    
-
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             menuBtn.classList.toggle("change");
             modal.style.display = "none";
+        }else if (event.target == document.getElementById('createModal')){
+            document.getElementById('createModal').style.display = "none";
         }
+        console.log("clicking on menu modal here");
     }
 }
 
 function setCreateNewButtonListener(){
     var createBtn = document.getElementById("createBtn");
+    var createModal = document.getElementById('createModal');
     createBtn.onclick = function(){
-        console.log("createnew pressed");
+        var open = true;
+        console.log("create New button pressed");
+        createModal.style.display = "block";
+  /*      window.onclick = function (event) {
+            if (open == true && event.target == createModal) {
+                createModal.style.display = "none";
+                open = false;
+            }
+            console.log("open create = "  + open);
+        }*/
     }
 }
 
