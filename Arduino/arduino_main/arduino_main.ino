@@ -1,13 +1,19 @@
 #include "variable.h"
 
-SoftwareSerial HC06(RX, TX);
+SoftwareSerial HC06(RX_BT, TX_BT);
+SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 struct DataRelay relay1;
 struct DataRelay relay2;
 struct DataRelay relay3;
 struct DataRelay relay4;
 
+struct ConfigWiFi configWiFi;
+
 long temps = 0;
+
+String mySsid;
+String myPassword;
 
 String result1;
 String result2;
@@ -21,6 +27,7 @@ String param4[5];
 
 void setup() {
     HC06.begin(9600); // Initialisation connexion série Bluetooth à 9600 bauds
+
     Serial.begin(9600);   // Initialisation du port serie
     Serial.println();
 
@@ -32,8 +39,73 @@ void setup() {
 void loop() {
 
     trameRecu();
+    getProgramme();
 
+    // if (temps > 0) {
+    //     digitalWrite(PIN_LED_TEST, HIGH);
+    //     delay(temps);
+    //     digitalWrite(PIN_LED_TEST, LOW);
+    //     delay(temps);
+    // }
+
+    // moisture1 = analogRead(PIN_MOISTURE_1);
+
+    initSensorMoisture();
+
+    /*Serial.print("Humidite (%): ");
+    Serial.println(moisture1);*/
+
+    /*if (moisture1 >= moistureMax1 && moistureMax1 != 0 && sensorMoistureIsIn(moisture1) == DRY_SOIL) {
+        Serial.println("Je peux arroser");
+        digitalWrite(PIN_LED_TEST, HIGH);
+        delay(waterFor1);
+        digitalWrite(PIN_LED_TEST, LOW);
+    }*/
+
+    /*receiveProgram();
+
+
+    float temperature, humidity;
+
+    /* Lecture de la temperature et de l'humidite, avec la gestion des erreurs */
+    // switch (readDHT11(PIN_SENSOR_DHT11_1, &temperature, &humidity)) {
+    //     case DHT11_SUCCESS:
+    //         Serial.print("Humidite (%): ");
+    //         Serial.println(humidity, 2);
+    //         Serial.print("Temperature (^C): ");
+    //         Serial.println(temperature, 2);
+    //         break;
+    //     case DHT11_TIMEOUT_ERROR:
+    //         Serial.println("Pas de reponse !");
+    //         break;
+    //     case DHT11_CHECKSUM_ERROR:
+    //         Serial.println("Probleme de communication !");
+    //         break;
+    // }
+
+    // Pas plus d'une mesure par seconde
+
+    delay(1000);
+}
+
+/**
+ * Methode qui decode le programme recu
+ */
+void getProgramme() {
     if (cmd_recu.length() > 0) {
+        /* je configure mon reseau Wi-Fi */
+        if (cmd_recu.substring(0, 5) == "Wi-Fi") {
+            mySsid = splitMySring(cmd_recu, '_', 1);
+            myPassword = splitMySring(cmd_recu, '_', 2);
+
+            configWiFi.ssid = mySsid;
+            configWiFi.password = myPassword;
+            Serial.println("############ Wi-Fi ############");
+            Serial.println(configWiFi.ssid);
+            Serial.println(configWiFi.password);
+            Serial.println("###############################");
+            cmd_recu = "";
+        }
         Serial.println(cmd_recu);
         result1 = splitMySring(cmd_recu, ';', 0);
         result2 = splitMySring(cmd_recu, ';', 1);
@@ -73,15 +145,13 @@ void loop() {
         startWatering4 = atol(param4[3].c_str());
         moistureMax4 = atoi(param4[4].c_str());
 
-        Serial.println(atoi(param1[0].c_str()));
-
         relay1 = {pomp1, waterFor1, waterTimes1, startWatering1, moistureMax1};
         relay2 = {pomp2, waterFor2, waterTimes2, startWatering2, moistureMax2};
         relay3 = {pomp3, waterFor3, waterTimes3, startWatering3, moistureMax3};
         relay4 = {pomp4, waterFor4, waterTimes4, startWatering4, moistureMax4};
     }
 
-    Serial.println("############ POMPE (1) ############");
+    /*Serial.println("############ POMPE (1) ############");
     Serial.println(relay1.num_pompe);
     Serial.println(relay1.duree_arrosage);
     Serial.println(relay1.nb_arrosage);
@@ -108,50 +178,25 @@ void loop() {
     Serial.println(relay4.nb_arrosage);
     Serial.println(relay4.debut_arrosage);
     Serial.println(relay4.moisture);
-    Serial.println("---------------------");
-
-    // if (temps > 0) {
-    //     digitalWrite(PIN_LED_TEST, HIGH);
-    //     delay(temps);
-    //     digitalWrite(PIN_LED_TEST, LOW);
-    //     delay(temps);
-    // }
-
-    // moisture1 = analogRead(PIN_MOISTURE_1);
- /*   initSensorMoisture();
-
-    Serial.print("Humidite (%): ");
-    Serial.println(moisture1);
-    receiveProgram();
-
-
-    float temperature, humidity;
-
-    /* Lecture de la temperature et de l'humidite, avec la gestion des erreurs */
-    // switch (readDHT11(PIN_SENSOR_DHT11_1, &temperature, &humidity)) {
-    //     case DHT11_SUCCESS:
-    //         Serial.print("Humidite (%): ");
-    //         Serial.println(humidity, 2);
-    //         Serial.print("Temperature (^C): ");
-    //         Serial.println(temperature, 2);
-    //         break;
-    //     case DHT11_TIMEOUT_ERROR:
-    //         Serial.println("Pas de reponse !");
-    //         break;
-    //     case DHT11_CHECKSUM_ERROR:
-    //         Serial.println("Probleme de communication !");
-    //         break;
-    // }
-
-    // Pas plus d'une mesure par seconde
-
-    delay(1000);
+    Serial.println("---------------------");*/
 }
 
 /**
  * Methode qui lit les trames venant du mobile
  */
 void trameRecu() {
+    while (HC06.available()) {
+        delay(3);
+        char c = HC06.read();
+        cmd_recu.concat(c);
+        if (c == '\n') {
+            cmd_recu = "";
+        }
+    }
+    if (!HC06.available()) {
+        return;
+    }
+    /*
     while (Serial.available()) {
         delay(3);
         char c = Serial.read();
@@ -163,6 +208,7 @@ void trameRecu() {
     if (!Serial.available()) {
         return;
     }
+    */
 }
 
 
@@ -201,24 +247,30 @@ void initSensorMoisture() {
 
 /**
  * Detecte si le Sensor est dans : air, sol sec, sol humide ou dans l'eau
+ *       value = 0   ---> SENSOR IN AIR
+ *   0 < value < 300 ---> SENSOR IN DRY SOIL
+ * 300 < value < 700 ---> SENSOR IN HUMID SOIL
+ *       value > 700 ---> SENSOR IN WATER (950)
  *
  * @param moisture la valeur returne par le sensor.
 */
 byte sensorMoistureIsIn(int moisture) {
-    if (moisture > m_D_S && moisture <= M_D_S) {
+    if (moisture == 0) {
+        /* Je suis dans l'air */
+        return AIR;
+    }
+    if (moisture > 0 && moisture <= 300) {
         /* Je suis dans un sol sec */
         return DRY_SOIL;
     }
-    if (moisture > m_H_S && moisture <= M_H_S) {
+    if (moisture > 300 && moisture <= 700) {
         /* Je suis dans un sol humide */
         return HUMID_SOIL;
     }
-    if (moisture > m_W && moisture <= M_W) {
+    if (moisture > 700) {
         /* Je suis dans l'eau */
         return WATER;
     }
-    /* Je suis dans l'air */
-    return AIR;
 }
 
 

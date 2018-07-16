@@ -4,12 +4,15 @@
  * RX = 8
  * TX = 9
  */
- #define RX 8
- #define TX 9
+#define RX_BT 8
+#define TX_BT 9
 
- String cmd_recu;   // Commande recu du Device (Mobile)
+#define RX_WiFi 2
+#define TX_WiFi 3
 
- const byte PIN_LED_TEST = 13;
+String cmd_recu;   // Commande recu du Device (Mobile)
+
+const uint8_t PIN_LED_TEST = 13;
 
 /**
  * Pin de gestion des pompes
@@ -23,13 +26,6 @@
 /**
  * Specifications capteur Humidite
  */
-#define m_D_S 0    // MIN_MOISTURE_IN_DRY_SOIL
-#define M_D_S 300  // MAX_MOISTURE_IN_DRY_SOIL
-#define m_H_S 300  // MIN_MOISTURE_IN_HUMID_SOIL
-#define M_H_S 700  // MAX_MOISTURE_IN_HUMID_SOIL
-#define m_W 700    // MIN_MOISTURE_IN_WATER
-#define M_W 950    // MAX_MOISTURE_IN_WATER
-
 const byte AIR = 0;
 const byte DRY_SOIL = 1;
 const byte HUMID_SOIL = 2;
@@ -39,10 +35,10 @@ const byte WATER = 3;
  * Module capteur d'Humidite
  * Utilise des PINs Analog
  */
-const int PIN_MOISTURE_1 = A0;
-const int PIN_MOISTURE_2 = A1;
-const int PIN_MOISTURE_3 = A2;
-const int PIN_MOISTURE_4 = A3;
+const uint8_t PIN_MOISTURE_1 = A0;
+const uint8_t PIN_MOISTURE_2 = A1;
+const uint8_t PIN_MOISTURE_3 = A2;
+const uint8_t PIN_MOISTURE_4 = A3;
 
 int moisture1 = 0;
 int moisture2 = 0;
@@ -70,7 +66,7 @@ int moisture4 = 0;
  */
 
 // PIN "DATA" du capteur DHT11
-const byte PIN_SENSOR_DHT11_1 = 3;
+const uint8_t PIN_SENSOR_DHT11_1 = 3;
 
 // Code d'erreur de la fonction readDHT11()
 const byte DHT11_SUCCESS = 0;         // Pas d'erreur
@@ -117,4 +113,9 @@ struct DataRelay {
     int nb_arrosage;
     long debut_arrosage;
     int moisture;
+};
+
+struct ConfigWiFi {
+    String ssid;
+    String password;
 };
