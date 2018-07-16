@@ -1,6 +1,7 @@
 
 
 function setButtonListeners(){
+    setWindowListener();
     // menu button
     setMenuButtonListeners();
    
@@ -10,7 +11,18 @@ function setButtonListeners(){
     setSendButtonListener();
 }
 
-
+function setWindowListener(){
+    var menu = document.getElementById('menuModal');
+    var createnew = document.getElementById('createModal');
+    window.onclick = function (event) {
+        if (event.target == menu) {
+            menuBtn.classList.toggle("change");
+            menu.style.display = "none";
+        }else if (event.target == createnew){
+            createnew.style.display = "none";
+        }
+    }
+}
 
 function setMenuButtonListeners() {
     // Get the modal
@@ -33,15 +45,7 @@ function setMenuButtonListeners() {
         modal.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            menuBtn.classList.toggle("change");
-            modal.style.display = "none";
-        }else if (event.target == document.getElementById('createModal')){
-            document.getElementById('createModal').style.display = "none";
-        }
-        console.log("clicking on menu modal here");
-    }
+
 }
 
 function setCreateNewButtonListener(){

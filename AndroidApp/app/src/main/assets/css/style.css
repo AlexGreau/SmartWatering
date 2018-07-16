@@ -11,8 +11,17 @@ body{
 }
 h1{
     font-weight: normal;
-    font-size: 140%;
+    font-size: 10vh;
 }
+
+h2{
+    font-size : 5vh; /* viewport : according to screen*/
+}
+
+p {
+    font-size: 5vh;
+}
+
 
 #blocklyArea {
     height: 100%;
