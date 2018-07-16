@@ -140,14 +140,16 @@
 
 .modal-header { /* not displayed */
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #2f65ac;
     color: white;
+    text-align: center;
 }
 
-.modal-body {padding: 1px 1px;}
+.modal-body {padding: 1px 1px; background-color: #cfdcec}
 
 .modal-footer {/* not displayed */
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #608cdf;
     color: white;
+    text-align: right;
 }
