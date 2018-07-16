@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/menuStyle.css">
-    <link rel="stylesheet" href="css/createNewStyle.css">
     <link rel="icon" href="icon.png" />
 
     <!-- JS files -->
@@ -49,12 +48,12 @@
 
             <div class="modal-body">
                 <div class="btn-group">
-                    <div class="round-button" >
-                        <div class="round-button-circle"  id="createBtn">
+                    <div class="round-button">
+                        <div class="round-button-circle" id="createBtn">
                             <a href="#" class="round-button">create</a>
                         </div>
                     </div>
-                    <div class="round-button" >
+                    <div class="round-button">
                         <div class="round-button-circle" id="testsBtn">
                             <a href="#" class="round-button">tests</a>
                         </div>
@@ -75,16 +74,18 @@
     </div>
 
     <div id="createModal" class="modal" tabindex="-1">
-        <div class="modal-header">
-            <h2>Create new project</h2>
-          </div>
-          <div class="modal-body">
-            <p>Insert rows of built in models</p>
-            <p>and again </p>
-          </div>
-          <div class="modal-footer">
-            <button id="validCreate"> Create </button>
-          </div>
+        <div class="createNew-modal-content">
+            <div class="modal-header">
+                <h2>Create new project</h2>
+            </div>
+            <div class="modal-body">
+                <p>Insert rows of built in models</p>
+                <p>and again </p>
+            </div>
+            <div class="modal-footer">
+                <button id="validCreate"> Create </button>
+            </div>
+        </div>
     </div>
 
     <!--
