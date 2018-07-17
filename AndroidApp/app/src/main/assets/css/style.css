@@ -23,6 +23,29 @@ p {
 }
 
 
+.softEdgedButton {
+    background-color: rgb(255, 94, 0);
+    border: none;
+    color: whitesmoke;
+    padding: 2vw;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 4wh;
+    border-radius: 12px;
+    height: 90%;
+    
+
+}
+
+.softEdgedButton:hover {background-color:rgba(255, 94, 0, 0.541)}
+
+.softEdgedButton:active {
+  background-color: rgba(255, 94, 0, 0.541);
+  transform: translateY(4px);
+}
+
+
 #blocklyArea {
     height: 100%;
     width: 100%;

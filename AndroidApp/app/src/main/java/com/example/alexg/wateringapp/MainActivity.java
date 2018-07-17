@@ -1,13 +1,11 @@
 package com.example.alexg.wateringapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -22,16 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
-        myWebView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return true;
-            }
-        });
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportMultipleWindows(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         myWebView.setLongClickable(false);
-        myWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+        final JavaScriptInterface myJsInterface = new JavaScriptInterface(this);
+        myWebView.addJavascriptInterface(myJsInterface, "Android");
         myWebView.loadUrl("file:///android_asset/index.html");
     }
 

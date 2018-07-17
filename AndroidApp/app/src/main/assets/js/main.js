@@ -22,6 +22,7 @@ function init() {
     injectBlockly();
     addListeners();
     customizeToolbox(workspace) ;
+    loadModel("tomato")
     Blockly.svgResize(workspace);
     console.log("page loaded");
 }
