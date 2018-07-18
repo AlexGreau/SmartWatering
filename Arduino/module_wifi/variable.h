@@ -4,7 +4,7 @@
 const char* ssid;
 const char* password;
 
-const char* host = "www.google.com";
+const char* host = "www.amazon.com";
 const char* streamId   = "....................";
 const char* privateKey = "....................";
 
