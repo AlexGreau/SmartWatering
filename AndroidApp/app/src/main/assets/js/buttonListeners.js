@@ -78,3 +78,8 @@ function setSendButtonListener(){
         console.log("Send button pressed");
     }
 }
+
+function createNewModel(){
+    console.log ("creating new model now")
+    // loadModel(name)
+}

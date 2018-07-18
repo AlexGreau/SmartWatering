@@ -1,0 +1,26 @@
+<block type='plant_type_cactus'> 
+    <statement name='settings'> 
+      <block type='spklr_setting_duration'>
+        <field name='duration_num'>15</field> 
+        <field name='duration_unit'>min</field> 
+        <next> 
+          <block type='spklr_setting_frequency'> 
+            <field name='freq_time'>1</field> 
+            <field name='freq_unit'>1</field> 
+            <next> 
+              <block type='spklr_setting_moisture'>
+                <field name='moist_level'>100</field> 
+                <next>
+                  <block type='spklr_setting_start_time'> 
+                    <field name='watering_hour'>10</field> 
+                    <field name='watering_min'>0</field> 
+                    <field name='watering_unit'>am</field> 
+                  </block> 
+                </next> 
+              </block>
+            </next> 
+          </block> 
+        </next> 
+      </block> 
+    </statement> 
+  </block>

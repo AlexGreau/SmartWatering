@@ -21,9 +21,10 @@ function init() {
     toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
     addListeners();
-    customizeToolbox(workspace) ;
-    loadModel("tomato")
+   // customizeToolbox(workspace) ;
     Blockly.svgResize(workspace);
+    loadModel("cactus")
+
     console.log("page loaded");
 }
 
