@@ -1,26 +1,35 @@
-<block type='plant_type_cactus'> 
-    <statement name='settings'> 
-      <block type='spklr_setting_duration'>
-        <field name='duration_num'>15</field> 
-        <field name='duration_unit'>min</field> 
-        <next> 
-          <block type='spklr_setting_frequency'> 
-            <field name='freq_time'>1</field> 
-            <field name='freq_unit'>1</field> 
-            <next> 
-              <block type='spklr_setting_moisture'>
-                <field name='moist_level'>100</field> 
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables></variables>
+  <block type="sprinkler_type" id="lblNF@qW{i@SJo-7n~8e" x="490" y="110">
+    <field name="sprinkler_number">1</field>
+    <field name="sprinkler_active">TRUE</field>
+    <statement name="sprinkler_settings">
+      <block type="plant_type_cactus" id=")a.H-p`E,gu|r`48Y](o">
+        <statement name="settings">
+          <block type="spklr_setting_duration" id=".2X2`g7?BVVBF)T-i]l:">
+            <field name="duration_num">15</field>
+            <field name="duration_unit">min</field>
+            <next>
+              <block type="spklr_setting_frequency" id="f7=NB{.c]23P2sB9DOL0">
+                <field name="freq_time">1</field>
+                <field name="freq_unit">month</field>
                 <next>
-                  <block type='spklr_setting_start_time'> 
-                    <field name='watering_hour'>10</field> 
-                    <field name='watering_min'>0</field> 
-                    <field name='watering_unit'>am</field> 
-                  </block> 
-                </next> 
+                  <block type="spklr_setting_moisture" id=",CX(Pw:1knloTg.I~IDR">
+                    <field name="moist_level">100</field>
+                    <next>
+                      <block type="spklr_setting_start_time" id="qac(JAR-`v1XyVIl7oI_">
+                        <field name="watering_hour">10</field>
+                        <field name="watering_min">0</field>
+                        <field name="watering_unit">am</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
               </block>
-            </next> 
-          </block> 
-        </next> 
-      </block> 
-    </statement> 
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
   </block>
+</xml>

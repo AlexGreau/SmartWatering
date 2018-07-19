@@ -1,5 +1,5 @@
-
-
+var xmlDom;
+var xmlText;
 function setButtonListeners(){
     setWindowListener();
     // menu button
@@ -68,13 +68,18 @@ function setCreateNewButtonListener(){
 function setTestsButtonListener(){
     var createBtn = document.getElementById("testsBtn");
     createBtn.onclick = function(){
-        console.log("Tests Button pressed");
+        xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+        xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+        console.log(xmlText);
+        console.log('export ok')
     }
 }
 
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     createBtn.onclick = function(){
+        loadModel("cactus")
+
         console.log("Send button pressed");
     }
 }
