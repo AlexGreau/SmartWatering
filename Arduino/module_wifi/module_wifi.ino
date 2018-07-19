@@ -28,10 +28,8 @@ void setup() {
     delay(10);
 
     // We start by connecting to a WiFi network
-
+    Serial.println("\n\n\n\n");
     Serial.println();
-    Serial.println();
-
 }
 
 void loop() {
@@ -53,20 +51,32 @@ void loop() {
     // if (!Serial.available()) {
     //     return;
     // }
-    /*if (cmd_recu.length() > 0) {
+    if (cmd_recu.length() > 0) {
         if (cmd_recu.substring(0, 5) == "Wi-Fi") {
-            ssid = splitMySring(cmd_recu, '_', 1).c_str();
-            password = splitMySring(cmd_recu, '_', 2).c_str();
+            String ssid_temp = splitMySring(cmd_recu, '_', 1);
+            ssid_temp.toCharArray(ssid, ssid_temp.length() + 1);
+
+            String pass_temp = splitMySring(cmd_recu, '_', 2);
+            pass_temp.toCharArray(password, pass_temp.length() + 1);
+            
+            //ssid = splitMySring(cmd_recu, '_', 1).c_str();
+            //password = splitMySring(cmd_recu, '_', 2).c_str();
+            
             Serial.println(ssid);
             Serial.println(password);
+            Serial.println("recu");
+            Serial.println(cmd_recu);
+            cmd_recu = "";
         }
-    }*/
+    }
 //------------------------------------------------------------------------------
     Serial.print("Connecting to ");
     Serial.println(ssid);
+    Serial.print("password: ");
+    Serial.println(password);
 
     //ssid = "Grace";
-    //password = "azertyuiop1234567890";
+    //password = "azertyuiop1234567890";  Wi-Fi_Grace_azertyuiop1234567890
 
     /* Explicitly set the ESP8266 to be a WiFi-client, otherwise, it by default,
     would try to act as both a client and an access-point and could cause
@@ -74,20 +84,24 @@ void loop() {
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
-    while (WiFi.status() != WL_CONNECTED) {
+    /*while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.print(".");
-    }
+    }*/
 
-    Serial.println("");
-    Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
-//------------------------------------------------------------------------------
-
-
-    Serial.print("connecting to ");
+    Serial.print("trying to connect to ");
     Serial.println(host);
+    Serial.println("");
+    
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("WiFi connected");  
+    } else {
+      Serial.println("NOT connected");  
+    }
+    
+    //Serial.println("IP address: ");
+    //Serial.println(WiFi.localIP());
+//------------------------------------------------------------------------------
 
     // Use WiFiClient class to create TCP connections
     WiFiClient client;
@@ -95,5 +109,8 @@ void loop() {
     if (!client.connect(host, httpPort)) {
         Serial.println("connection failed");
         return;
+    } else {
+       Serial.print("connected to ");
+       Serial.println(host);
     }
 }

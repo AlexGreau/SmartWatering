@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
 
-const char* ssid;
-const char* password;
+char* ssid = (char*) malloc(40);
+char* password= (char*) malloc(100);
 
 const char* host = "www.amazon.com";
 const char* streamId   = "....................";
