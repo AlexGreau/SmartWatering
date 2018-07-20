@@ -49,10 +49,10 @@
     margin: 10% auto; /* x% from the top and centered */
     padding: 0px;
     border: 1px solid #888;
-    width: 70%; /* Could be more or less, depending on screen size */
+    width: 70vw; /* Could be more or less, depending on screen size */
+    border-radius: 15px 50px;
     text-align: center;
 }
-
 .createNew-modal-content {
     background-color: #fefefe;
     margin: 2% auto; /* x% from the top and centered */
@@ -85,15 +85,15 @@
   /*   border: 1px solid #3e8e41; Debug */
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 2vw;
     width: 100%;
     height: 100%;
 }
 
 .round-button {
-    width:28%;
+    width: 20vw;
     display: inline-block;
-    margin: 1%;
+    margin: 1.5%;
 }
 
 .round-button-circle {
@@ -101,13 +101,12 @@
 	height:0;
 	padding-bottom: 100%;
     border-radius: 50%;
-	border:10px solid #cfdcec;
     overflow:hidden;
+    margin: 0%;
     
     background: #4679BD; 
     box-shadow: 0 0 3px gray;
 }
-
 .round-button-circle:hover {
 	background:#30588e;
 }
@@ -129,10 +128,7 @@
     text-decoration:none;
 }
 
-.btn-group .button:not(:last-child) {
-    border-left: none; /* Prevent double borders*/
-}
-/*
+/* not on web so not needed
 .btn-group .button:hover {
     background-color: #3e8e41;
 }
