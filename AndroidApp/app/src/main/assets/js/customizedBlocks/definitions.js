@@ -203,15 +203,15 @@ customizeBlocks =
                 "options": [
                   [
                     "super dry",
-                    "0"
+                    "150"
                   ],
                   [
                     "dry",
-                    "1"
+                    "300"
                   ],
                   [
                     "slightly moist",
-                    "2"
+                    "600"
                   ]
                 ]
               }
