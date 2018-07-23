@@ -55,13 +55,6 @@ function setCreateNewButtonListener(){
         var open = true;
         console.log("create New button pressed");
         createModal.style.display = "block";
-  /*      window.onclick = function (event) {
-            if (open == true && event.target == createModal) {
-                createModal.style.display = "none";
-                open = false;
-            }
-            console.log("open create = "  + open);
-        }*/
     }
 }
 
@@ -78,13 +71,16 @@ function setTestsButtonListener(){
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     createBtn.onclick = function(){
-        loadModel("cactus")
 
         console.log("Send button pressed");
     }
 }
 
-function createNewModel(){
-    console.log ("creating new model now")
-    // loadModel(name)
+function chooseModel(){
+    var validCreate = document.getElementById("validCreate");
+    var name = "defaut";
+    
+    // listeners sur chaque button ?
+    validCreate.onclick = loadModel(name);
 }
+

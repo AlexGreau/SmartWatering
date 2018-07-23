@@ -1,6 +1,6 @@
 
 var workspaceBlocks;
-var cactus, tomato
+var cactus, tomato,defaut
 
 function loadModel(name) {
     switch (name) {
@@ -15,6 +15,7 @@ function loadModel(name) {
 
         default: // load blank
             console.log("could not find model : default loaded")
+            workspaceBlocks = Blockly.Xml.textToDom(defaut);
     }
     /* Clears and Load blocks to workspace. */
     Blockly.mainWorkspace.clear();
@@ -95,5 +96,13 @@ tomato = '<xml xmlns="http://www.w3.org/1999/xhtml">\
       </statement>\
     </block>\
   </statement>\
+</block>\
+</xml>'
+
+defaut = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
+<variables></variables>\
+<block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+  <field name="sprinkler_number">1</field>\
+  <field name="sprinkler_active">TRUE</field>\
 </block>\
 </xml>'

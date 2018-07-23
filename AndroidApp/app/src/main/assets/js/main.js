@@ -11,7 +11,6 @@ var blocklyArea;
 var blocklyDiv;
 let workspace;
 var toolboxXml;
-//let menuBtn;
 var customizeBlocks;
 
 window.onload = init;
@@ -23,7 +22,8 @@ function init() {
     addListeners();
    // customizeToolbox(workspace) ;
     Blockly.svgResize(workspace);
-    loadModel("tomato")
+    loadModel()
+    load_BuiltInModels()
 
     console.log("page loaded");
 }

@@ -22,10 +22,10 @@
     <script src="js/customizedBlocks/definitions.js"></script>
     <script src="js/customizedBlocks/generator_stubs.js"></script>
     <script src="js/modelsLoader.js"></script>
+    <script src="js/modelsFactory.js"></script>
     
     <script src="js/buttonListeners.js"></script>
     <script src="js/main.js"></script>
-    <xml id="cact" src="js/examples/cactus.xml"></xml>
 </head>
 
 <body>
@@ -80,9 +80,10 @@
             <div class="modal-header">
                 <h2>Create new project</h2>
             </div>
-            <div class="modal-body">
-                <p>Insert rows of built in models</p>
-                <p>and again </p>
+            <div class="modal-body" >
+                <ul id="listOfModels">
+
+                </ul>
             </div>
             <div class="modal-footer">
                 <button id="validCreate" class="softEdgedButton" onclick="createNewModel()"> Create </button>
