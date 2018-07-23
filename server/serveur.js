@@ -6,8 +6,6 @@ var mongoose    = require('mongoose');
 var bodyParser = require('body-parser');
 var urlbd      = "mongodb://localhost/smartwatering";
 
-
-
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,36 +67,6 @@ app.get('/', pageHome);
 app.post('/adduser', signup);
 
 app.post('/login', signin);
-
-var connectDB = function (error, db) {
-    if (error) {
-        return console.error('Connction DB failed', error);;
-    }
-    console.log("Connection DB successful", urlbd);
-
-    db.db('smartwatering').collection('user').find().toArray(function (err, result) {
-        if (err) {
-            console.log('Find failed', err);
-        } else {
-            console.log('Find OK', result);
-        }
-    });
-
-    db.close();
-}
-
-
-
-
-
-
-mongoClient.connect(urlbd, connectDB);
-
-
-
-
-
-
 
 // Gestion des erreurs 404
 app.use(function (req, res, next) {
