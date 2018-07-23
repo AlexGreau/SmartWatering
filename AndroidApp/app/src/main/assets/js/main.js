@@ -23,7 +23,7 @@ function init() {
     addListeners();
    // customizeToolbox(workspace) ;
     Blockly.svgResize(workspace);
-    loadModel("cactus")
+    loadModel("tomato")
 
     console.log("page loaded");
 }
