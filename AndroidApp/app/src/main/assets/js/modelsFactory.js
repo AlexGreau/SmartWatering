@@ -20,7 +20,7 @@ function addAllmodels(listOfModels){
 
 
 function load_BuiltInModels(){
-    var modelsList = ["cact", "tom","default"];
+    var modelsList = ["cact", "tom","default","but1", "but2"];
 
     addAllmodels(modelsList);
     console.log("finished loading all built in models \n")
