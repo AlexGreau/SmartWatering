@@ -1,8 +1,18 @@
 // this file is dedicated to loading all built-in models buttons in the createNew modal to smoothen the process of adding a model to the list.
-// buttons are in a list
 
+// buttons are in a list
 function buildID(name){
     return "" + name + "Btn";
+}
+
+function addAllListeners(listOfModels){
+    listOfModels.forEach(element => {
+        var id = buildID(element);
+        var btn = document.getElementById(id);
+       btn.onclick = function(){  
+            console.log(id + " button pressed");
+        }
+    })
 }
 
 function addAllmodels(listOfModels){
@@ -17,22 +27,12 @@ function addAllmodels(listOfModels){
         div.appendChild(button);
     });
 
-
     addAllListeners(listOfModels)
 }
 
-function addAllListeners(listOfModels){
-    listOfModels.forEach(element => {
-        var id = buildID(element);
-        var btn = document.getElementById(id);
-       btn.onclick = function(){  
-            console.log(id + " button pressed");
-        }
-    })
-}
 
 function load_BuiltInModels(){
-    var modelsList = ["cact", "tom","default","but1", "but2"];
+    var modelsList = ["cactus", "tomato","defaut"];
 
     addAllmodels(modelsList);
     console.log("finished loading all built in models \n")

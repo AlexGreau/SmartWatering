@@ -5,16 +5,16 @@ var cactus, tomato,defaut
 function loadModel(name) {
     switch (name) {
         case "cactus" :
-            workspaceBlocks = Blockly.Xml.textToDom(cactus);
+        //    workspaceBlocks = Blockly.Xml.textToDom(cactus);
             console.log ("cactus loaded")
             break;
         case "tomato" :
             workspaceBlocks = Blockly.Xml.textToDom(tomato);
-            console.log("tomato loaded")
+       //     console.log("tomato loaded")
             break;
 
         default: // load blank
-            console.log("could not find model : default loaded")
+       //     console.log("could not find model : default loaded")
             workspaceBlocks = Blockly.Xml.textToDom(defaut);
     }
     /* Clears and Load blocks to workspace. */
