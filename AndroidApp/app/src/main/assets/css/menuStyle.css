@@ -160,3 +160,44 @@
     width: 100%;
 
 }
+
+
+
+
+
+.btnBlockGroup .button {
+    background-color: #4CAF50; /* Green */
+    border: 1px solid green;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+}
+
+.btnBlockGroup .button:not(:last-child) {
+    /*border-bottom: none;  Prevent double borders */
+    margin-bottom: 1vh
+}
+
+.btnBlockGroup .button{
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 4wh;
+    border-radius: 12px;
+    height: 90%;
+}
+
+.btnBlockGroup .button:active {
+    background-color: rgba(255, 94, 0, 0.541);
+    transform: translateY(4px);
+  }
+
+.btnBlockGroup .button:hover {
+    background-color: #3e8e41;
+}
