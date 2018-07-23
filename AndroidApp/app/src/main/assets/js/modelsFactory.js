@@ -7,12 +7,15 @@ function buildID(name){
 
 function addAllmodels(listOfModels){
     var ul = document.getElementById("listOfModels");
-    var li,id;
+    var li,id,button;
     listOfModels.forEach(element => {
         id = buildID(element)
         li = document.createElement("li");
-        li.appendChild(document.createTextNode(id));
-        li.setAttribute(id,"zeub")
+        li.id = id;
+        button = document.createElement("button");
+        button.id=  element + "Btn";
+        button.textContent = id;
+        li.appendChild(button)
         ul.appendChild(li);
     });
 }
