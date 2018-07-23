@@ -2,22 +2,34 @@
 // buttons are in a list
 
 function buildID(name){
-    return "" + name;
+    return "" + name + "Btn";
 }
 
 function addAllmodels(listOfModels){
     var div = document.getElementById("listOfModels");
-    var li,id,button;
+    var id,button;
     listOfModels.forEach(element => {
         id = buildID(element)
         button = document.createElement("button");
         button.id=  element + "Btn";
         button.textContent = id;
-        button.setAttribute("class", "button")
+        button.setAttribute("class", "button");
         div.appendChild(button);
     });
+
+
+    addAllListeners(listOfModels)
 }
 
+function addAllListeners(listOfModels){
+    listOfModels.forEach(element => {
+        var id = buildID(element);
+        var btn = document.getElementById(id);
+       btn.onclick = function(){  
+            console.log(id + " button pressed");
+        }
+    })
+}
 
 function load_BuiltInModels(){
     var modelsList = ["cact", "tom","default","but1", "but2"];
