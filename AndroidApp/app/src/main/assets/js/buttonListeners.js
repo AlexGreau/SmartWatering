@@ -83,6 +83,8 @@ function validModelListener(){
         name = modelsFact.getSelected();
         loadModel(name);
         console.log("creating.." + name)
+        document.getElementById("createModal").style.display = "none"
+        document.getElementById("menuModal").style.display = "none"
     } 
 }
 
