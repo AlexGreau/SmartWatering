@@ -82,9 +82,10 @@ function validModelListener(){
     validCreate.onclick = function (){
         name = modelsFact.getSelected();
         loadModel(name);
-        console.log("creating.." + name)
-        document.getElementById("createModal").style.display = "none"
-        document.getElementById("menuModal").style.display = "none"
+        console.log("creating.." + name);
+        document.getElementById("createModal").style.display = "none";
+        document.getElementById("menuModal").style.display = "none";
+        document.getElementById('menuBtn').classList.toggle("change");
     } 
 }
 
