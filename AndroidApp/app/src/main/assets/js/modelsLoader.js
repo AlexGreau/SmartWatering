@@ -1,21 +1,23 @@
 
-var workspaceBlocks;
-var cactus, tomato,defaut
+var cactus, tomato,defaut;
 
 function loadModel(name) {
+  var workspaceBlocks;
+  console.log("selected : " + this.selectedModel)
     switch (name) {
-        case "cactus" :
-        //    workspaceBlocks = Blockly.Xml.textToDom(cactus);
+        case "cactus" : 
+            workspaceBlocks = Blockly.Xml.textToDom(cactus);
             console.log ("cactus loaded")
             break;
         case "tomato" :
             workspaceBlocks = Blockly.Xml.textToDom(tomato);
        //     console.log("tomato loaded")
             break;
-
+            
         default: // load blank
        //     console.log("could not find model : default loaded")
             workspaceBlocks = Blockly.Xml.textToDom(defaut);
+            console.log("defaut loaded")
     }
     /* Clears and Load blocks to workspace. */
     Blockly.mainWorkspace.clear();
