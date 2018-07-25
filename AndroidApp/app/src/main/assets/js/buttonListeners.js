@@ -9,6 +9,7 @@ function setButtonListeners(){
     setCreateNewButtonListener();
     setTestsButtonListener();
     setSendButtonListener();
+    validModelListener()
 }
 
 function setWindowListener(){
@@ -45,7 +46,6 @@ function setMenuButtonListeners() {
         modal.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
-
 }
 
 function setCreateNewButtonListener(){
@@ -71,16 +71,21 @@ function setTestsButtonListener(){
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     createBtn.onclick = function(){
-
         console.log("Send button pressed");
     }
 }
 
-function chooseModel(){
+function validModelListener(){
     var validCreate = document.getElementById("validCreate");
-    var name = "defaut";
-    
+    var name;
     // listeners sur chaque button ?
-    validCreate.onclick = loadModel(name);
+    validCreate.onclick = function (){
+        name = modelsFact.getSelected();
+        loadModel(name);
+        console.log("creating.." + name);
+        document.getElementById("createModal").style.display = "none";
+        document.getElementById("menuModal").style.display = "none";
+        document.getElementById('menuBtn').classList.toggle("change");
+    } 
 }
 
