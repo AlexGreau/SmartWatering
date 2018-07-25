@@ -35,14 +35,16 @@ String splitMySring(String data, char separator, int index) {
 String readSerial() {
   String strRcv = "";
   
-  while(Serial.available()) {
+  while(ESPserial.available()) {
     delay(3);
-    char c = Serial.read();
+    char c = ESPserial.read();
     strRcv.concat(c);
     if (c == '\n') {
         strRcv = "";
     }
   }
+  Serial.print("\n\n\n***recu");
+  Serial.println(strRcv);
   return strRcv;
 }
 
@@ -188,9 +190,45 @@ void setup() {
 }
 
 
+
+
 void loop() {  
-  delay(5000);
+  delay(100);
+
+  String strRcv = "";
   
+  if(Serial.available()) {
+     while(Serial.available()) {
+        delay(3);
+        char c = Serial.read();
+        strRcv.concat(c);
+        
+       /* Serial.print("c: ");
+        Serial.println(c);*/
+        
+        if (c == '\n') {
+            strRcv = "";
+        }
+     }
+
+     if(strRcv == "hello") {
+       Serial.write("bye");
+    } else {
+      Serial.write("dasd");
+    }
+  }
+
+  
+
+  delay(1000);
+
+  //Serial.print("\n\nrecu arduino: ");
+  //Serial.println(strRcv);
+
+  
+
+
+  /*
   Serial.println("\n\n\nwaiting");
 
   // read from Serial the wifi configuration settings or the meteo place setting if they are available
@@ -228,7 +266,7 @@ void loop() {
   Serial.println(password);
   Serial.print("place: ");
   Serial.println(meteoPlace);
-
+*/
 
   //if(searchMeteo) {
     /*if(WiFi.status() != WL_CONNECTED) {
