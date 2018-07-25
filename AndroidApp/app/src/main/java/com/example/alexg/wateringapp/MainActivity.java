@@ -2,6 +2,7 @@ package com.example.alexg.wateringapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,22 @@ public class MainActivity extends AppCompatActivity {
         MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
         myWebView.setWebChromeClient(myWebChromeClient);
         myWebView.loadUrl("file:///android_asset/index.html");
+
+        myWebView.requestFocus(View.FOCUS_DOWN);
+        myWebView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_UP:
+                        if (!v.hasFocus()) {
+                            v.requestFocus();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
 
 /*        myWebView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
