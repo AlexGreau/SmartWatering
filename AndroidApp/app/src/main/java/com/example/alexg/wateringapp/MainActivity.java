@@ -31,22 +31,6 @@ public class MainActivity extends AppCompatActivity {
         myWebView.setWebChromeClient(myWebChromeClient);
         myWebView.loadUrl("file:///android_asset/index.html");
 
-        myWebView.requestFocus(View.FOCUS_DOWN);
-        myWebView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_UP:
-                        if (!v.hasFocus()) {
-                            v.requestFocus();
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
-
 /*        myWebView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
