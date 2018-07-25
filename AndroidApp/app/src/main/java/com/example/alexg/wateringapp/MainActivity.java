@@ -23,10 +23,26 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportMultipleWindows(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        myWebView.setLongClickable(false);
+      //  myWebView.setLongClickable(true);
         final JavaScriptInterface myJsInterface = new JavaScriptInterface(this);
         myWebView.addJavascriptInterface(myJsInterface, "Android");
+        MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
+        myWebView.setWebChromeClient(myWebChromeClient);
         myWebView.loadUrl("file:///android_asset/index.html");
+
+/*        myWebView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                myWebView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(myWebView, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                });
+            }
+        });
+        myWebView.requestFocus();*/
     }
 
     @Override
