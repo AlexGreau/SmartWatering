@@ -17,7 +17,7 @@ void loop() {
     
     // listen for user input and send it to the ESP8266
 
-    char copy[50];
+    
     
 
    if ( Serial.available() )       {  
@@ -35,16 +35,18 @@ void loop() {
             strRcv = "";
         }
       }
-      Serial.println("received from command line: ");
+      Serial.print("received from command line: ");
       Serial.println(strRcv);
-      strRcv.toCharArray(copy, 50);
-      ESPserial.write(copy);  
+
+      
+
+  
       
       //ESPserial.write("hello");
    }
 
 
-    delay(1000);
+    //delay(1000);
 
     // listen for communication from the ESP8266 and then write it to the serial monitor
     if(ESPserial.available()) {
@@ -66,6 +68,87 @@ void loop() {
       Serial.print("\n\nrecu wifi: ");
       Serial.println(strRcv);
     }
+
+
+
+
+
+
+
+
+
+
+/*
+if ( Serial.available() )       {  
+      String strRcv = Serial.readString();
+      
+     /* while(Serial.available()) {
+        delay(3);
+        char c = Serial.read();
+        strRcv.concat(c);
+        
+        //Serial.print("ca: ");
+        //Serial.println(c);
+        
+        if (c == '\n') {
+            strRcv = "";
+        }
+      }
+      Serial.print("received from command line: ");
+      Serial.println(strRcv);
+
+
+      char copy[64];
+      strRcv.toCharArray(copy, 64);
+      ESPserial.write(copy);  
+      
+      //ESPserial.write("hello");
+   }
+
+    delay(1000);
+
+    // listen for communication from the ESP8266 and then write it to the serial monitor
+    if(ESPserial.available()) {
+      String strRcv = Serial.readString();
+
+      /*
+      while(ESPserial.available()) {
+        delay(3);
+        char c = ESPserial.read();
+        strRcv.concat(c);
+        
+        //Serial.print("ca: ");
+        //Serial.println(c);
+        
+        if (c == '\n') {
+            strRcv = "";
+        }
+      }
+    
+      Serial.print("\n\nrecu wifi: ");
+      Serial.println(strRcv);
+    }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
  
 
   /*
