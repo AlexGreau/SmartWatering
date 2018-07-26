@@ -49,8 +49,9 @@ function generateAllStubs() {
 
     Blockly.JavaScript['spklr_setting_frequency'] = function(block) {
       var number_freq_time = block.getFieldValue('freq_time');
+      var number_freq_times_unit = block.getFieldValue('freq_times_unit');
       var dropdown_freq_unit = block.getFieldValue('freq_unit');
-      var code = "\n<frequency time = '" + number_freq_time + "' unit = '" + dropdown_freq_unit + "'/>";
+      var code = "\n<frequency time = '" + number_freq_time + "' times_unit = '" + number_freq_times_unit + "' unit = '" + dropdown_freq_unit + "'/>";
       return code;
     };
 
