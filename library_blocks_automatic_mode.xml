@@ -520,11 +520,11 @@
                 <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
                 <field name="FIELDNAME">moist_level</field>
                 <field name="USER0">super dry</field>
-                <field name="CPU0">0</field>
+                <field name="CPU0">150</field>
                 <field name="USER1">dry</field>
-                <field name="CPU1">1</field>
+                <field name="CPU1">300</field>
                 <field name="USER2">slightly moist</field>
-                <field name="CPU2">2</field>
+                <field name="CPU2">600</field>
               </block>
             </next>
           </block>
@@ -629,24 +629,33 @@
             <field name="TEXT">Water</field>
             <next>
               <block type="field_number" id=",JOF2B%bfBMGd9nfpjw%">
-                <field name="VALUE">0</field>
+                <field name="VALUE">1</field>
                 <field name="FIELDNAME">freq_time</field>
                 <field name="MIN">0</field>
                 <field name="MAX">Infinity</field>
                 <field name="PRECISION">0</field>
                 <next>
                   <block type="field_static" id="sL*W(haNyP:5YDEi|5t7">
-                    <field name="TEXT"> times a </field>
+                    <field name="TEXT"> time(s) every</field>
                     <next>
-                      <block type="field_dropdown" id="SXEWUGEjDHhQK7V`u)R=">
-                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
-                        <field name="FIELDNAME">freq_unit</field>
-                        <field name="USER0">day</field>
-                        <field name="CPU0">day</field>
-                        <field name="USER1">week</field>
-                        <field name="CPU1">week</field>
-                        <field name="USER2">month</field>
-                        <field name="CPU2">month</field>
+                      <block type="field_number" id="~^{WEF%%;_dzj_oonte%">
+                        <field name="VALUE">1</field>
+                        <field name="FIELDNAME">freq_times_unit</field>
+                        <field name="MIN">-Infinity</field>
+                        <field name="MAX">Infinity</field>
+                        <field name="PRECISION">0</field>
+                        <next>
+                          <block type="field_dropdown" id="SXEWUGEjDHhQK7V`u)R=">
+                            <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                            <field name="FIELDNAME">freq_unit</field>
+                            <field name="USER0">day(s)</field>
+                            <field name="CPU0">day</field>
+                            <field name="USER1">week(s)</field>
+                            <field name="CPU1">week</field>
+                            <field name="USER2">month(s)</field>
+                            <field name="CPU2">month</field>
+                          </block>
+                        </next>
                       </block>
                     </next>
                   </block>

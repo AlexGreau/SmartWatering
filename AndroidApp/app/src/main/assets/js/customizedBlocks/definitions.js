@@ -227,40 +227,45 @@ customizeBlocks =
       "categoryName" : "Time",
       "blocks" :
           [{
-              "type": "spklr_setting_frequency",
-              "message0": "Water %1  times a  %2",
-              "args0": [
-                {
-                  "type": "field_number",
-                  "name": "freq_time",
-                  "value": 0,
-                  "min": 0
-                },
-                {
-                  "type": "field_dropdown",
-                  "name": "freq_unit",
-                  "options": [
-                    [
-                      "day",
-                      "day"
-                    ],
-                    [
-                      "week",
-                      "week"
-                    ],
-                    [
-                      "month",
-                      "month"
-                    ]
-                  ]
-                }
-              ],
-              "previousStatement": "spklr_setting",
-              "nextStatement": "spklr_setting",
-              "colour": 180,
-              "tooltip": "",
-              "helpUrl": ""
-            },
+             "type": "spklr_setting_frequency",
+             "message0": "Water %1  time(s) every %2 %3",
+             "args0": [
+               {
+                 "type": "field_number",
+                 "name": "freq_time",
+                 "value": 1,
+                 "min": 0
+               },
+               {
+                 "type": "field_number",
+                 "name": "freq_times_unit",
+                 "value": 1
+               },
+               {
+                 "type": "field_dropdown",
+                 "name": "freq_unit",
+                 "options": [
+                   [
+                     "day(s)",
+                     "day"
+                   ],
+                   [
+                     "week(s)",
+                     "week"
+                   ],
+                   [
+                     "month(s)",
+                     "month"
+                   ]
+                 ]
+               }
+             ],
+             "previousStatement": "spklr_setting",
+             "nextStatement": "spklr_setting",
+             "colour": 180,
+             "tooltip": "",
+             "helpUrl": ""
+           },
             {
               "type": "spklr_setting_duration",
               "message0": "Water for  %1 %2",

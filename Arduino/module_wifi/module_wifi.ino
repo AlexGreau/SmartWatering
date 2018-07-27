@@ -33,16 +33,23 @@ String splitMySring(String data, char separator, int index) {
 
 
 String readSerial() {
-  String strRcv = "";
+  String strRcv = "no";
   
-  while(Serial.available()) {
+/*  while(Serial.available()) {
     delay(3);
     char c = Serial.read();
     strRcv.concat(c);
     if (c == '\n') {
         strRcv = "";
     }
+  }*/
+  
+  if(Serial.available()) {
+    strRcv = Serial.readString();
+    //Serial.print("\n\n\n***recu ");
+    //Serial.write(strRcv);
   }
+  
   return strRcv;
 }
 
@@ -55,7 +62,7 @@ void setWifiConfiguration(String strRcv) {
   passTemp.toCharArray(password, passTemp.length() + 1);
   
   configSet = true; 
-  Serial.println("Config set done");    
+  Serial.write("Config done");    
 }
 
 
@@ -64,35 +71,35 @@ void setMeteoPlace(String strRcv) {
   placeTemp.toCharArray(meteoPlace, placeTemp.length() + 1);
 
   meteoPlaceSet = true;
-  Serial.println("Place set done");   
+  Serial.write("Place done");   
 }
 
 
 bool connectToWifiAndMeteo() {
   if(WiFi.status() != WL_CONNECTED) {
-    Serial.println("NOT connected");
+    //Serial.println("NOT connected");
     /* Explicitly set the ESP8266 to be a WiFi-client, otherwise, it by default,
     would try to act as both a client and an access-point and could cause
     network-issues with your other WiFi-devices on your WiFi-network. */
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     
-    Serial.println("connecting...");
-    delay(5000);
+    Serial.write("connecting");
+    delay(3000);
     //return;
   } 
       
-  Serial.println("WiFi connected"); 
+  Serial.write("WiFi connected"); 
  
   // Connect to HTTP server - Meteo
   client.setTimeout(HTTP_TIMEOUT);
   if (!client.connect(host, httpPort)) {
-      Serial.println("connection to host failed");
+      Serial.write("connection to host failed");
       return false;
   }
     
-  Serial.print("connected to ");
-  Serial.println(host);
+  Serial.write("host connected");
+  //Serial.println(host);
 
   return true;
 }
@@ -145,7 +152,7 @@ int getPrecipitationDataFromServer() {
   }*/
 
   String line = client.readStringUntil('\r');
-  Serial.println(line);
+  //Serial.println(line);
 
   
   // Allocate JsonBuffer
@@ -161,7 +168,7 @@ int getPrecipitationDataFromServer() {
     Serial.println("Parsing failed!");
     return -1;
   }
-  Serial.println("closing connection");
+  //Serial.println("closing connection");
 
   return json["main"]["humidity"].as<int>();
 }
@@ -170,10 +177,10 @@ int getPrecipitationDataFromServer() {
 void sendPrecipitationInfoToArduino(int precipitation) {
   if (precipitation < LIMIT_PRECIPITATION) {
       // write arduino true
-      Serial.println("send true");
+      Serial.write("true");
   } 
   // write arduino false
-  Serial.println("send false");
+  Serial.write("false");
 }
 
 
@@ -184,17 +191,50 @@ void setup() {
 
     // Disconnect from any previous wifi
     WiFi.disconnect();
-    Serial.println("Setup done");
+    //Serial.println("Setup done");
 }
 
 
+
+
 void loop() {  
-  delay(5000);
+  //delay(100);
+
+ /* String strRcv = "";
   
-  Serial.println("\n\n\nwaiting");
+  if(Serial.available()) {
+     while(Serial.available()) {
+        delay(3);
+        char c = Serial.read();
+        strRcv.concat(c);
+        
+        //Serial.print("c: ");
+        //Serial.println(c);
+        
+        if (c == '\n') {
+            strRcv = "";
+        }
+     }
+
+     if(strRcv == "hello") {
+         Serial.write("bye");
+      } else {
+        Serial.write("dasd");
+      }
+  }
+*/
+
+  //Serial.print("\n\nrecu arduino: ");
+  //Serial.println(strRcv);
+
+
+    
+  //Serial.println("\n\n\nwaiting");
 
   // read from Serial the wifi configuration settings or the meteo place setting if they are available
   String strRcv = readSerial();
+
+  //delay(1000);
 
   if (strRcv.length() > 0) {
     String tmp = strRcv.substring(0, 5);
@@ -206,14 +246,20 @@ void loop() {
       setWifiConfiguration(strRcv); 
     }     
     else if (tmp == "Meteo") {
+      /*Serial.print("wifi name: ");
+      Serial.println(ssid);
+      Serial.print("password: ");
+      Serial.println(password);
+      Serial.print("place: ");
+      Serial.println(meteoPlace);*/
       
       if(connectToWifiAndMeteo()) {     
         sendRequest();
         
         if(isResponseFromServerOk()) {
           int prec = getPrecipitationDataFromServer();
-          Serial.println("Response server: ");
-          Serial.println(prec);
+          //Serial.println("Response server: ");
+          
           if(prec != -1) {      
             sendPrecipitationInfoToArduino(prec);
           }   
@@ -222,12 +268,7 @@ void loop() {
      }
   }
 
-  Serial.print("wifi name: ");
-  Serial.println(ssid);
-  Serial.print("password: ");
-  Serial.println(password);
-  Serial.print("place: ");
-  Serial.println(meteoPlace);
+  
 
 
   //if(searchMeteo) {

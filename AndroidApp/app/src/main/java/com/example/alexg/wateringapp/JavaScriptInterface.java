@@ -2,6 +2,7 @@ package com.example.alexg.wateringapp;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 public class JavaScriptInterface {
@@ -19,4 +20,6 @@ public class JavaScriptInterface {
     public void showToast(String toast) {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
     }
+
+
 }
