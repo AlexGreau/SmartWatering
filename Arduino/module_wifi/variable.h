@@ -1,7 +1,9 @@
 #include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266mDNS.h>
+#include <ESP8266WebServer.h>
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
-
 
 #define RX_WiFi 2
 #define TX_WiFi 3
@@ -9,9 +11,17 @@
 #define LIMIT_PRECIPITATION 40
 
 
-// Wifi name and password
-char* ssid = (char*) malloc(sizeof(char)*40);
+// Credentials when in access point mode - the wifi created by the module
+const char *myssid = "Smart_Watering";
+const char *mypassword = "smart12345";
+ESP8266WebServer server(80);
+
+
+// Credentials when in station mode - ssid and password of wifi to connect to
+char* ssid = (char*) malloc(sizeof(char)*100);
 char* password= (char*) malloc(sizeof(char)*100);
+
+bool isWifiConfigSet = false;
 
 
 // Meteo site to connect to
@@ -21,18 +31,9 @@ const char* host = "api.openweathermap.org";
 const char* apiKey = "217b07a5c3c0dc0c6036378abf0a750f";
 
 
-// Place to search the forecast to
-char* meteoPlace= (char*) malloc(sizeof(char)*100);
+// City to search the forecast to
+char* meteoCity= (char*) malloc(sizeof(char)*100);
 
 SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 
-
-
-
-
-
-// Configuration received from device (mobile)
-bool configSet = false;
-bool meteoPlaceSet = false;
-//const char* host = "dataservice.accuweather.com";
