@@ -16,6 +16,11 @@ var pageHome = function (req, res) {
     res.render('pages/index');
 }
 
+var getUserId = function (err, db) {
+    if (err) throw err;
+
+}
+
 var signup = function (req, res) {
     var mail = req.body.email;
     var pass = req.body.password;
@@ -29,9 +34,17 @@ var signup = function (req, res) {
     mongoClient.connect(urlbd, function (error, db) {
         db.db('smartwatering').collection('user').insertOne(data, function (err, result) {
             if (err) {
-                console.log('Insert failed', err);
+                //console.log('Insert failed', err);
+                if (err.code === 11000) {
+                    console.log('Erreur valeur unique');
+                }
             } else {
-                console.log('Insert successful', result);
+                //console.log('Insert successful', result);
+                var query = { email: mail };
+                console.log('----->', db.db('smartwatering').collection('user').find(query).toArray(function (err, res) {
+                    if (err) throw err;
+                    console.log(res[0]._id);
+                }));
                 res.render('pages/mypage');
             }
         });
