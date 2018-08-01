@@ -1,83 +1,76 @@
-// s,1,1;m,300;f,1,1,m;d,5;st,10,30,a;me
-/*
-  s,1,1
-  d,15,m
-  f,1,1,m
-  m,100
-  st,30
-  me
-*/
+// program: s,1,1;m,300;f,1,1,m;d,5;st,10,30,a;me
 
 
 #include "variable.h"
 
 
-String splitMySring(String data, char separator, int index) {
-    int found = 0;
-    int strIndex[] = {0, -1};
-    int maxIndex = data.length() - 1;
+String splitSring(String data, char separator, int index) {
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length() - 1;
 
-    for(int i = 0; i <= maxIndex && found <= index; i++) {
-        if(data.charAt(i) == separator || i == maxIndex) {
-            found++;
-            strIndex[0] = strIndex[1]+1;
-            strIndex[1] = (i == maxIndex) ? i+1 : i;
-        }
-    }
+  for(int i = 0; i <= maxIndex && found <= index; i++) {
+      if(data.charAt(i) == separator || i == maxIndex) {
+          found++;
+          strIndex[0] = strIndex[1]+1;
+          strIndex[1] = (i == maxIndex) ? i+1 : i;
+      }
+  }
 
-    return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
 
 String readFromSerial() {
-  String strRcv = "";  
   if(Serial.available()) {
-    strRcv = Serial.readString();
+    return Serial.readString();
   }  
-  return strRcv;
+  return "";
 }
 
 
 
-
+// TODO: ERASE this variable.... used only for debugging
 bool aa = false;
 
+
+// Extract the parameters from the string containing the program and configure the corresponding sprinkler
 void setProgram(String progStr) {
   
   if(progStr != "") {
     byte spklrNum;
-    uint8_t i = 0;
-    String str = splitMySring(progStr, ';', 0);
+    byte i = 0;
+    String str = splitSring(progStr, ';', 0); // get the first parameter. It should normally be the sprinkler first
     
     while(str != "") {        
-      String param = splitMySring(str, ',', 0);  
+      String param = splitSring(str, ',', 0);  // get the different data from the parameter
       Serial.println(str);
       
       // sprinkler
       if (param == "s") {
-        spklrNum = atoi(splitMySring(str, ',', 1).c_str()) - 1;
-        sprinklerList[spklrNum].isActivated = atoi(splitMySring(str, ',', 2).c_str());
-        aa = true;
+        spklrNum = atoi(splitSring(str, ',', 1).c_str()) - 1;
+        sprinklerList[spklrNum].isActivated = atoi(splitSring(str, ',', 2).c_str());
+        aa = true;  // TODO: ERASE
       } 
       // moisture
       else if(param == "m") {
-        sprinklerList[spklrNum].moisture = atoi(splitMySring(str, ',', 1).c_str());
+        sprinklerList[spklrNum].moisture = atoi(splitSring(str, ',', 1).c_str());
       }
       // frequency
       else if(param == "f") {
-        sprinklerList[spklrNum].freqTime = atoi(splitMySring(str, ',', 1).c_str());
-        sprinklerList[spklrNum].freqTimeUnit = atoi(splitMySring(str, ',', 2).c_str());
-        splitMySring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].freqUnit, 2);
+        sprinklerList[spklrNum].freqTime = atoi(splitSring(str, ',', 1).c_str());
+        sprinklerList[spklrNum].freqTimeUnit = atoi(splitSring(str, ',', 2).c_str());
+        splitSring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].freqUnit, 2);
       }
       // duration
       else if(param == "d") {
-        sprinklerList[spklrNum].duration = atoi(splitMySring(str, ',', 1).c_str()) * 1000;  // receive seconds and we transform to milliseconds
+        sprinklerList[spklrNum].duration = atoi(splitSring(str, ',', 1).c_str()) * 1000;  // received in seconds but transformed into milliseconds
       }
       // starting time
       else if(param == "st") {
-        sprinklerList[spklrNum].startingHour = atoi(splitMySring(str, ',', 1).c_str());
-        sprinklerList[spklrNum].startingMin = atoi(splitMySring(str, ',', 2).c_str());
-        splitMySring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].startingUnit, 2);        
+        sprinklerList[spklrNum].startingHour = atoi(splitSring(str, ',', 1).c_str());
+        sprinklerList[spklrNum].startingMin = atoi(splitSring(str, ',', 2).c_str());
+        splitSring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].startingUnit, 2);        
       }
       // meteo
       else if(param == "me") {
@@ -85,24 +78,14 @@ void setProgram(String progStr) {
       }
       // end of params
       else if(param == "|") {
-        // Check if we received the start and end of the string... make sure we have the entire string
+        // TODO: Check if we received the start and end of the string... make sure we have the entire string
       }
       
       i++;
-      str = splitMySring(progStr, ';', i);
+      str = splitSring(progStr, ';', i);  // get next parameter
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -122,6 +105,7 @@ void setup() {
 void loop() {
   setProgram(readFromSerial());
 
+  // TODO: ERASE
   if(aa){
     Serial.println();
     for(int spklrNum=0; spklrNum<4; spklrNum++){
@@ -149,6 +133,7 @@ void loop() {
     aa = false;
   }
 
+  // Check every sprinkler to see if is time to water
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
 
     // Check if the sprinkler is activated
@@ -156,7 +141,7 @@ void loop() {
       //Serial.print("I'm activated - pump ");
       //Serial.println(i);
 
-      // Check starting date and time
+      // TODO: Check starting date and time
       /*if(!itStarted) {
           // check starting date
           itStarted = true;
@@ -167,11 +152,11 @@ void loop() {
       
       //if(sprinklerList[i].itStarted) {
   
-        // Check frequency -> if it is the moment to water
+        // TODO: Check frequency -> if it is the moment to water
         //if() {
   
           // Check moisture of the soil
-          int moistureLevel = analogRead(moisturePinList[i]);
+          int moistureLevel = analogRead(moisturePinList[i]); // read data from sensor
           Serial.print("Moist sensor: ");
           Serial.println(moistureLevel);
           if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
@@ -190,7 +175,7 @@ void loop() {
               delay(1000);
 
 
-              // SEE HOW TO IMPROVE THE WAITNG FOR REPONSE
+              // TODO: SEE HOW TO IMPROVE THE WAITNG FOR REPONSE
 
               
               // Check if there is response from wifi
@@ -206,25 +191,18 @@ void loop() {
             if(waterPlants) {            
               
               unsigned long timeStart = millis();
-              //unsigned long dif = millis() - timeStart;
 
-              // Water while water level is ok and while the duration time is not yet reached
-              
-              // SEE HOW TO MANAGE WATER LEVEL!!
-              
+              // TODO: SEE HOW TO MANAGE WATER LEVEL!!
+              // Water while water level is ok and while the duration time is not yet reached           
               while(/*!digitalRead(floaterPin) &&*/ (millis() - timeStart) <  sprinklerList[i].duration) {                  
-                 /* Serial.print(digitalRead(floaterPin));
-                  Serial.print(" ");
-                  Serial.println(dif);
-                  dif = millis() - timeStart;*/
-                  digitalWrite(pumpPinList[i], HIGH);  
+                  digitalWrite(pumpPinList[i], HIGH); 
+                   
                   Serial.print("watering...    ");    
                   //Serial.print(digitalRead(floaterPin));    
                   //Serial.print("  "); 
                   Serial.println(analogRead(moisturePinList[i]));
               }
               digitalWrite(pumpPinList[i], LOW);  
-              //Serial.println(dif);  
               Serial.println("Finish watering");              
             }              
           }
