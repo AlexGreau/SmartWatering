@@ -37,7 +37,7 @@ String splitMySring(String data, char separator, int index) {
 }
 */
 
-String readSerial() {
+String readFromSerial() {
   String strRcv = "";
   
   if(Serial.available()) {
@@ -235,7 +235,7 @@ void setup() {
 void loop() {  
   server.handleClient();
 
-  if (readSerial() == "meteo") {
+  if (readFromSerial() == "meteo") {
         
     if(connectToWifiAndMeteo()) {     
       sendRequest();
