@@ -23,25 +23,42 @@ String readFromSerial() {
 
 bool connectToWifiAndMeteo() {
 
-  if(WiFi.status() != WL_CONNECTED && isWifiConfigSet) {
-    Serial.println("conecting...");
-    WiFi.begin(ssid, password);
-    delay(5000);
+  if(!isWifiConfigSet) {
+    return false;
   }
 
-  // TODO: See how to better manage this part because whehn connecting with arduino this is not practical
-  while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      Serial.print(".");
+  /*if(!firstConnectionDone) {
+  //if(WiFi.status() != WL_CONNECTED && isWifiConfigSet) {
+    Serial.write("1 conection\n");
+    WiFi.begin(ssid, password);
+    delay(5000);
+    firstConnectionDone = true;
+  }*/
+  Serial.write("conecting...\n");
+
+  byte i = 0;  
+  
+  // TODO: See how to better manage this part because when connecting with arduino this is not practical. 
+  // give a timeout. if it doesn't connect after the 3 attemps then try it later?
+  for (i = 0; WiFi.status() != WL_CONNECTED && i < 3; i++) {
+      /*delay(500);
+      Serial.write(".");*/      
+      WiFi.begin(ssid, password);
+      delay(5000);
+      Serial.write(".");
   }       
-  Serial.println("WiFi connected"); 
+  if(i == 3) {
+    Serial.write("NOT Connected\n");
+    return false;
+  }
+  Serial.write("WiFi connected\n"); 
  
   // Connect to HTTP server - Meteo
   if (!client.connect(host, httpPort)) {
-      Serial.println("connection to host failed");
+      Serial.write("connection to host failed\n");
       return false;
   }    
-  Serial.println("host connected");
+  Serial.write("host connected\n");
 
   return true;
 }
@@ -63,15 +80,15 @@ bool isResponseFromServerOk() {
   char status[32] = {0};
   client.readBytesUntil('\r', status, sizeof(status));
   if (strcmp(status, "HTTP/1.1 200 OK") != 0) {
-    Serial.print("Unexpected response: ");
-    Serial.println(status);
+    Serial.write("Unexpected response: ");
+    Serial.write(status);
     return false;
   }  
 
   // Skip HTTP headers
   char endOfHeaders[] = "\r\n\r\n";
   if (!client.find(endOfHeaders)) {
-    Serial.println("Invalid response");
+    Serial.write("Invalid response\n");
     return false;
   }
   
@@ -95,7 +112,7 @@ int getPrecipitationDataFromServer() {
   //JsonObject& root = jsonBuffer.parseObject(client);
   
   if (!json.success()) {
-    Serial.println("Parsing failed!");
+    Serial.write("Parsing failed!\n");
     return -1;
   }
 
@@ -138,10 +155,10 @@ void handleConfig() {
     server.arg("city").toCharArray(meteoCity, server.arg("city").length() + 1);
     isWifiConfigSet = true;
 
-    Serial.print("Coconfig set");  
-    Serial.println(ssid);  
+    Serial.write("Config set\n");  
+    /*Serial.println(ssid);  
     Serial.println(password);  
-    Serial.println(meteoCity);
+    Serial.println(meteoCity);*/
     
     server.send(200, "text/html", "<h1>Configuration set successful</p>");    
   }
@@ -170,7 +187,7 @@ void setup() {
   server.on("/config", HTTP_POST, handleConfig); // Call the 'handleConfig' function when a POST request is made to URI "/config"
   server.onNotFound(handleNotFound);           // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
   server.begin();
-  Serial.println("HTTP server started");
+  //Serial.println("HTTP server started");
 
   // Disconnect from any previous wifi
   // WiFi.disconnect();
@@ -186,15 +203,17 @@ void loop() {
   server.handleClient();
 
   if (readFromSerial() == "meteo") {
+    Serial.write("gonna check meteo\n");
         
     if(connectToWifiAndMeteo()) {     
       sendRequest();
       
       if(isResponseFromServerOk()) {
         int prec = getPrecipitationDataFromServer();
-        //Serial.println("Response server: ");
+        Serial.write("Response server: ");
+        Serial.write(prec);
         
-        if(prec != -1) {      
+        if(prec != -1) {   // TODO: if there was an error what should we send back to arduino??   
           sendPrecipitationInfoToArduino(prec);
         }   
       }

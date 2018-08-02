@@ -1,7 +1,9 @@
 #include <SoftwareSerial.h>
 
-#define RX_WiFi 2
-#define TX_WiFi 3
+//#define RX_WiFi 2
+//#define TX_WiFi 3
+#define RX_WiFi 8
+#define TX_WiFi 9
 
 #define NUM_SPRINKLERS 4
 
@@ -35,7 +37,8 @@ const uint8_t moisturePinList[NUM_SPRINKLERS] = {A0, A1, A2, A3};
 
 
 // Speed sensor - to measure water level in the tank with the floater
-//const uint8_t floaterPin = 2;
+const uint8_t floaterPin = 3;
+bool isWaterLevelOk = true;
 
 
 //Set the serial port for the wifi module

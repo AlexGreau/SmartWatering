@@ -22,6 +22,7 @@ ESP8266WebServer server(80);
 char* ssid = (char*) malloc(sizeof(char)*100);
 char* password= (char*) malloc(sizeof(char)*100);
 bool isWifiConfigSet = false;
+//bool firstConnectionDone = false;
 
 
 // Meteo site to connect to
