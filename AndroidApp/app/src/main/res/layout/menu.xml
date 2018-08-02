@@ -25,6 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/logo"
             android:text="Program"
+            android:onClick="onProgram"
             />
 
         <Button
