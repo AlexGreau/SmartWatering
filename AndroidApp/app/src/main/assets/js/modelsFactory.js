@@ -15,9 +15,9 @@ class modelsFactory{
             var id = build_buttonID(i);
             var btn = document.getElementById(id);
             var temp = this;
-           btn.onclick = function(){  
-               temp.selectedModel = i;
-               console.log (i + " pressed")
+            btn.onclick = function(){  
+               temp.selectedModel = this.textContent;
+               console.log (this.textContent + " pressed")
             }
         }
   /*      this.dictOf_models.forEach(element => {
@@ -36,7 +36,7 @@ class modelsFactory{
         var button;
         for (var i in this.dictOf_models){
             button = document.createElement("button");
-            button.id=  build_buttonID(i);
+            button.id =  build_buttonID(i);
             button.textContent = i;
             button.setAttribute("class", "button");
             div.appendChild(button);
