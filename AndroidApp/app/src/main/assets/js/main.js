@@ -13,6 +13,7 @@ let workspace;
 var toolboxXml;
 var customizeBlocks;
 var modelsFact;
+var models_list;
 
 window.onload = init;
 
@@ -20,14 +21,14 @@ function init() {
     // create the toolbox with the customize blocks
     toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
-    var models_list = ["cactus", "tomato","defaut"]
+    setupModelsDict();
     modelsFact = new modelsFactory(models_list,"defaut");
     modelsFact.load_BuiltInModels()
     addListeners();
 
    // customizeToolbox(workspace);
     Blockly.svgResize(workspace);
-    loadModel()
+    loadModel('defaut')
 
     console.log("page loaded");
 }
@@ -89,5 +90,5 @@ function injectBlockly() {
 
 function customizeToolbox(space) {
     let toolBx = space.getToolbox().getWidth();
-    console.log(' here is da toolbox ' + toolBx);
+    console.log(' here is da toolbox : ' + toolBx);
 } 

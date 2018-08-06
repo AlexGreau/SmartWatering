@@ -5,13 +5,22 @@
 
 // object to avoid global variable "selectedModel" for button validNewModel
 class modelsFactory{
-    constructor (listOfmodels, selected) {
-        this.listOf_models = listOfmodels;
+    constructor (dictOfModels, selected) {
+        this.dictOf_models = dictOfModels;
         this.selectedModel = selected ;
     }
 
     addAllListeners(){
-        this.listOf_models.forEach(element => {
+        for (var i in this.dictOf_models){
+            var id = build_buttonID(i);
+            var btn = document.getElementById(id);
+            var temp = this;
+           btn.onclick = function(){  
+               temp.selectedModel = i;
+               console.log (i + " pressed")
+            }
+        }
+  /*      this.dictOf_models.forEach(element => {
             var id = build_buttonID(element);
             var btn = document.getElementById(id);
             var temp = this;
@@ -19,13 +28,20 @@ class modelsFactory{
                temp.selectedModel = element;
                console.log (element + " pressed")
             }
-        })
+        })*/
     }
 
     addAllmodels(){
         var div = document.getElementById("listOfModels");
-        var id,button;
-        this.listOf_models.forEach(element => {
+        var button;
+        for (var i in this.dictOf_models){
+            button = document.createElement("button");
+            button.id=  build_buttonID(i);
+            button.textContent = i;
+            button.setAttribute("class", "button");
+            div.appendChild(button);
+        }
+  /*      this.dictOf_models.forEach(element => {
             id = build_buttonID(element)
             button = document.createElement("button");
             button.id=  element + "Btn";
@@ -33,8 +49,8 @@ class modelsFactory{
             button.setAttribute("class", "button");
             div.appendChild(button);
         });
-    
-        this.addAllListeners(listOfModels)
+  */  
+        this.addAllListeners()
     }
 
     load_BuiltInModels(){    
@@ -51,6 +67,15 @@ class modelsFactory{
 function build_buttonID(name){
     return "" + name + "Btn";
 }
+
+
+
+
+
+
+
+
+
 /*function buildID(name){
     return "" + name + "Btn";
 }
