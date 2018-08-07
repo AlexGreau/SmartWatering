@@ -1,3 +1,5 @@
+//#include <Timer.h>
+//#include <Event.h>
 #include <SoftwareSerial.h>
 
 //#define RX_WiFi 2
@@ -7,21 +9,21 @@
 
 #define NUM_SPRINKLERS 4
 
+//Timer timer;
 
 // Structure used for the sprinklers
 struct Sprinkler {
   bool isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
   int moisture = 100;
-  int freqTime = 1;
-  int freqTimeUnit = 1;
-  char freqUnit = 'd';
-  int duration = 5000;  // in milliseconds
-  int startingHour = 9;
-  int startingMin = 0;
-  char startingUnit = 'p';  
+  int frequency = 10000;    // in milliseconds
+  int duration = 3000;      // in milliseconds
+  int startingTime = 5000;  // in milliseconds
   bool checkMeteo = false;
 
   // Auxiliary attributes
+ /* int startTimerId = -1;
+  int freqTimerId = -1;
+  int durationTimerId = -1;*/
   bool itStarted = false;
 };
 

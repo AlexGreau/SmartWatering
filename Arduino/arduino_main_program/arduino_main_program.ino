@@ -1,12 +1,15 @@
-// program: pg[s,1,1;m,300;f,1,1,m;d,10;st,10,30,a;me]
-// program: pg[s,1,1;m,300;f,1,1,m;d,10;st,10,30,a]
+// program: pg[s,1,1;m,300;st,1;f,10;d,5;me]
+// program: pg[s,1,1;m,300;st,1;f,10;d,5]
+
 /*
   Program String:
     sprinkler(s),num_ID(1-4),activated(0/1)        -> example: s,1,1
     moiustre(m),value(x)                           -> example: m,300
     frequency(f),time(x),times_unit(x),unit(d/w/m) -> example: f,1,1,m (1 time once(1) a month(m))    TODO: transform it to seconds before sending to arduino
+            -> frequency passed in seconds
     duration(d),seconds(x)                         -> example: d,10
     starting time(st),hour(x),minutes(x),unit(a/p) -> example: st,10,30,a    TODO: See if this will change or not... add starting date   
+            ->  starting time passed in seconds    
     meteo(me)                                      -> example: me
 */
 
@@ -44,7 +47,7 @@ String readFromSerial() {
 // TODO: ERASE this variable and function.... used only for debugging
 bool printOnce = false;
 
-void printOne() {
+void printOnceDebug() {
   if(printOnce){
     Serial.println();
     for(int spklrNum=0; spklrNum<4; spklrNum++){
@@ -52,21 +55,19 @@ void printOne() {
       Serial.print(" ");
       Serial.print(sprinklerList[spklrNum].moisture);
       Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].freqTime);
+      Serial.print(sprinklerList[spklrNum].startingTime); 
       Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].freqTimeUnit);
+      Serial.print(sprinklerList[spklrNum].frequency);
       Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].freqUnit);
-      Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].duration);
-      Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].startingHour);
-      Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].startingMin);
-      Serial.print(" ");
-      Serial.print(sprinklerList[spklrNum].startingUnit);      
+      Serial.print(sprinklerList[spklrNum].duration);       
       Serial.print(" ");
       Serial.println(sprinklerList[spklrNum].checkMeteo);
+      /*Serial.print(" ");
+      Serial.print(sprinklerList[spklrNum].startTimerId);
+      Serial.print(" ");
+      Serial.print(sprinklerList[spklrNum].freqTimerId);
+      Serial.print(" ");
+      Serial.println(sprinklerList[spklrNum].durationTimerId);*/
     }    
     Serial.println();
     printOnce = false;
@@ -78,7 +79,7 @@ void printOne() {
 // Extract the parameters from the string containing the program and configure the corresponding sprinkler
 void setProgram(String progStr) {
 
-  // erase any posible whitspace at both ends
+  // erase any posible whitespace at both ends
   progStr.trim();
   
   if(progStr != "" && progStr.startsWith("pg")) {    
@@ -94,8 +95,9 @@ void setProgram(String progStr) {
     progStr.remove(0, 1);
     progStr.remove(progStr.length() - 1, 1);
         
-    byte spklrNum;
+    byte spklrId;
     byte i = 0;
+        
     String str = splitSring(progStr, ';', 0); // get the first parameter. It should normally be the sprinkler first
     
     while(str != "") {        
@@ -104,33 +106,34 @@ void setProgram(String progStr) {
       
       // sprinkler
       if (param == "s") {
-        spklrNum = splitSring(str, ',', 1).toInt() - 1;
-        sprinklerList[spklrNum].isActivated = splitSring(str, ',', 2).toInt();
+        spklrId = splitSring(str, ',', 1).toInt() - 1;
+        sprinklerList[spklrId].isActivated = splitSring(str, ',', 2).toInt();
         printOnce = true;  // TODO: ERASE
       } 
       // moisture
       else if(param == "m") {
-        sprinklerList[spklrNum].moisture = splitSring(str, ',', 1).toInt();
-      }
-      // frequency
-      else if(param == "f") {
-        sprinklerList[spklrNum].freqTime = splitSring(str, ',', 1).toInt();
-        sprinklerList[spklrNum].freqTimeUnit = splitSring(str, ',', 2).toInt();
-        splitSring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].freqUnit, 2);
-      }
-      // duration
-      else if(param == "d") {
-        sprinklerList[spklrNum].duration = splitSring(str, ',', 1).toInt() * 1000;  // received in seconds but transformed into milliseconds
+        sprinklerList[spklrId].moisture = splitSring(str, ',', 1).toInt();
       }
       // starting time
       else if(param == "st") {
-        sprinklerList[spklrNum].startingHour = splitSring(str, ',', 1).toInt();
-        sprinklerList[spklrNum].startingMin = splitSring(str, ',', 2).toInt();
-        splitSring(str, ',', 3).toCharArray(&sprinklerList[spklrNum].startingUnit, 2);        
+        sprinklerList[spklrId].startingTime = splitSring(str, ',', 1).toInt() * 1000;  // received in seconds but transformed into milliseconds
+        //timer.stop(sprinklerList[spklrId].startTimerId);
+
+        /*if(sprinklerList[spklrId].isActivated) {
+          sprinklerList[spklrId].startTimerId = timer.after(sprinklerList[spklrId].startingTime, startWateringCycle, (void*) spklrId);
+        }*/
       }
+      // frequency
+      else if(param == "f") {
+        sprinklerList[spklrId].frequency = splitSring(str, ',', 1).toInt() * 1000;  // received in seconds but transformed into milliseconds
+      }
+      // duration
+      else if(param == "d") {
+        sprinklerList[spklrId].duration = splitSring(str, ',', 1).toInt() * 1000;  // received in seconds but transformed into milliseconds
+      }      
       // meteo
       else if(param == "me") {
-        sprinklerList[spklrNum].checkMeteo = true;
+        sprinklerList[spklrId].checkMeteo = true;
       }
       
       i++;
@@ -139,6 +142,70 @@ void setProgram(String progStr) {
   }
 }
 
+/*
+void startWateringCycle(void* spklrId) {
+  int i = (int) spklrId;
+  timer.stop(sprinklerList[i].freqTimerId);
+  sprinklerList[i].freqTimerId = timer.every(sprinklerList[i].frequency, isWateringTime, spklrId);
+        
+  Serial.print("Start watering cycle of sprinkler: ");
+  Serial.println(i);
+}
+
+
+void isWateringTime(void* spklrId) {
+  int i = (int) spklrId;
+
+  // Check moisture of the soil
+  int moistureLevel = analogRead(moisturePinList[i]); // read data from sensor
+  Serial.print("Moist sensor: ");
+  Serial.print(moistureLevel);
+  Serial.print(" ");
+  Serial.println(isWaterLevelLow);
+  
+  if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
+     
+    bool waterPlants = true;
+
+    // Check meteo
+    if(sprinklerList[i].checkMeteo) {
+      Serial.println("Checking meteo");
+      
+      // write 'meteo' to the wifi module so it can go check the meteo site
+      ESPserial.write("meteo");
+
+      delay(1000);
+
+
+      // TODO: SEE HOW TO IMPROVE THE WAITNG FOR REPONSE
+
+      
+      // Check if there is response from wifi
+      if(ESPserial.available()) {
+        char c = ESPserial.read();
+        waterPlants = atoi(c);
+                      
+        Serial.print("\n\nrecu wifi: ");
+        Serial.println(c);
+      }
+    }
+
+    if(waterPlants && !isWaterLevelLow) {         
+      //timer.stop(sprinklerList[i].durationTimerId);
+      //sprinklerList[i].durationTimerId = timer.every(sprinklerList[i].duration, stopWatering, (void*)i);
+      digitalWrite(pumpPinList[i], HIGH);
+      Serial.print("Pump on");
+    }              
+  }
+}*/
+
+/*
+void stopWatering(void* spklrId) {
+  int i = (int) spklrId;
+  digitalWrite(pumpPinList[i], LOW);
+  Serial.println("Pump off");
+}
+*/
 
 
 void setup() {
@@ -146,8 +213,8 @@ void setup() {
   ESPserial.begin(115200);
 
   // initialize floater pin to input
-  pinMode(floaterPin, INPUT_PULLUP); // TODO: see INPUT_PULLUP
-  attachInterrupt(digitalPinToInterrupt(floaterPin), setWaterLevel, CHANGE); // or use change??? when is active there is no water but the when the person fills it will change again
+  pinMode(floaterPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(floaterPin), setWaterLevel, CHANGE);
 
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     pinMode(pumpPinList[i], OUTPUT); 
@@ -155,18 +222,28 @@ void setup() {
 }
 
 
-// TODO: use a boolean or just turn of the pump??
 void setWaterLevel() {
   isWaterLevelLow = digitalRead(floaterPin);
+
+  Serial.print("Water low: ");
+  Serial.println(isWaterLevelLow);
+  if(isWaterLevelLow) {
+    for(int i = 0; i < NUM_SPRINKLERS; i++) {
+      digitalWrite(pumpPinList[i], LOW);
+    }
+    Serial.println("Pumps off");
+  }
 }
 
 
 
 void loop() {
-  setProgram(readFromSerial());
+  setProgram(readFromSerial());  
 
   // TODO: ERASE
-  printOne();
+  printOnceDebug();
+
+//  timer.update();
 
   // Check every sprinkler to see if is time to water
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
@@ -177,11 +254,11 @@ void loop() {
       //Serial.println(i);
 
       // TODO: Check starting date and time
-      /*if(!itStarted) {
+      //if(!itStarted) {
           // check starting date
-          itStarted = true;
-        }
-      */
+        //  itStarted = true;
+        //}
+      
   
 
       
@@ -197,9 +274,7 @@ void loop() {
           Serial.print(" ");
           Serial.println(isWaterLevelLow);
           
-          if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
-                       
-            Serial.println("In moist if");       
+          if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) {    
             
             bool waterPlants = true;
 
@@ -210,7 +285,7 @@ void loop() {
               // write 'meteo' to the wifi module so it can go check the meteo site
               ESPserial.write("meteo");
 
-              delay(1000);
+              delay(30000);
 
 
               // TODO: SEE HOW TO IMPROVE THE WAITNG FOR REPONSE
@@ -218,11 +293,10 @@ void loop() {
               
               // Check if there is response from wifi
               if(ESPserial.available()) {
-                char c = ESPserial.read();
-                waterPlants = atoi(c);
+                waterPlants = atoi(ESPserial.read());
                               
                 Serial.print("\n\nrecu wifi: ");
-                Serial.println(c);
+                Serial.println(waterPlants);
               }
             }
 
@@ -241,7 +315,7 @@ void loop() {
               digitalWrite(pumpPinList[i], LOW);  
               
               Serial.println("Finish watering");              
-            }              
+            }        
           }
         //}
       //}  

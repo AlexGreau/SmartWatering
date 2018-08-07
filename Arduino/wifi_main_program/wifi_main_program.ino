@@ -34,7 +34,7 @@ bool connectToWifiAndMeteo() {
     delay(5000);
     firstConnectionDone = true;
   }*/
-  Serial.write("conecting...\n");
+  //Serial.write("conecting...\n");
 
   byte i = 0;  
   
@@ -45,20 +45,20 @@ bool connectToWifiAndMeteo() {
       Serial.write(".");*/      
       WiFi.begin(ssid, password);
       delay(5000);
-      Serial.write(".");
+      //Serial.write(".");
   }       
   if(i == 3) {
-    Serial.write("NOT Connected\n");
+    //Serial.write("NOT Connected\n");
     return false;
   }
-  Serial.write("WiFi connected\n"); 
+  //Serial.write("WiFi connected\n"); 
  
   // Connect to HTTP server - Meteo
   if (!client.connect(host, httpPort)) {
       Serial.write("connection to host failed\n");
       return false;
   }    
-  Serial.write("host connected\n");
+  //Serial.write("host connected\n");
 
   return true;
 }
@@ -155,7 +155,7 @@ void handleConfig() {
     server.arg("city").toCharArray(meteoCity, server.arg("city").length() + 1);
     isWifiConfigSet = true;
 
-    Serial.write("Config set\n");  
+    //Serial.write("Config set\n");  
     /*Serial.println(ssid);  
     Serial.println(password);  
     Serial.println(meteoCity);*/
@@ -203,15 +203,15 @@ void loop() {
   server.handleClient();
 
   if (readFromSerial() == "meteo") {
-    Serial.write("gonna check meteo\n");
+    //Serial.write("gonna check meteo\n");
         
     if(connectToWifiAndMeteo()) {     
       sendRequest();
       
       if(isResponseFromServerOk()) {
         int prec = getPrecipitationDataFromServer();
-        Serial.write("Response server: ");
-        Serial.write(prec);
+        //Serial.write("Response server: ");
+        //Serial.write(prec);
         
         if(prec != -1) {   // TODO: if there was an error what should we send back to arduino??   
           sendPrecipitationInfoToArduino(prec);
