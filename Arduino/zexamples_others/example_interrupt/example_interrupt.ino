@@ -1,20 +1,30 @@
-unsigned long int count = 0;
-bool notend = true;
+volatile bool triggered = true;
 
 void setup() {
-  // put your setup code here, to run once:
-Serial.begin(9600);
-pinMode(8, OUTPUT);
+  Serial.begin(9600);
+  
   pinMode(3, INPUT_PULLUP);
-attachInterrupt(digitalPinToInterrupt(3),go, RISING);
+  attachInterrupt(digitalPinToInterrupt(3), go, CHANGE);
 }
 
 void loop() {
- 
+  
+  /*if(triggered) {
+    Serial.println("bad: NO water");
+    triggered = false;
+  } else {
+    Serial.println("good");
+  }*/
+  Serial.println("before");
+  while(triggered){
+    Serial.println(".");
+    delay(500);
+  }
+  Serial.println("after");
 }
 
-void go(){
-
-  Serial.println("bau");
-  
-  }
+void go() {
+  triggered = digitalRead(3);
+  Serial.print("bad: NO water ");
+  Serial.println(triggered);  
+}

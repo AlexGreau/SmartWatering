@@ -38,7 +38,7 @@ const uint8_t moisturePinList[NUM_SPRINKLERS] = {A0, A1, A2, A3};
 
 // Speed sensor - to measure water level in the tank with the floater
 const uint8_t floaterPin = 3;
-bool isWaterLevelOk = true;
+volatile bool isWaterLevelLow = false;
 
 
 //Set the serial port for the wifi module

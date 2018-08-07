@@ -147,7 +147,7 @@ void setup() {
 
   // initialize floater pin to input
   pinMode(floaterPin, INPUT_PULLUP); // TODO: see INPUT_PULLUP
-  attachInterrupt(digitalPinToInterrupt(floaterPin), activateWaterLowAlert, RISING); // or use change??? when is active there is no water but the when the person fills it will change again
+  attachInterrupt(digitalPinToInterrupt(floaterPin), setWaterLevel, CHANGE); // or use change??? when is active there is no water but the when the person fills it will change again
 
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     pinMode(pumpPinList[i], OUTPUT); 
@@ -156,12 +156,8 @@ void setup() {
 
 
 // TODO: use a boolean or just turn of the pump??
-void activateWaterLowAlert() {
-  if(digitalRead(floaterPin)) {
-    isWaterLevelOk = false;  
-  } else {
-    isWaterLevelOk = true;  
-  }
+void setWaterLevel() {
+  isWaterLevelLow = digitalRead(floaterPin);
 }
 
 
@@ -199,7 +195,7 @@ void loop() {
           Serial.print("Moist sensor: ");
           Serial.print(moistureLevel);
           Serial.print(" ");
-          Serial.println(digitalRead(floaterPin));
+          Serial.println(isWaterLevelLow);
           
           if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
                        
@@ -233,27 +229,14 @@ void loop() {
             if(waterPlants) {            
               
               unsigned long timeStart = millis();
-              //uint8_t waterAlert = 0;
 
               // TODO: SEE HOW TO MANAGE WATER LEVEL!!
               // Water while water level is ok and while the duration time is not yet reached           
-              while(isWaterLevelOk /*waterAlert < 10*//*!digitalRead(floaterPin)*/ && (millis() - timeStart) <  sprinklerList[i].duration) {                  
+              while(!isWaterLevelLow && (millis() - timeStart) <  sprinklerList[i].duration) {                  
                   digitalWrite(pumpPinList[i], HIGH); 
-
-                  int tmp = digitalRead(floaterPin);
                    
                   Serial.print("watering...    ");    
-                  Serial.print(tmp);    
-                  Serial.print("  "); 
-                  /*Serial.print(waterAlert); 
-                  Serial.print("  "); */
                   Serial.println(analogRead(moisturePinList[i]));
-
-                  /*if(tmp) {
-                    waterAlert++;
-                  } else if (waterAlert > 0) {
-                    waterAlert--;
-                  }*/
               }
               digitalWrite(pumpPinList[i], LOW);  
               
