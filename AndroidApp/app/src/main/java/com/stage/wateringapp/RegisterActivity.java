@@ -2,6 +2,7 @@ package com.stage.wateringapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
@@ -38,8 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     String sCity;
 
     ArrayAdapter<String> adapter;
-
-    Toast res;
 
     private static final String[] CITY = new String[] {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
@@ -84,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ToDo : Action connection
+                // ToDo : Action register
                 if (!isConnected()) {
                     Snackbar.make(view, "Vous n'etes pas connecte a internet", Snackbar.LENGTH_LONG).show();
                 }
@@ -101,6 +100,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
+                                    /**
+                                     * Le Compte a ete cree avec succes
+                                     * on peut maintenant se connecter
+                                     */
+                                    // ToDO: enregistrer l'ObjectId
+                                    goToMainActivity();
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -128,5 +133,11 @@ public class RegisterActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+
+    public void goToMainActivity() {
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
