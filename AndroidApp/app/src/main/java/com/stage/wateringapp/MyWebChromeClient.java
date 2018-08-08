@@ -1,4 +1,4 @@
-package com.example.alexg.wateringapp;
+package com.stage.wateringapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

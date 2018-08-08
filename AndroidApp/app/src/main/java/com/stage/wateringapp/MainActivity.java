@@ -1,14 +1,14 @@
-package com.example.alexg.wateringapp;
+package com.stage.wateringapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import com.stage.wateringapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private WebView myWebView;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setupFullscreenMode();
         setContentView(R.layout.activity_main);
 
-        myWebView = (WebView) findViewById(R.id.webview);
+        myWebView = findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportMultipleWindows(true);

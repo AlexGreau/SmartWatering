@@ -1,4 +1,4 @@
-package com.example.alexg.wateringapp;
+package com.stage.wateringapp;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;

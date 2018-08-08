@@ -1,9 +1,11 @@
-package com.example.alexg.wateringapp;
+package com.stage.wateringapp;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.stage.wateringapp.R;
 
 public class MenuActivity extends AppCompatActivity {
     @Override
