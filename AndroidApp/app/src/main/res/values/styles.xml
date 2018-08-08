@@ -17,4 +17,34 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="SmartWateringAppThemeCustom" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:statusBarColor">@color/white</item>
+        <!--item name="android:windowLightStatusBar">true</item--><!--Dark-->
+
+        <item name="android:colorButtonNormal">@color/teal_500</item>
+        <!--item name="android:navigationBarColor">@color/white</item-->
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--item name="android:windowTranslucentNavigation">true</item-->
+    </style>
+
+    <style name="SmartWateringAppThemeCustom.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="SmartWateringAppThemeCustom.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SmartWateringAppThemeCustom.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
+
 </resources>

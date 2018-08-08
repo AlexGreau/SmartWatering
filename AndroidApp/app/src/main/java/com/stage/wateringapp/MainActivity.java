@@ -77,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFullscreenMode() {
         View decorView = setFullscreen();
-        decorView
-                .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                     @Override
                     public void onSystemUiVisibilityChange(int visibility) {
                         setFullscreen();

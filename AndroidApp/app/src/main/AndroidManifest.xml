@@ -22,9 +22,15 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".SplashScreen">
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/SmartWateringAppThemeCustom"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/SmartWateringAppThemeCustom"/>
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/SmartWateringAppThemeCustom.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

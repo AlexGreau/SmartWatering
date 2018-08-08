@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupFullscreenMode();
         setContentView(R.layout.activity_splash_screen);
 
         final SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
@@ -38,5 +40,26 @@ public class SplashScreen extends AppCompatActivity {
                 }
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void setupFullscreenMode() {
+        View decorView = setFullscreen();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                setFullscreen();
+            }
+        });
+    }
+
+    private View setFullscreen() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        return decorView;
     }
 }
