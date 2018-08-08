@@ -3,6 +3,7 @@ package com.stage.wateringapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -82,8 +83,16 @@ public class LoginActivity extends AppCompatActivity {
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
-                                    // ToDO: enregistrer l'ObjectId
-                                    goToMainActivity();
+                                    // ToDo: enregistrer l'ObjectId
+                                    if (Objects.equals(response.substring(0, 5), "FIND_")) {
+                                        SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
+                                        // ToDo : get ObjectId form : si une personne avait deja un compte et qu'il se connecte pour la premiere fois avec ce telephone
+                                        //editor.putString("ObjectId", response);
+                                        editor.putBoolean("isConnect", true);
+                                        editor.apply();
+
+                                        goToMainActivity();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                         @Override

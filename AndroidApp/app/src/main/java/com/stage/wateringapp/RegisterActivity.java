@@ -3,6 +3,7 @@ package com.stage.wateringapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
@@ -105,6 +106,11 @@ public class RegisterActivity extends AppCompatActivity {
                                      * on peut maintenant se connecter
                                      */
                                     // ToDO: enregistrer l'ObjectId
+                                    SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
+                                    editor.putString("ObjectId", response);
+                                    editor.putBoolean("isConnect", true);
+                                    editor.apply();
+
                                     goToMainActivity();
                                 }
                             }, new Response.ErrorListener() {
