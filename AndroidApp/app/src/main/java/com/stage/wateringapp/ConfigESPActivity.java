@@ -33,7 +33,6 @@ public class ConfigESPActivity extends AppCompatActivity {
     String sSSID;
     String sPass;
     String sObjectID;
-    String sCity;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -86,7 +85,7 @@ public class ConfigESPActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
-                                    /**
+                                    /*
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */

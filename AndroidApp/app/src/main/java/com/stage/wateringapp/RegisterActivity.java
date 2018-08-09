@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -96,12 +95,12 @@ public class RegisterActivity extends AppCompatActivity {
                     myURI = "m=" + sMail + "&p=" + sPass + "&c=" + sCity;
 
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                    final StringRequest request = new StringRequest(Request.Method.GET, "http://169.254.197.24:8080/api/signup?"+myURI,
+                    final StringRequest request = new StringRequest(Request.Method.GET, MyURL.SIGNUP.toString()+""+myURI,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
-                                    /**
+                                    /*
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */

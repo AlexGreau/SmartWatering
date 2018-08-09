@@ -74,12 +74,12 @@ public class LoginActivity extends AppCompatActivity {
                     myURI = "m=" + sMail + "&p=" + sPass;
 
                     RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                    final StringRequest request = new StringRequest(Request.Method.GET, "http://169.254.197.24:8080/api/signin?"+myURI,
+                    final StringRequest request = new StringRequest(Request.Method.GET, MyURL.SIGNIN.toString()+""+myURI,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
-                                    /**
+                                    /*
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
