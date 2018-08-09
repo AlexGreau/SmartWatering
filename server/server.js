@@ -66,9 +66,7 @@ app.get('/api/signup', function (req, res) {
         "password": password,
         "localite": city
     }
-
     // res.send('Email = ' + addr_mail + '\nPassword = ' + password + '\nCity = ' + city);
-
     mongoClient.connect(urlbd, function (error, db) {
         db.db('smartwatering').collection('user').insertOne(data, function (err, result) {
             if (err) {
@@ -87,8 +85,6 @@ app.get('/api/signup', function (req, res) {
                     console.log(reponse);
                     res.send(reponse);
                 }));
-                //res.render('pages/mypage');
-                //res.send('email = ' + addr_mail + '\npassword = ' + password + '\nville = ' + city);
             }
         });
     });
@@ -106,9 +102,7 @@ app.get('/api/signin', function (req, res) {
     }
 
     var reponse;
-
     // res.send('Email = ' + addr_mail + '\nPassword = ' + pass);
-
     mongoClient.connect(urlbd, function (error, db) {
         db.db('smartwatering').collection('user').find({email: addr_mail, password: pass}).toArray(function (err, result) {
             if (err) {
@@ -116,13 +110,15 @@ app.get('/api/signin', function (req, res) {
                 console.log(reponse, err);
                 res.send(reponse);
             } else if (result.length > 0) {
+                // Element trouve
                 reponse = 'Find OK';
                 console.log(reponse, result);
                 //res.render('pages/mypage');
                 //res.send('Maticule = ' + matricule + '\nState = ' + state);
-                res.send(reponse);
+                res.send("FIND_" + reponse);
             } else {
-                reponse = 'Find OK';
+                // Element trouve mais le mot de passe n'est pas correct
+                reponse = 'Find OK2';
                 res.send(reponse);
                 console.log(reponse, result);
                 // TODO pas Enregistré ou mot de passe oublié

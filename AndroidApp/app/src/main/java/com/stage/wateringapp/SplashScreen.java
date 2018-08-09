@@ -10,8 +10,6 @@ import android.view.View;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +23,7 @@ public class SplashScreen extends AppCompatActivity {
         Log.e("SPLASH", preferences.getString("ObjectId", "No ObjectID"));
         Log.e("SPLASH", preferences.getBoolean("isConnect", false)+"");
 
+        int SPLASH_TIME_OUT = 2000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
