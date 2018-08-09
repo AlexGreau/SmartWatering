@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                     myURI = "m=" + sMail + "&p=" + sPass + "&c=" + sCity;
 
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                    final StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.43.171:8080/api/signup?"+myURI,
+                    final StringRequest request = new StringRequest(Request.Method.GET, "http://169.254.197.24:8080/api/signup?"+myURI,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -143,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void goToMainActivity() {
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
         startActivity(intent);
     }
 }

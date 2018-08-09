@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     myURI = "m=" + sMail + "&p=" + sPass;
 
                     RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                    final StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.43.171:8080/api/signin?"+myURI,
+                    final StringRequest request = new StringRequest(Request.Method.GET, "http://169.254.197.24:8080/api/signin?"+myURI,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
         startActivity(intent);
     }
 }

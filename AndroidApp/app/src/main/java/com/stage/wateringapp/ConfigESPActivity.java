@@ -117,9 +117,9 @@ public class ConfigESPActivity extends AppCompatActivity {
 
     public void initView() {
         myURI = "";
-        ssid = findViewById(R.id.et_username);
-        pass = findViewById(R.id.et_password);
-        config_btn = findViewById(R.id.cv_signin);
+        ssid = findViewById(R.id.et_ssid);
+        pass = findViewById(R.id.et_config_password);
+        config_btn = findViewById(R.id.cv_config);
     }
 
     private boolean isConnected() {

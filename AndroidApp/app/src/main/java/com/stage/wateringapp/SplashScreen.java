@@ -30,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (preferences.getBoolean("isConnect", false)) {
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, MenuActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
