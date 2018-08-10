@@ -3,10 +3,14 @@ var url         = require('url');
 var fs          = require('fs');
 var express     = require('express');
 
+var mongo       = require('mongodb');
 var mongoClient = require('mongodb').MongoClient;
 var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
 var urlbd       = "mongodb://localhost/smartwatering";
+
+// module d'envoi de MAIL
+var nodemailer = require('nodemailer');
 
 var app = express();
 var router = express.Router();
@@ -16,6 +20,17 @@ var path = __dirname + '/views/'
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+
+function send(dd) {
+    getMail(dd);
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
 
 var pageHome = function (req, res) {
     res.sendFile(path + "index.html");
@@ -44,14 +59,55 @@ router.get("/register", register);
 router.get("/login", login);
 
 
-// http://localhost:8080/api/alert?id=jhgfz31uy176ty56&state=ON
+// http://localhost:8080/api/alert?id=5b6c14c2145430027a6de35d&state=ON
 app.get('/api/alert', function (req, res) {
     var matricule = req.param('id');
     var state = req.param('state');
 
+    // Je recupere l'adresse mail
+    var query = { _id: new mongo.ObjectId(matricule) };
+    //TODO : Change state in db
+    mongoClient.connect(urlbd, function (error, db) {
+        db.db('smartwatering').collection('user').find(query, {_id: 0, "email": 1}).toArray(function (err, res2) {
+            if (err) throw err;
+            reponse = res2[0].email;
+            console.log(reponse);
+            // Je cree le transporter de mails
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'smartwatering123@gmail.com',
+                    pass: 'Smartwatering123!'
+                }
+            });
+            // Je cree l'Options mail
+            var mailOptions = {
+                // to 'iris.b1991@gmail.com'
+                from: 'smartwatering123@gmail.com',
+                to: reponse,
+                subject: 'ALERT',
+                text: 'ALERT ALERT the Reservoir Level is LOW very LOW. So add water. THANKS'
+            };
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        })
+    });
+
+    //send(matricule);
+
     res.send('Maticule = ' + matricule + '\nState = ' + state);
 });
 
+
+app.get('/api/program', function (req, res) {
+    var matricule = req.param('id');
+    res.send('GOOD (°_°)' + matricule);
+});
 
 // http://localhost:8080/api/signup?m=grace@smartwatering.com&p=I27G2Gyvougè&c=Nice,Fr
 app.get('/api/signup', function (req, res) {
@@ -126,6 +182,8 @@ app.get('/api/signin', function (req, res) {
         });
     });
 });
+
+//app.get('/grace', send("5b6c14c2145430027a6de35d"));
 
 
 app.use("/", router);
