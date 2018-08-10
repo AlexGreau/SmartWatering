@@ -12,8 +12,11 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,18 +24,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConfigESPActivity extends AppCompatActivity {
 
     private EditText ssid;
     private EditText pass;
+    private AutoCompleteTextView city;
     private CardView config_btn;
 
-    private String myURI;
     String sSSID;
     String sPass;
     String sObjectID;
+    String sCity;
+
+    ArrayAdapter<String> adapter;
+
+    private static final String[] CITY = new String[] {
+            "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -41,6 +53,8 @@ public class ConfigESPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config_esp);
 
         initView();
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, CITY);
 
         ssid.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -58,6 +72,15 @@ public class ConfigESPActivity extends AppCompatActivity {
                 return false;
             }
         });
+        city.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.setFocusable(true);
+                view.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
+        city.setAdapter(adapter);
 
         config_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,44 +91,42 @@ public class ConfigESPActivity extends AppCompatActivity {
                     Snackbar.make(view, "Vous n'etes pas connecte a internet", Snackbar.LENGTH_LONG).show();
                 }
 
-                if (!ssid.getText().toString().isEmpty() || !pass.getText().toString().isEmpty()) {
+                if (!ssid.getText().toString().isEmpty() || !pass.getText().toString().isEmpty() || city.getText().toString().isEmpty()) {
                     sSSID = ssid.getText().toString();
                     sPass = pass.getText().toString();
+                    sCity = city.getText().toString();
 
                     // TODO : GetSharePreference ObjectID, City
                     SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
                     sObjectID = preferences.getString("ObjectId", "No ObjectID");
                     Log.e("CONFIG ESP-01", sObjectID);
 
-                    myURI = "id=" + sObjectID + "&ssid=" + sSSID + "&pass=" + sPass;
-
                     RequestQueue queue = Volley.newRequestQueue(ConfigESPActivity.this);
-                    final StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.43.171:8080/config?"+myURI,
+                    final StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.4.1/config",
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
-                                    /*
-                                     * Le Compte a ete cree avec succes
-                                     * on peut maintenant se connecter
-                                     */
-                                    // ToDo: enregistrer l'ObjectId
-                                    if (Objects.equals(response.substring(0, 5), "FIND_")) {
-                                        SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
-                                        // ToDo : get ObjectId form : si une personne avait deja un compte et qu'il se connecte pour la premiere fois avec ce telephone
-                                        //editor.putString("ObjectId", response);
-                                        editor.putBoolean("isConnect", true);
-                                        editor.apply();
-
-                                        //goToMainActivity();
-                                    }
                                 }
-                            }, new Response.ErrorListener() {
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e("ERROR", error.toString());
+                                }
+                            })
+                    {
                         @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("ERROR", error.toString());
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("id", sObjectID);
+                            params.put("ssid", sSSID);
+                            params.put("pass", sPass);
+                            params.put("city", sCity);
+                            return params;
                         }
-                    });
+                    }
+                            ;
                     queue.add(request);
                     Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
@@ -115,9 +136,9 @@ public class ConfigESPActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        myURI = "";
         ssid = findViewById(R.id.et_ssid);
         pass = findViewById(R.id.et_config_password);
+        city = findViewById(R.id.actv_config_city);
         config_btn = findViewById(R.id.cv_config);
     }
 
