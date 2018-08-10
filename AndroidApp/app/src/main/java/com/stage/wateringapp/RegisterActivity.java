@@ -99,14 +99,15 @@ public class RegisterActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.e("RES", response);
+                                    Log.e("RES", response.substring(1, response.length() - 1));
+                                    Log.e("RES", "response");
                                     /*
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
                                     // ToDO: enregistrer l'ObjectId
                                     SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
-                                    editor.putString("ObjectId", response);
+                                    editor.putString("ObjectId", response.substring(1, response.length() - 1));
                                     editor.putBoolean("isConnect", true);
                                     editor.apply();
 
