@@ -268,7 +268,7 @@ void loop() {
         //if() {
   
           // Check moisture of the soil
-          int moistureLevel = analogRead(moisturePinList[i]); // read data from sensor
+      /*    int moistureLevel = analogRead(moisturePinList[i]); // read data from sensor
           Serial.print("Moist sensor: ");
           Serial.print(moistureLevel);
           Serial.print(" ");
@@ -276,7 +276,7 @@ void loop() {
           
           if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) {    
             
-            bool waterPlants = true;
+            bool waterPlants = true;*/
 
             // Check meteo
             if(sprinklerList[i].checkMeteo) {
@@ -300,7 +300,7 @@ void loop() {
               }
             }
 
-            if(waterPlants) {            
+            /*if(waterPlants) {            
               
               unsigned long timeStart = millis();
 
@@ -316,7 +316,7 @@ void loop() {
               
               Serial.println("Finish watering");              
             }        
-          }
+          }*/
         //}
       //}  
     }

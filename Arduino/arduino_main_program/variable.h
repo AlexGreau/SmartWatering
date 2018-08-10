@@ -22,7 +22,7 @@ struct Sprinkler {
 
   // Auxiliary attributes
  /* int startTimerId = -1;
-  int freqTimerId = -1;
+  int freqTimerId = -1; 
   int durationTimerId = -1;*/
   bool itStarted = false;
 };

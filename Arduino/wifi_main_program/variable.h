@@ -10,6 +10,7 @@
 
 #define HTTP_TIMEOUT 5000 // max response time from server
 #define LIMIT_PRECIPITATION 40
+#define CHECK_SERVER_TIME 10000//300000  // every 5 minutes but in milliseconds
 
 
 // Credentials when module is in access point mode - the wifi created by the module
@@ -27,9 +28,18 @@ bool isWifiConfigSet = false;
 
 // Meteo site to connect to
 WiFiClient client;
-const int httpPort = 80;
-const char* host = "api.openweathermap.org";
+const int meteoHttpPort = 80;
+const char* meteoHost = "api.openweathermap.org";
 const char* apiKey = "217b07a5c3c0dc0c6036378abf0a750f";
+
+
+// Smart watering server
+unsigned long checkTimeStart = millis();
+const int smartWateringHttpPort = 8080;
+const char* smartWateringHost = "169.254.51.139";
+char* objetId = (char*) malloc(sizeof(char)*100);
+String progStr;
+byte indexProg = 0;
 
 
 // City to search the forecast of
