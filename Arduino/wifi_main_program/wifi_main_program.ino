@@ -27,8 +27,8 @@
 
   Received from smart watering server:
     pg[s,1,1;m,300;st,1;f,10;d,5]|pg[s,2,1;m,400;st,2;f,15;d,10]|pg[s,3,0;m,500;st,3;f,20;d,15]|pg[s,4,1;m,600;st,4;f,25;d,20]
-    |pg[me] ->
-    program of all the sprinklers
+    -> program of all the sprinklers
+    |pg[me]
 */
  
 #include "variable.h"
@@ -46,7 +46,6 @@ String splitSring(String data, char separator, int index) {
           strIndex[1] = (i == maxIndex) ? i+1 : i;
       }
   }
-
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
@@ -57,21 +56,6 @@ String readFromSerial() {
   }  
   return "";
 }
-
-
-bool timeToCheckServer() {
-  unsigned long t = millis() - checkTimeStart;
-  
-  if(t <  CHECK_SERVER_TIME) {
-    return false;
-  }
-  Serial.println();
-  Serial.println(t);
-  Serial.println();
-  checkTimeStart = millis();
-  return true;
-}
-
 
 
 
@@ -88,7 +72,7 @@ bool connectToWifi() {
     return false;
   }
 
-  byte i = 0;  
+  byte i = 0;
   
   // TODO: See how to better manage this part because when connecting with arduino this is not practical. 
   // give a timeout. if it doesn't connect after the 3 attemps then try it later?
@@ -148,9 +132,9 @@ bool isResponseFromServerOk() {
 
 
 /*
- *******************
+ ********************
  *  Meteo functions
- *******************
+ ********************
  */
 int getPrecipitationData() {
 
@@ -182,6 +166,25 @@ void sendPrecipitationInfoToArduino(int precipitation) {
   Serial.write("me:0"); // false
 }
 
+
+
+/*
+ **************************************************
+ *  Smart Watering Server communication functions
+ **************************************************
+ */
+ bool timeToCheckServer() {
+  unsigned long t = millis() - checkTimeStart;
+  
+  if(t <  CHECK_SERVER_TIME) {
+    return false;
+  }
+  Serial.println();
+  Serial.println(t);
+  Serial.println();
+  checkTimeStart = millis();
+  return true;
+}
 
 
 void sendProgramToArduino() {
@@ -295,7 +298,7 @@ void loop() {
       
       if(checkServer) {
         sendRequest(smartWateringHost,  String("/api/program?id=") + objetId);
-        Serial.println("recu host");
+        //Serial.println("\nrecu host ");
         //Serial.println(client.readString());
         
         if(isResponseFromServerOk()) {
@@ -307,7 +310,7 @@ void loop() {
       }
       if(str == "alert") {
         sendRequest(smartWateringHost,  String("/api/alert?id=") + objetId);
-        Serial.println("recu host: ");
+        Serial.println("\nrecu: ");
         Serial.println(client.readString());
 
         if(isResponseFromServerOk()) {

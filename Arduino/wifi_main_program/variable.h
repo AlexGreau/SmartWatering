@@ -5,12 +5,12 @@
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
 
-#define RX_WiFi 2
-#define TX_WiFi 3
+#define RX_WiFi 8
+#define TX_WiFi 9
 
 #define HTTP_TIMEOUT 5000 // max response time from server
 #define LIMIT_PRECIPITATION 40
-#define CHECK_SERVER_TIME 10000//300000  // every 5 minutes but in milliseconds
+#define CHECK_SERVER_TIME 20000//300000  // every 5 minutes but in milliseconds
 
 
 // Credentials when module is in access point mode - the wifi created by the module
