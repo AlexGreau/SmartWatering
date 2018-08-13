@@ -76,7 +76,21 @@ function setSendButtonListener(){
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xml_text = Blockly.Xml.domToText(xml);
         console.error(xml_text);
-        location.href = "http://134.59.129.169:8080/api/program?id=5b716dcaee893d0a8ec3bdf5";
+
+        // Creation du formulaire
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+        };
+        var myURL = "http://134.59.129.169:8080/api/setprog";
+        //href = myURL;
+        xhttp.open("POST", myURL, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("id=5b718dd6b9c02f0d61626ef9&p=" + xml_text);
+        document.getElementById("menuModal").style.display = "none";
+        document.getElementById('menuBtn').classList.toggle("change");
     }
 }
 

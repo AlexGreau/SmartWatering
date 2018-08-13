@@ -109,8 +109,8 @@ app.get('/api/program', function (req, res) {
     //res.send('GOOD (°_°)' + matricule);
 });
 
-//http://localhost:8080/api/setprog?id=5b6c14c2145430027a6de35d&p=<xml>...</xml>
-app.get('/api/setprog', function (req, res) {
+//http://localhost:8080/api/setprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
+app.post('/api/setprog', function (req, res) {
     var matricule = req.param('id');
     var prog = req.param('p');
 
@@ -211,6 +211,26 @@ app.use("/", router);
 
 app.use("*", function (req, res) {
     res.send("Error 404 page not found ;-(");
+});
+
+// Add headers
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
 });
 
 app.listen(8080, function () {
