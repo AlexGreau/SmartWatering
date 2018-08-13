@@ -70,8 +70,13 @@ function setTestsButtonListener(){
 
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
-    createBtn.onclick = function(){
+    // TODO : get Programm and send that
+    createBtn.onclick = function() {
         console.log("Send button pressed");
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xml_text = Blockly.Xml.domToText(xml);
+        console.error(xml_text);
+        location.href = "http://134.59.129.169:8080/api/program?id=5b716dcaee893d0a8ec3bdf5";
     }
 }
 
