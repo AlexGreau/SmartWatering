@@ -9,8 +9,8 @@
 #define TX_WiFi 9
 
 #define HTTP_TIMEOUT 5000 // max response time from server
+#define CHECK_SERVER_TIME 20000//300000  // every 5 minutes (expressed in milliseconds)
 #define LIMIT_PRECIPITATION 40
-#define CHECK_SERVER_TIME 20000//300000  // every 5 minutes but in milliseconds
 
 
 // Credentials when module is in access point mode - the wifi created by the module
@@ -23,27 +23,28 @@ ESP8266WebServer server(80);
 char* ssid = (char*) malloc(sizeof(char)*100);
 char* password= (char*) malloc(sizeof(char)*100);
 bool isWifiConfigSet = false;
-//bool firstConnectionDone = false;
 
 
-// Meteo site to connect to
-WiFiClient client;
+// Meteo site
 const int meteoHttpPort = 80;
 const char* meteoHost = "api.openweathermap.org";
 const char* apiKey = "217b07a5c3c0dc0c6036378abf0a750f";
 
-
-// Smart watering server
-unsigned long checkTimeStart = millis();
-const int smartWateringHttpPort = 8080;
-const char* smartWateringHost = "169.254.51.139";
-char* objetId = (char*) malloc(sizeof(char)*100);
-String progStr;
-byte indexProg = 0;
-
-
 // City to search the forecast of
 char* meteoCity= (char*) malloc(sizeof(char)*100);
+
+
+// Smart watering server
+const int smartWateringHttpPort = 8080;
+const char* smartWateringHost = "134.59.129.203";
+unsigned long checkStartTime = millis();
+
+
+// String with sprinklers program and user ID
+WiFiClient client;
+String progStr;
+byte indexProg = 0;
+char* userId = (char*) malloc(sizeof(char)*100);
 
 
 //Set the serial port for the wifi module
