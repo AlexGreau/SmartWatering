@@ -1,5 +1,8 @@
 var xmlDom;
 var xmlText;
+
+var objectId;
+
 function setButtonListeners(){
     setWindowListener();
     // menu button
@@ -68,6 +71,10 @@ function setTestsButtonListener(){
     }
 }
 
+function setObjectId(id) {
+    objectId = id;
+}
+
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     // TODO : get Programm and send that
@@ -88,7 +95,7 @@ function setSendButtonListener(){
         //href = myURL;
         xhttp.open("POST", myURL, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("id=5b718dd6b9c02f0d61626ef9&p=" + xml_text);
+        xhttp.send("id=" + objectId + "&p=" + xml_text);
         document.getElementById("menuModal").style.display = "none";
         document.getElementById('menuBtn').classList.toggle("change");
     }

@@ -21,5 +21,10 @@ public class JavaScriptInterface {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
     }
 
+    @android.webkit.JavascriptInterface
+    public void onButtonClick(String toast) {
+        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+    }
+
 
 }
