@@ -2,6 +2,8 @@ package com.stage.wateringapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
+import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -9,8 +11,7 @@ import android.webkit.WebView;
 public class MyWebChromeClient extends WebChromeClient {
 
     @Override
-    public boolean onJsAlert(WebView view, String url, String message, JsResult result)
-    {
+    public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
         final JsResult finalRes = result;
         new AlertDialog.Builder(view.getContext())
                 .setMessage(message)
@@ -25,6 +26,14 @@ public class MyWebChromeClient extends WebChromeClient {
                 .setCancelable(false)
                 .create()
                 .show();
+        return true;
+    }
+
+    @Override
+    public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+        Log.d("SMART_WATERING_JS", consoleMessage.message() + " -- From line " +
+                "" + consoleMessage.lineNumber() + " of " +
+                "" + consoleMessage.sourceId());
         return true;
     }
 }

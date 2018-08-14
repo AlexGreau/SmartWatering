@@ -1,16 +1,21 @@
 package com.stage.wateringapp;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
+
     private WebView myWebView;
+    String sObjectID;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -29,6 +34,18 @@ public class MainActivity extends AppCompatActivity {
         myWebView.addJavascriptInterface(myJsInterface, "Android");
         MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
         myWebView.setWebChromeClient(myWebChromeClient);
+
+        myWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
+                sObjectID = preferences.getString("ObjectId", "No ObjectID");
+                Log.e("CONFIG ESP-01", sObjectID);
+
+                view.loadUrl("javascript:setObjectId('" + sObjectID + "')");
+                //myWebView.loadUrl("javascript:testMe('" + val + "')");
+            }
+        });
         myWebView.loadUrl("file:///android_asset/index.html");
 
 /*        myWebView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
