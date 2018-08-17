@@ -29,20 +29,69 @@ function loadModel(name) {
 
 //var models_list = ["cactus", "tomato","defaut"]
 
+function logMapElements(value, key) {
+  console.log(`models_list[${key}] = ${value}`);
+}
+
 function setupModelsDict(){
   // see where to store previously saved models locally and load from there
 
   models_list = {};
 
-  models_list['defaut'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
-  <variables></variables>\
-    <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
-      <field name="sprinkler_number">1</field>\
-      <field name="sprinkler_active">TRUE</field>\
-    </block>\
-  </xml>';
+  var res = ['<xml xmlns="http://www.w3.org/1999/xhtml"> \
+            <variables></variables>\
+              <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+                <field name="sprinkler_number">1</field>\
+                <field name="sprinkler_active">TRUE</field>\
+              </block>\
+            </xml>',
+            '<xml xmlns="http://www.w3.org/1999/xhtml"> \
+                        <variables></variables>\
+                          <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+                            <field name="sprinkler_number">2</field>\
+                            <field name="sprinkler_active">TRUE</field>\
+                          </block>\
+                        </xml>',
+            '<xml xmlns="http://www.w3.org/1999/xhtml"> \
+                        <variables></variables>\
+                          <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+                            <field name="sprinkler_number">3</field>\
+                            <field name="sprinkler_active">TRUE</field>\
+                          </block>\
+                        </xml>'
+            ];
 
-  models_list['defaut2'] = '';
+    var objectFromDB = {
+          "name1": "Programme",
+          "name2": 2,
+          "name3": 3
+    };
+    for (var property1 in objectFromDB) {
+        console.log(property1 + " = " + objectFromDB[property1]);
+        models_list[property1] = objectFromDB[property1];
+    }
+
+
+    var mapp = new Map();
+    res.forEach(function(elt) {
+        console.log(elt);
+        for (var i = 0; i < res.length; i++) {
+            models_list[''+ i +''] = elt;
+        }
+    });
+
+    mapp.set('nom', "programme");
+    mapp.set('bar', "aklgdzu");
+    mapp.set('baz', undefined);
+
+    //new Map([['foo', "coucou"], ['bar', "aklgdzu"], ['baz', undefined]]).forEach(logMapElements);
+    mapp.forEach(logMapElements);
+
+    //models_list[]
+
+  models_list['defaut'] = res[0];
+
+  models_list['defaut2'] = res[1];
 
   models_list['cactus'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
   <variables></variables>\

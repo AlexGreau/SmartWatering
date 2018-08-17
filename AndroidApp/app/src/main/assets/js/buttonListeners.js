@@ -73,7 +73,7 @@ function setTestsButtonListener(){
         var titre = prompt("Please enter your programm name", "");
 
         if (titre != null) {
-            console.log('TITRE ' + titre);
+            console.log('TITRE ' + titre + ' PROGRAM ' + xmlText);
         }
 
         document.getElementById("menuModal").style.display = "none";

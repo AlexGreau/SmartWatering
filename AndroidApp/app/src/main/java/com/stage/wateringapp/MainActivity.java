@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,6 +16,7 @@ import android.webkit.WebViewClient;
 public class MainActivity extends AppCompatActivity {
 
     private WebView myWebView;
+
     String sObjectID;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         myWebView.addJavascriptInterface(myJsInterface, "Android");
         MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
         myWebView.setWebChromeClient(myWebChromeClient);
+
+        // Coockie
+        CookieManager.getInstance().setAcceptCookie(true);
 
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
