@@ -62,12 +62,23 @@ function setCreateNewButtonListener(){
 }
 
 function setTestsButtonListener(){
+
     var createBtn = document.getElementById("testsBtn");
     createBtn.onclick = function(){
         xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
         xmlText = Blockly.Xml.domToPrettyText(xmlDom);
         console.log(xmlText);
-        console.log('export ok')
+        console.log('export ok');
+
+        var titre = prompt("Please enter your programm name", "");
+
+        if (titre != null) {
+            console.log('TITRE ' + titre);
+        }
+
+        document.getElementById("menuModal").style.display = "none";
+        document.getElementById('menuBtn').classList.toggle("change");
+
     }
 }
 
@@ -79,7 +90,6 @@ function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     // TODO : get Programm and send that
     createBtn.onclick = function() {
-        console.log("Send button pressed");
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xml_text = Blockly.Xml.domToText(xml);
         console.error(xml_text);
@@ -91,11 +101,12 @@ function setSendButtonListener(){
                 document.getElementById("demo").innerHTML = this.responseText;
             }
         };
-        var myURL = "http://134.59.129.169:8080/api/setprog";
+        var myURL = "http://134.59.129.203:8080/api/setprog";
         //href = myURL;
         xhttp.open("POST", myURL, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("id=" + objectId + "&p=" + xml_text);
+        console.log("id=" + myURL);
         document.getElementById("menuModal").style.display = "none";
         document.getElementById('menuBtn').classList.toggle("change");
     }

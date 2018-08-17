@@ -114,10 +114,9 @@ app.post('/api/setprog', function (req, res) {
     var matricule = req.param('id');
     var prog = req.param('p');
 
-    var query = { wateringId: matricule };
-    var newprog = { $set: { programm: prog } };
+    var query = { wateringId: matricule, currentState: "ON", programm: prog };
     mongoClient.connect(urlbd, function (error, db) {
-        db.db('smartwatering').collection('program').updateOne(query, newprog, function (err, res2) {
+        db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
             if (err) throw err;
             reponse = "Progamme Enregistre";
             console.log(reponse);
@@ -214,7 +213,7 @@ app.use("*", function (req, res) {
 });
 
 // Add headers
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
@@ -231,7 +230,7 @@ app.use(function (req, res, next) {
 
     // Pass to next layer of middleware
     next();
-});
+});*/
 
 app.listen(8080, function () {
     console.log("\tWelcome to SmartWatering\nConnected at http://localhost:8080");

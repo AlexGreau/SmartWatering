@@ -1,11 +1,21 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "\"Stage de conception d'un systeme d'arrosage automatique avec Arduino\"",
+  "description": "",
   "main": "serveur.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Andreina Wilhelm, Grace BOUKOU, Alexandre Gréau",
-  "license": "ISC"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "mongodb": "^3.1.3",
+    "mongoose": "^5.2.8",
+    "nodemailer": "^4.6.7",
+    "url": "^0.11.0"
+  }
 }

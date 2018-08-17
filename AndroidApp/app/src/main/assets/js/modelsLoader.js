@@ -33,6 +33,17 @@ function setupModelsDict(){
   // see where to store previously saved models locally and load from there
 
   models_list = {};
+
+  models_list['defaut'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
+  <variables></variables>\
+    <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+      <field name="sprinkler_number">1</field>\
+      <field name="sprinkler_active">TRUE</field>\
+    </block>\
+  </xml>';
+
+  models_list['defaut2'] = '';
+
   models_list['cactus'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
   <variables></variables>\
   <block type="sprinkler_type" id="nIUY5%2n4l:sg}mKdy^;" x="110" y="90">\
@@ -105,15 +116,6 @@ function setupModelsDict(){
     </statement>\
   </block>\
   </xml>';
-
-  models_list['defaut'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
-  <variables></variables>\
-  <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
-    <field name="sprinkler_number">1</field>\
-    <field name="sprinkler_active">TRUE</field>\
-  </block>\
-  </xml>';
-
 
 }
 
