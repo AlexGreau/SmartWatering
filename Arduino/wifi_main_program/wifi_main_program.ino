@@ -14,6 +14,7 @@
 
      1 wifi connected
      2 host connected
+     3 alert sent
 
   Passed to arduino:
     st:x    -> status
@@ -26,7 +27,7 @@
     ack   -> acknowledge that he has received an entire program for a pump and that it can send the next one
 
   Received from smart watering server:
-    pg[s,1,1;m,300;st,5;f,30;d,20]|pg[s,2,1;m,400;st,2;f,20;d,10]|pg[s,3,1;m,500;st,4;f,20;d,5]|pg[s,4,1;m,600;st,5;f,25;d,15]|pg[me,1]
+    pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
     -> program of all the sprinklers    
 */
  
@@ -57,6 +58,12 @@ String readFromSerial() {
 }
 
 
+void stopTimer(int *id) {
+  timer.stop(*id);
+  *id = -1;
+}
+
+
 
 /*
  **********************************************************************
@@ -83,7 +90,7 @@ bool connectToWifi() {
     Serial.write("st:-2");
     return false;
   }
-  Serial.write("st:1");
+  //Serial.write("st:1");
   return true;
 }
 
@@ -94,7 +101,7 @@ bool connectToHost(const char* host, const int port) {
       Serial.write("st:-3");
       return false;
   }    
-  Serial.write("st:2");
+  //Serial.write("st:2");
   return true;
 }
 
@@ -136,7 +143,7 @@ bool isResponseFromServerOk() {
  *  Meteo methods
  ********************
  */
-int getPrecipitationData() {
+String getPrecipitationData() {
 
   // Allocate JsonBuffer
   // TODO: SEE THIS SITE AND CHECK BUFFER SIZE!! 
@@ -149,21 +156,21 @@ int getPrecipitationData() {
   
   if (!json.success()) {
     Serial.write("st:-6");
-    return -1;
+    return "-1";
   }
 
-  return json["main"]["humidity"].as<int>();
+  return json["main"]["humidity"];
 }
 
 
-void sendPrecipitationInfoToArduino(int precipitation) {
+/*void sendPrecipitationInfoToArduino(int precipitation) {
   if (precipitation < LIMIT_PRECIPITATION) {
-      Serial.write("me:1"); // true  
+    Serial.write("me:1"); // true  
   } else {   
     Serial.write("me:0"); // false
   }
 }
-
+*/
 
 
 /*
@@ -171,30 +178,38 @@ void sendPrecipitationInfoToArduino(int precipitation) {
  *  Smart Watering Server communication methods
  **************************************************
  */
- bool timeToCheckServer() {
-  unsigned long t = millis() - checkStartTime;
-  
-  if(t <  CHECK_SERVER_TIME) {
-    return false;
+ void checkServer(void* p) {
+  if(!connectToWifi()) {      
+    return;
   }
-  //Serial.println();
-  //Serial.println(t);
-  //Serial.println();
-  checkStartTime = millis();
-  return true;
+
+  if(connectToHost(smartWateringHost, smartWateringHttpPort)) {         
+    sendRequest(smartWateringHost,  String("/api/program?id=") + userId);
+    //Serial.println("\nrecu host ");
+    //Serial.println(client.readString());
+    
+    if(isResponseFromServerOk()) {
+      //Serial.println("Yeap, connected to smart watering");
+      progStr = client.readString();
+      //Serial.println(progStr);
+      sendProgramToArduino(true);
+    }
+  }
 }
 
 
-void sendProgramToArduino() {
+void sendProgramToArduino(bool progWellReceived) {
+  if(progWellReceived) {
+    indexProg++;
+  }
   String str = splitSring(progStr, '|', indexProg);
   str.trim(); // erase any posible whitespaces at both ends
   
   if(str != "") {  
     Serial.write(str.c_str());
-    indexProg++;
   } else {
     progStr = "";
-    indexProg = 0;
+    indexProg = -1;
   }
 }
 
@@ -209,11 +224,11 @@ void sendProgramToArduino() {
  ****************************************************************************
  */
  
-/* 
+
 // When URI / is requested, send a web page with a form
 void handleRoot() {  
-  server.send(200, "text/html", "<form action=\"/config\" method=\"POST\">Wifi Name:<input type=\"text\" name=\"ssid\" placeholder=\"wifi name\"></br>Password:<input type=\"password\" name=\"password\" placeholder=\"password\"></br>City:<input type=\"text\" name=\"city\" placeholder=\"city\"></br></br></br><input type=\"submit\" value=\"Set Configuration\"></form>");
-}*/
+  server.send(200, "text/html", "<form action=\"/config\" method=\"POST\">Wifi Name:<input type=\"text\" name=\"ssid\" placeholder=\"wifi name\"></br>Password:<input type=\"password\" name=\"pass\" placeholder=\"password\"></br>City:<input type=\"text\" name=\"city\" placeholder=\"city\"></br>City:<input type=\"text\" name=\"id\" placeholder=\"id\"></br></br></br><input type=\"submit\" value=\"Set Configuration\"></form>");
+}
 
 
 // when a POST request is made to URI /config
@@ -231,7 +246,11 @@ void handleConfig() {
     server.arg("city").toCharArray(meteoCity, server.arg("city").length() + 1);
     isWifiConfigSet = true;
 
-    server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city"));  
+    server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
+
+    stopTimer(&checkServerTimerId);
+    checkServerTimerId = timer.every(CHECK_SERVER_TIME, checkServer, NULL);
+    checkServer(NULL);    
   }  
 }
 
@@ -260,7 +279,7 @@ void setup() {
   WiFi.softAP(myssid, mypassword);  // Set Access Point mode
 
   // Server configuration
-  //server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
+  server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
   server.on("/config", HTTP_POST, handleConfig); // Call the 'handleConfig' function when a POST request is made to URI "/config"
   server.onNotFound(handleNotFound);           // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
   server.begin();
@@ -269,22 +288,22 @@ void setup() {
   // WiFi.disconnect();
   //  Serial.println("Setup done");
   
-  client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time
+  client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time  
 }
 
 
 
 void loop() {    
+  timer.update(); // update the timers
   server.handleClient();  // listen for clients
 
   String str = readFromSerial();
-  bool checkServer = timeToCheckServer();
 
-  if (str == "ack") {
-    sendProgramToArduino();
+  if (str.startsWith("ack")) {
+    sendProgramToArduino(splitSring(str, ':', 1).toInt());
   }
   
-  if (!(str == "meteo" || str == "alert" || checkServer)) {
+  if (!(str == "meteo" || str == "alert")) {
     return;
   }
    
@@ -292,30 +311,14 @@ void loop() {
     return;
   }
 
-  if(str == "alert" || checkServer) {
+  if(str == "alert") {
     if(connectToHost(smartWateringHost, smartWateringHttpPort)) {   
-      
-      if(checkServer) {
-        sendRequest(smartWateringHost,  String("/api/program?id=") + userId);
-        //Serial.println("\nrecu host ");
-        //Serial.println(client.readString());
-        
-        if(isResponseFromServerOk()) {
-          //Serial.println("Yeap, connected to smart watering");
-          progStr = client.readString();
-          //Serial.println(progStr);
-          sendProgramToArduino();
-        }
-      }
-      if(str == "alert") {
-        sendRequest(smartWateringHost,  String("/api/alert?id=") + userId);
-        //Serial.println("\nrecu: ");
-        //Serial.println(client.readString());
+      sendRequest(smartWateringHost,  String("/api/alert?id=") + userId);
+      //Serial.println("\nrecu: ");
+      //Serial.println(client.readString());
 
-        if(isResponseFromServerOk()) {
-          //Serial.println("Yeap,  alert");
-          Serial.write("alert!");
-        }
+      if(isResponseFromServerOk()) {
+        Serial.write("st:3");
       }
     }
   }
@@ -325,12 +328,13 @@ void loop() {
       sendRequest(meteoHost, String("/data/2.5/weather?q=") + meteoCity + "&appid=" + apiKey);
       
       if(isResponseFromServerOk()) {
-        int prec = getPrecipitationData();
+        String prec = getPrecipitationData();
         //Serial.write("Response server: ");
         //Serial.write(prec);
         
-        if(prec != -1) {   // TODO: if there was an error what should we send back to arduino??   
-          sendPrecipitationInfoToArduino(prec);
+        if(prec != "-1") {   // TODO: if there was an error what should we send back to arduino??   
+         // sendPrecipitationInfoToArduino(prec);
+          Serial.write((String("me:") + prec).c_str());
         }   
       }
     }

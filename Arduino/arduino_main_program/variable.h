@@ -6,7 +6,9 @@
 #define TX_WiFi 9
 
 #define NUM_SPRINKLERS 4
-#define CHECK_METEO_TIME 10000//300000  // every 5 minutes (expressed in milliseconds)
+#define CHECK_METEO_TIME  30000//300000  // every 5 minutes (expressed in milliseconds)
+#define LIMIT_PRECIPITATION 60
+
 
 Timer timer;
 

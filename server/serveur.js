@@ -101,9 +101,16 @@ app.get('/api/program', function (req, res) {
     mongoClient.connect(urlbd, function (error, db) {
         db.db('smartwatering').collection('program').find(query, {_id: 0, "programm": 1}).toArray(function (err, res2) {
             if (err) throw err;
-            reponse = res2[0].programm;
-            console.log(reponse);
-            res.send(reponse);
+            
+            
+            // TODO: comment gerer quand il y a un erreur
+            if(res2.length > 0) {
+              reponse = res2[0].programm;
+              console.log(reponse);
+              res.send(reponse);
+            } else {
+              res.send();
+            }
         });
     });
     //res.send('GOOD (°_°)' + matricule);

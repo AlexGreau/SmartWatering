@@ -64,8 +64,7 @@ void printForDebug() {
     Serial.print("        ");
     Serial.print(sprinklerList[spklrNum].durationTimerId);
     Serial.print("          ");
-    Serial.println(meteoTimerId);
-    
+    Serial.println(meteoTimerId);    
   }
   Serial.println();
 }
@@ -76,12 +75,13 @@ void printForDebug() {
 void setProgram(String progStr) { 
    
   progStr.remove(0, 2);
-  Serial.println(progStr); 
+  //Serial.println(progStr); 
 
-  // TODO: handle part when the string received is not correct... tell the wifi module to resend
+  // Send acknowledge with status: 0 - program was not correctly received so resend it
   if(!progStr.startsWith("[") || !progStr.endsWith("]")) {      
     Serial.print("ERROR! String received is not correct. String received: ");
     Serial.println(progStr);
+    ESPserial.write("ack:0");
     return;      
   }
   progStr.remove(0, 1);
@@ -93,7 +93,7 @@ void setProgram(String progStr) {
   
   while(str != "") {        
     String param = splitSring(str, ',', 0);  // get the different data from the parameter
-    Serial.println(str);
+    //Serial.println(str);
     
     // sprinkler
     if (param == "s") {
@@ -119,13 +119,13 @@ void setProgram(String progStr) {
     // meteo
     else if(param == "me") {
       checkMeteo = splitSring(str, ',', 1).toInt();
+      stopTimer(&meteoTimerId);
       
       if(checkMeteo) {
         getMeteo(NULL);
         meteoTimerId = timer.every(CHECK_METEO_TIME, getMeteo, NULL);
       }
-      else {
-        stopTimer(&meteoTimerId);
+      else {        
         waterPlants = true;
       }
     }
@@ -137,7 +137,9 @@ void setProgram(String progStr) {
     stopAllCurrentSpklrTimers(spklrId);
     sprinklerList[spklrId].startTimerId = timer.after(sprinklerList[spklrId].startingTime, startWateringCycle, (void*) spklrId);
   }  
-  ESPserial.write("ack");
+
+  // Send acknowledge with status: 1 - program was well received
+  ESPserial.write("ack:1");
 
   // TODO: ERASE
   printForDebug();
@@ -152,7 +154,14 @@ void getMeteo(void* p) {
 }
 
 void setMeteo(String result) {  
-  waterPlants = splitSring(result, ':', 1).toInt(); 
+  Serial.println(splitSring(result, ':', 1).toInt());
+  
+  if (splitSring(result, ':', 1).toInt() < LIMIT_PRECIPITATION) {
+    waterPlants = true;
+  } else {   
+    waterPlants = false;
+  }
+  //waterPlants = splitSring(result, ':', 1).toInt(); 
   Serial.print("Meteo result: ");
   Serial.println(waterPlants);
 }
@@ -205,21 +214,21 @@ void timeToWater(void* spklrId) {
   Serial.print(moistureLevel);
   Serial.print("  Water low: ");
   Serial.print(isWaterLevelLow);
-  Serial.print("  Meteo: ");
-  Serial.println(waterPlants);
+  Serial.print("   Result Meteo: ");
+  Serial.print(waterPlants);
   
   if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
 
     if(!isWaterLevelLow && waterPlants) {      
       digitalWrite(pumpPinList[i], HIGH);
-      Serial.print("Pump: ");
-      Serial.print(i);
-      Serial.println("  on");
+      //Serial.print("Pump: ");
+      //Serial.print(i);
+      Serial.println("  ON");
       
       sprinklerList[i].durationTimerId = timer.after(sprinklerList[i].duration, stopWatering, (void*)i);
 
       // TODO: ERASE
-      printForDebug();
+      //printForDebug();
     }              
   }
 }
@@ -234,7 +243,7 @@ void stopWatering(void* spklrId) {
   stopTimer(&sprinklerList[i].durationTimerId);
   
   // TODO: ERASE
-  printForDebug();
+  //printForDebug();
 }
 
 
@@ -275,11 +284,6 @@ void setup() {
 void loop() {
   
   String str = readFromSerial();
-
-  if(Serial.available()) {
-    str = Serial.readString();
-  } 
-  
   str.trim(); // erase any posible whitespaces at both ends
   
   if(str.startsWith("pg")) { 

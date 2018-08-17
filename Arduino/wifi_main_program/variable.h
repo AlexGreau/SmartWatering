@@ -1,3 +1,5 @@
+#include <Timer.h>
+#include <Event.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
@@ -9,8 +11,8 @@
 #define TX_WiFi 9
 
 #define HTTP_TIMEOUT 5000 // max response time from server
-#define CHECK_SERVER_TIME 20000//300000  // every 5 minutes (expressed in milliseconds)
-#define LIMIT_PRECIPITATION 40
+#define CHECK_SERVER_TIME 300000  // every 5 minutes (expressed in milliseconds)
+//#define LIMIT_PRECIPITATION 60
 
 
 // Credentials when module is in access point mode - the wifi created by the module
@@ -36,15 +38,17 @@ char* meteoCity= (char*) malloc(sizeof(char)*100);
 
 // Smart watering server
 const int smartWateringHttpPort = 8080;
-const char* smartWateringHost = "134.59.129.203";
-unsigned long checkStartTime = millis();
+const char* smartWateringHost = "192.168.0.46";
 
 
 // String with sprinklers program and user ID
 WiFiClient client;
 String progStr;
-byte indexProg = 0;
+byte indexProg = -1;
 char* userId = (char*) malloc(sizeof(char)*100);
+
+Timer timer;
+int checkServerTimerId = -1;
 
 
 //Set the serial port for the wifi module
