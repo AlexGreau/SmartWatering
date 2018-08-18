@@ -57,7 +57,7 @@ app.get('/api/alert', function (req, res) {
     // Je recupere l'adresse mail
     var query = { _id: new mongo.ObjectId(matricule) };
     //TODO : Change state in db
-    mongoClient.connect(urlbd, function (error, db) {
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('user').find(query, {_id: 0, "email": 1}).toArray(function (err, res2) {
             if (err) throw err;
             reponse = res2[0].email;
@@ -96,21 +96,17 @@ app.get('/api/alert', function (req, res) {
 //http://localhost:8080/api/program?id=5b6c14c2145430027a6de35d
 app.get('/api/program', function (req, res) {
     var matricule = req.param('id');
+    console.log(req.params);
+    console.log(req.body);
+    console.log(req.query.id);
 
-    var query = { wateringId: matricule };
-    mongoClient.connect(urlbd, function (error, db) {
+    var query = { wateringId: matricule, currentState: "ON" };
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('program').find(query, {_id: 0, "programm": 1}).toArray(function (err, res2) {
             if (err) throw err;
-            
-            
-            // TODO: comment gerer quand il y a un erreur
-            if(res2.length > 0) {
-              reponse = res2[0].programm;
-              console.log(reponse);
-              res.send(reponse);
-            } else {
-              res.send();
-            }
+            reponse = res2[0].programm;
+            console.log(reponse);
+            res.send(reponse);
         });
     });
     //res.send('GOOD (°_°)' + matricule);
@@ -122,7 +118,33 @@ app.post('/api/setprog', function (req, res) {
     var prog = req.param('p');
 
     var query = { wateringId: matricule, currentState: "ON", programm: prog };
-    mongoClient.connect(urlbd, function (error, db) {
+    var query1 = { wateringId: matricule, currentState: "ON"};
+    var newValue = { $set: { currentState: "OFF" } };
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
+        // TODO : Update programm before saving
+        db.db('smartwatering').collection('program').updateOne(query1, newValue, function (err, res2) {
+            if (err) throw err;
+            reponse = "Progamme Mise a jour";
+            console.log(reponse);
+        });
+
+        db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
+            if (err) throw err;
+            reponse = "Progamme Enregistre";
+            console.log(reponse);
+            res.send(reponse);
+        });
+    });
+    //res.send('GOOD (°_°)' + matricule);
+});
+
+//http://localhost:8080/api/saveprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
+app.post('/api/saveprog', function (req, res) {
+    var matricule = req.param('id');
+    var prog = req.param('p');
+
+    var query = { wateringId: matricule, currentState: "OFF", programm: prog };
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
             if (err) throw err;
             reponse = "Progamme Enregistre";
@@ -147,7 +169,7 @@ app.get('/api/signup', function (req, res) {
         "localite": city
     }
     // res.send('Email = ' + addr_mail + '\nPassword = ' + password + '\nCity = ' + city);
-    mongoClient.connect(urlbd, function (error, db) {
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('user').insertOne(data, function (err, result) {
             if (err) {
                 //console.log('Insert failed', err);
@@ -188,7 +210,7 @@ app.get('/api/signin', function (req, res) {
 
     var reponse;
     // res.send('Email = ' + addr_mail + '\nPassword = ' + pass);
-    mongoClient.connect(urlbd, function (error, db) {
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('user').find({email: addr_mail, password: pass}).toArray(function (err, result) {
             if (err) {
                 reponse = 'Find failed';
