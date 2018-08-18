@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         myWebView.addJavascriptInterface(myJsInterface, "Android");
         MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
         myWebView.setWebChromeClient(myWebChromeClient);
-        //myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        myWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
 
         // Coockie
         CookieManager.getInstance().setAcceptCookie(true);
