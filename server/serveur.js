@@ -51,8 +51,8 @@ router.get("/", pageHome);
 
 // http://localhost:8080/api/alert?id=5b6c14c2145430027a6de35d&state=ON
 app.get('/api/alert', function (req, res) {
-    var matricule = req.query.id;
-    var state = req.query.state;
+    var matricule = req.param('id');
+    var state = req.param('state');
 
     // Je recupere l'adresse mail
     var query = { _id: new mongo.ObjectId(matricule) };
@@ -95,7 +95,7 @@ app.get('/api/alert', function (req, res) {
 
 //http://localhost:8080/api/program?id=5b6c14c2145430027a6de35d
 app.get('/api/program', function (req, res) {
-    var matricule = req.query.id;
+    var matricule = req.param('id');
 
     var query = { wateringId: matricule, currentState: "ON" };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
@@ -111,10 +111,10 @@ app.get('/api/program', function (req, res) {
 
 //http://localhost:8080/api/setprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
 app.post('/api/setprog', function (req, res) {
-    var matricule = req.query.id;
-    var prog = req.query.p;
+    var matricule = req.param('id');
+    var prog = req.param('p');
 
-    var query = { wateringId: matricule, currentState: "ON", programm: prog };
+    var query = { wateringId: matricule, currentState: "ON", title: "current", programm: prog };
     var query1 = { wateringId: matricule, currentState: "ON"};
     var newValue = { $set: { currentState: "OFF" } };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
@@ -135,12 +135,13 @@ app.post('/api/setprog', function (req, res) {
     //res.send('GOOD (°_°)' + matricule);
 });
 
-//http://localhost:8080/api/saveprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
+//http://localhost:8080/api/saveprog?id=5b718dd6b9c02f0d61626ef9&t=leTitreduProgramme&p=<xml>...</xml>
 app.post('/api/saveprog', function (req, res) {
-    var matricule = req.query.id;
-    var prog = req.query.p;
+    var matricule = req.param('id');
+    var titre = req.param('t');
+    var prog = req.param('p');
 
-    var query = { wateringId: matricule, currentState: "OFF", programm: prog };
+    var query = { wateringId: matricule, currentState: "OFF", title: titre, programm: prog };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
             if (err) throw err;
@@ -154,9 +155,9 @@ app.post('/api/saveprog', function (req, res) {
 
 // http://localhost:8080/api/signup?m=grace@smartwatering.com&p=I27G2Gyvougè&c=Nice,Fr
 app.get('/api/signup', function (req, res) {
-    var addr_mail = req.query.m;
-    var password = req.query.p;
-    var city = req.query.c;
+    var addr_mail = req.param('m');
+    var password = req.param('p');
+    var city = req.param('c');
 
     var reponse;
 
@@ -197,8 +198,8 @@ app.get('/api/signup', function (req, res) {
 
 // http://localhost:8080/api/signin?m=grace@smartwatering.com&p=I27G2Gyvougè
 app.get('/api/signin', function (req, res) {
-    var addr_mail = req.query.m;
-    var pass = req.query.p;
+    var addr_mail = req.param('m');
+    var pass = req.param('p');
 
     var data = {
         "email": addr_mail,
@@ -239,16 +240,16 @@ app.use("*", function (req, res) {
 });
 
 // Add headers
-/*app.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'Accept, If-None-Match, X-If-None-Match, x-requested-with, Content-Type, Accept-Encoding, Accept-Language, Cookie, Referer');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -256,7 +257,7 @@ app.use("*", function (req, res) {
 
     // Pass to next layer of middleware
     next();
-});*/
+});
 
 app.listen(8080, function () {
     console.log("\tWelcome to SmartWatering\nConnected at http://localhost:8080");

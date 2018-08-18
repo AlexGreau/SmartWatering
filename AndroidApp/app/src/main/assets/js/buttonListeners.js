@@ -10,7 +10,7 @@ function setButtonListeners(){
    
     // inside the menu :
     setCreateNewButtonListener();
-    setTestsButtonListener();
+    setSaveButtonListener();
     setSendButtonListener();
     validModelListener()
 }
@@ -61,7 +61,11 @@ function setCreateNewButtonListener(){
     }
 }
 
-function setTestsButtonListener(){
+function setObjectId(id) {
+    objectId = id;
+}
+
+function setSaveButtonListener(){
 
     var createBtn = document.getElementById("testsBtn");
     createBtn.onclick = function(){
@@ -72,8 +76,22 @@ function setTestsButtonListener(){
 
         var titre = prompt("Please enter your programm name", "");
 
+
+// Creation du formulaire
+        var xhttp = new XMLHttpRequest();
+        var myURL = "http://192.168.43.171:8080/api/saveprog";
+        xhttp.open("POST", myURL, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Request finished. Do processing here.
+                // document.getElementById("demo").innerHTML = this.responseText;
+            }
+        };
+
         if (titre != null) {
-            console.log('TITRE ' + titre + ' PROGRAM ' + xmlText);
+            xhttp.send("id=" + objectId + "&t=" + titre + "&p=" + xmlText);
+            console.log('TITRE ' + titre + ' PROGRAM ' + xmlText + "ID "+objectId);
         }
 
         document.getElementById("menuModal").style.display = "none";
@@ -82,31 +100,30 @@ function setTestsButtonListener(){
     }
 }
 
-function setObjectId(id) {
-    objectId = id;
-}
-
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     // TODO : get Programm and send that
     createBtn.onclick = function() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xml_text = Blockly.Xml.domToText(xml);
-        console.error(xml_text);
+//        console.error(xml_text);
 
         // Creation du formulaire
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("demo").innerHTML = this.responseText;
+        var myURL = "http://192.168.43.171:8080/api/setprog";
+        xhttp.open("POST", myURL, true);
+        // Send the proper header information along with the request
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhttp.onreadystatechange = function() {//Call a function when the state changes.
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                // Request finished. Do processing here.
+                // document.getElementById("demo").innerHTML = this.responseText;
             }
         };
-        var myURL = "http://134.59.129.203:8080/api/setprog";
-        //href = myURL;
-        xhttp.open("POST", myURL, true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
         xhttp.send("id=" + objectId + "&p=" + xml_text);
-        console.log("id=" + myURL);
+//        console.log("id=" + myURL);
         document.getElementById("menuModal").style.display = "none";
         document.getElementById('menuBtn').classList.toggle("change");
     }

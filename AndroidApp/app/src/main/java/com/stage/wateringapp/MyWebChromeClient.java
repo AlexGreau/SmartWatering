@@ -31,9 +31,12 @@ public class MyWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-        Log.d("SMART_WATERING_JS", consoleMessage.message() + " -- From line " +
+        /*Log.d("SMART_WATERING_JS", consoleMessage.message() + " -- From line " +
                 "" + consoleMessage.lineNumber() + " of " +
-                "" + consoleMessage.sourceId());
+                "" + consoleMessage.sourceId());*/
+        Log.d("SMART_WATERING_JS", "LINE "+consoleMessage.lineNumber() + " IN " +
+                "" + consoleMessage.sourceId() + "\nRESULT :\n" +
+                "" + consoleMessage.message() + "\n");
         return true;
     }
 
