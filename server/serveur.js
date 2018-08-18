@@ -51,8 +51,8 @@ router.get("/", pageHome);
 
 // http://localhost:8080/api/alert?id=5b6c14c2145430027a6de35d&state=ON
 app.get('/api/alert', function (req, res) {
-    var matricule = req.param('id');
-    var state = req.param('state');
+    var matricule = req.query.id;
+    var state = req.query.state;
 
     // Je recupere l'adresse mail
     var query = { _id: new mongo.ObjectId(matricule) };
@@ -95,10 +95,7 @@ app.get('/api/alert', function (req, res) {
 
 //http://localhost:8080/api/program?id=5b6c14c2145430027a6de35d
 app.get('/api/program', function (req, res) {
-    var matricule = req.param('id');
-    console.log(req.params);
-    console.log(req.body);
-    console.log(req.query.id);
+    var matricule = req.query.id;
 
     var query = { wateringId: matricule, currentState: "ON" };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
@@ -114,8 +111,8 @@ app.get('/api/program', function (req, res) {
 
 //http://localhost:8080/api/setprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
 app.post('/api/setprog', function (req, res) {
-    var matricule = req.param('id');
-    var prog = req.param('p');
+    var matricule = req.query.id;
+    var prog = req.query.p;
 
     var query = { wateringId: matricule, currentState: "ON", programm: prog };
     var query1 = { wateringId: matricule, currentState: "ON"};
@@ -140,8 +137,8 @@ app.post('/api/setprog', function (req, res) {
 
 //http://localhost:8080/api/saveprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
 app.post('/api/saveprog', function (req, res) {
-    var matricule = req.param('id');
-    var prog = req.param('p');
+    var matricule = req.query.id;
+    var prog = req.query.p;
 
     var query = { wateringId: matricule, currentState: "OFF", programm: prog };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
@@ -157,9 +154,9 @@ app.post('/api/saveprog', function (req, res) {
 
 // http://localhost:8080/api/signup?m=grace@smartwatering.com&p=I27G2Gyvougè&c=Nice,Fr
 app.get('/api/signup', function (req, res) {
-    var addr_mail = req.param('m');
-    var password = req.param('p');
-    var city = req.param('c');
+    var addr_mail = req.query.m;
+    var password = req.query.p;
+    var city = req.query.c;
 
     var reponse;
 
@@ -200,8 +197,8 @@ app.get('/api/signup', function (req, res) {
 
 // http://localhost:8080/api/signin?m=grace@smartwatering.com&p=I27G2Gyvougè
 app.get('/api/signin', function (req, res) {
-    var addr_mail = req.param('m');
-    var pass = req.param('p');
+    var addr_mail = req.query.m;
+    var pass = req.query.p;
 
     var data = {
         "email": addr_mail,
