@@ -1,5 +1,5 @@
 
-var cactus, tomato,defaut;
+var cactus, tomato, defaut;
 
 function loadModel(name) {
   var workspaceBlocks;
@@ -29,10 +29,18 @@ function loadModel(name) {
 
 //var models_list = ["cactus", "tomato","defaut"]
 
+
+
+
 function setupModelsDict(){
+
   // see where to store previously saved models locally and load from there
 
   models_list = {};
+
+  console.log("######"+objectFromDB);
+
+  //getAllProg();
 
   var res = ['<xml xmlns="http://www.w3.org/1999/xhtml"> \
             <variables></variables>\
@@ -58,11 +66,6 @@ function setupModelsDict(){
             ];
 
     /*var objectFromDB = {
-          "name1": "Programme",
-          "name2": 2,
-          "name3": 3
-    };*/
-    var objectFromDB = {
           "name1": '<xml xmlns="http://www.w3.org/1999/xhtml"> \
                                <variables></variables>\
                                  <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
@@ -84,11 +87,13 @@ function setupModelsDict(){
                                    <field name="sprinkler_active">TRUE</field>\
                                  </block>\
                                </xml>'
-    };
+    };*/
+
+
 
 
     for (var property1 in objectFromDB) {
-        console.log(property1 + " = " + objectFromDB[property1]);
+        console.log(property1 + " =---------- " + objectFromDB[property1]);
         models_list[property1] = objectFromDB[property1];
     }
 

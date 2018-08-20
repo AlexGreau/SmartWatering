@@ -51,18 +51,68 @@ function setMenuButtonListeners() {
     // When the user clicks anywhere outside of the modal, close it
 }
 
+/*function getAllProg() {
+    var xhr = new XMLHttpRequest();
+    var myURL = "http://192.168.43.171:8080/api/getallprog";
+    xhr.open('GET', myURL+"?id="+objectId, true);
+    xhr.onreadystatechange = function() {//Call a function when the state changes.
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Request finished. Do processing here.
+            console.log("_______ "+xhr.responseText);
+            objectFromDB = xhr.responseText;
+        }
+    };
+
+    xhr.onload = function () {};
+    xhr.send(null);
+}*/
+function setObjectId(id) {
+    objectId = id;
+}
+
+function getAllProg() {
+objectId = "5b77d6aab8095f03ac465d6e";
+    var xhr = new XMLHttpRequest();
+    var myURL = "http://192.168.43.171:8080/api/getallprog";
+    xhr.open('GET', myURL+"?id="+objectId, true);
+    xhr.onreadystatechange = function() {//Call a function when the state changes.
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Request finished. Do processing here.
+            console.log(objectId + " _______ "+xhr.responseText);
+            objectFromDB = xhr.responseText;
+        }
+    };
+
+    xhr.onload = function () {};
+    xhr.send(null);
+}
+
 function setCreateNewButtonListener(){
     var createBtn = document.getElementById("createBtn");
     var createModal = document.getElementById('createModal');
     createBtn.onclick = function(){
         var open = true;
         console.log("create New button pressed");
+
+/// getAllProg();
+        /*var xhr = new XMLHttpRequest();
+        var myURL = "http://192.168.43.171:8080/api/getallprog";
+        xhr.open('GET', myURL+"?id="+objectId, true);
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Request finished. Do processing here.
+                console.log("_______ "+xhr.responseText);
+                models_list = xhr.responseText;
+            }
+        };
+
+        xhr.onload = function () {
+        };
+
+        xhr.send(null);*/
+
         createModal.style.display = "block";
     }
-}
-
-function setObjectId(id) {
-    objectId = id;
 }
 
 function setSaveButtonListener(){

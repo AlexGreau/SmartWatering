@@ -15,12 +15,15 @@ var customizeBlocks;
 var modelsFact;
 var models_list;
 
+var objectFromDB;
+
 window.onload = init;
 
 function init() {
     // create the toolbox with the customize blocks
     toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
+    getAllProg();
     setupModelsDict();
     modelsFact = new modelsFactory(models_list,"defaut");
     modelsFact.load_BuiltInModels()
