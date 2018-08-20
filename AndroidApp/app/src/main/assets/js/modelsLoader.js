@@ -1,35 +1,12 @@
-
-var cactus, tomato, defaut;
-
 function loadModel(name) {
   var workspaceBlocks;
   workspaceBlocks = Blockly.Xml.textToDom(models_list[name])
   console.log("selected : " + this.selectedModel)
-  /*  switch (name) {
-        case "cactus" : 
-            workspaceBlocks = Blockly.Xml.textToDom(cactus);
-            console.log ("cactus loaded")
-            break;
-        case "tomato" :
-            workspaceBlocks = Blockly.Xml.textToDom(tomato);
-       //     console.log("tomato loaded")
-            break;
-            
-        default: // load blank
-       //     console.log("could not find model : default loaded")
-            workspaceBlocks = Blockly.Xml.textToDom(defaut);
-            console.log("defaut loaded")
-    }
-    */
     /* Clears and Load blocks to workspace. */
     Blockly.mainWorkspace.clear();
     Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
     console.log("model loaded");
 }
-
-//var models_list = ["cactus", "tomato","defaut"]
-
-
 
 
 function setupModelsDict(){
@@ -37,18 +14,43 @@ function setupModelsDict(){
   // see where to store previously saved models locally and load from there
 
   models_list = {};
-
-  console.log("######"+objectFromDB);
-
   //getAllProg();
 
   var res = ['<xml xmlns="http://www.w3.org/1999/xhtml"> \
-            <variables></variables>\
-              <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
-                <field name="sprinkler_number">1</field>\
-                <field name="sprinkler_active">TRUE</field>\
+  <variables></variables>\
+  <block type="sprinkler_type" id="nIUY5%2n4l:sg}mKdy^;" x="110" y="90">\
+    <field name="sprinkler_number">1</field>\
+    <field name="sprinkler_active">TRUE</field>\
+    <statement name="sprinkler_settings">\
+      <block type="plant_type_cactus" id="TvG?4)C}Pc^D*tn8l{-n">\
+        <statement name="settings">\
+          <block type="spklr_setting_duration" id=";hG#j{z|Y^)XU||Npwth">\
+            <field name="duration_num">15</field>\
+            <field name="duration_unit">min</field>\
+            <next>\
+              <block type="spklr_setting_frequency" id="sF]mSBff_Hgo=_hWw/|f">\
+                <field name="freq_time">1</field>\
+                <field name="freq_unit">month</field>\
+                <next>\
+                  <block type="spklr_setting_moisture" id="X!a10W]e,Dwo@`KYk(l=">\
+                    <field name="moist_level">0</field>\
+                    <next>\
+                      <block type="spklr_setting_start_time" id="DfwEp;#X]MRPGMPVHLAC">\
+                        <field name="watering_hour">10</field>\
+                        <field name="watering_min">0</field>\
+                        <field name="watering_unit">am</field>\
+                      </block>\
+                    </next>\
+                  </block>\
+                </next>\
               </block>\
-            </xml>',
+            </next>\
+          </block>\
+        </statement>\
+      </block>\
+    </statement>\
+  </block>\
+  </xml>',
             '<xml xmlns="http://www.w3.org/1999/xhtml"> \
                         <variables></variables>\
                           <block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
@@ -96,12 +98,9 @@ function setupModelsDict(){
         console.log(property1 + " =---------- " + objectFromDB[property1]);
         models_list[property1] = objectFromDB[property1];
     }
-
-
-  models_list['defaut'] = res[0];
-
+ /* models_list['defaut'] = res[0];
   models_list['defaut2'] = res[1];
-
+*/
   models_list['cactus'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
   <variables></variables>\
   <block type="sprinkler_type" id="nIUY5%2n4l:sg}mKdy^;" x="110" y="90">\
@@ -174,7 +173,15 @@ function setupModelsDict(){
     </statement>\
   </block>\
   </xml>';
+  
 
+models_list['defaut'] = '<xml xmlns="http://www.w3.org/1999/xhtml"> \
+<variables></variables>\
+<block type="sprinkler_type" id="}0eK(Yxausq_v:m#QQ,r" x="130" y="50">\
+  <field name="sprinkler_number">1</field>\
+  <field name="sprinkler_active">TRUE</field>\
+</block>\
+</xml>';
 }
 
 /*

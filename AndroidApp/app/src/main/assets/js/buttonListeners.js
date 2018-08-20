@@ -42,6 +42,7 @@ function setMenuButtonListeners() {
     menuBtn.onclick = function () {
         menuBtn.classList.toggle("change");
         modal.style.display = "block";
+        // refresh models dict to make appear new saved models
     }
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
@@ -51,21 +52,6 @@ function setMenuButtonListeners() {
     // When the user clicks anywhere outside of the modal, close it
 }
 
-/*function getAllProg() {
-    var xhr = new XMLHttpRequest();
-    var myURL = "http://192.168.43.171:8080/api/getallprog";
-    xhr.open('GET', myURL+"?id="+objectId, true);
-    xhr.onreadystatechange = function() {//Call a function when the state changes.
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // Request finished. Do processing here.
-            console.log("_______ "+xhr.responseText);
-            objectFromDB = xhr.responseText;
-        }
-    };
-
-    xhr.onload = function () {};
-    xhr.send(null);
-}*/
 function setObjectId(id) {
     objectId = id;
 }
@@ -92,24 +78,10 @@ function setCreateNewButtonListener(){
     var createModal = document.getElementById('createModal');
     createBtn.onclick = function(){
         var open = true;
+        //refresh models ?
+       // modelsFact.load_Models() // bugged
+       getAllProg()
         console.log("create New button pressed");
-
-/// getAllProg();
-        /*var xhr = new XMLHttpRequest();
-        var myURL = "http://192.168.43.171:8080/api/getallprog";
-        xhr.open('GET', myURL+"?id="+objectId, true);
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                // Request finished. Do processing here.
-                console.log("_______ "+xhr.responseText);
-                models_list = xhr.responseText;
-            }
-        };
-
-        xhr.onload = function () {
-        };
-
-        xhr.send(null);*/
 
         createModal.style.display = "block";
     }
