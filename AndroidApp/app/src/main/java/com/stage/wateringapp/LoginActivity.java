@@ -78,16 +78,17 @@ public class LoginActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Log.e("RES", response);
                                     /*
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
                                     // ToDo: enregistrer l'ObjectId
                                     if (Objects.equals(response.substring(0, 5), "FIND_")) {
+                                        Log.e("ObjectID = ", response.substring(5));
                                         SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
                                         // ToDo : get ObjectId form : si une personne avait deja un compte et qu'il se connecte pour la premiere fois avec ce telephone
                                         //editor.putString("ObjectId", response);
+                                        editor.putString("ObjectId", response.substring(5));
                                         editor.putBoolean("isConnect", true);
                                         editor.apply();
 

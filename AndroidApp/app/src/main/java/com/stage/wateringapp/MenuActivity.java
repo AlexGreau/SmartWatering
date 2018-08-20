@@ -30,6 +30,7 @@ public class MenuActivity extends AppCompatActivity {
         editor.putBoolean("isConnect", false);
         editor.apply();
         Intent intent = new Intent(this, LoginActivity.class);
+        finish();
         startActivity(intent);
     }
 }
