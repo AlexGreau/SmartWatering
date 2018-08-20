@@ -11,7 +11,6 @@ var mongo       = require('mongodb');
 var mongoClient = require('mongodb').MongoClient;
 var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
-var parseString = require('xml2js').parseString;
 var urlbd       = "mongodb://localhost/smartwatering";
 
 // module d'envoi de MAIL
@@ -94,22 +93,24 @@ app.get('/api/alert', function (req, res) {
     res.send('Maticule = ' + matricule + '\nState = ' + state);
 });
 
-//http://localhost:8080/api/program?id=5b6c14c2145430027a6de35d
-app.get('/api/program', function (req, res) {
+//http://localhost:8080/api/getprog?id=5b6c14c2145430027a6de35d
+app.get('/api/getprog', function (req, res) {
     var matricule = req.param('id');
 
     var xml;
 
-    var query = { wateringId: matricule, currentState: "ON" };
+    var query = { userId: matricule };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
-        db.db('smartwatering').collection('program').find(query, {_id: 0, "programm": 1}).toArray(function (err, res2) {
+        db.db('smartwatering').collection('wateringCan').find(query, {_id: 0, program: 1}).toArray(function (err, res2) {
             if (err) throw err;
-            reponse = res2[0].programm;
-            parseString(reponse, function (err, result) {
-                console.dir(JSON.stringify(result));
-            });
-            console.log(reponse);
-            res.send(reponse);
+            reponse = res2[0].program;
+            if (res2[0].dateActive >= res2[0].dateLastTime) {
+                console.log(reponse);
+                res.send(reponse);
+            } else {
+                console.log("");
+                res.send("");
+            }
         });
     });
     //res.send('GOOD (°_°)' + matricule);
@@ -119,9 +120,9 @@ app.get('/api/program', function (req, res) {
 app.get('/api/getallprog', function (req, res) {
     var matricule = req.param('id');
 
-    var query = { wateringId: matricule, currentState: "OFF" };
+    var query = { userId: matricule };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
-        db.db('smartwatering').collection('program').find(query, {_id: 0, wateringId: 0, currentState: 0, programm: 1, title: 1}).toArray(function (err, res2) {
+        db.db('smartwatering').collection('program').find(query, {_id: 0, userId: 0, title: 1, program: 1}).toArray(function (err, res2) {
             if (err) throw err;
             reponse = res2;
             var obj = {};
@@ -130,7 +131,6 @@ app.get('/api/getallprog', function (req, res) {
             });
             console.log(obj);
             res.send(obj);
-
         });
     });
     //res.send('GOOD (°_°)' + matricule);
@@ -141,23 +141,25 @@ app.post('/api/setprog', function (req, res) {
     var matricule = req.param('id');
     var prog = req.param('p');
 
-    var query = { wateringId: matricule, currentState: "ON", title: "current", programm: prog };
-    var query1 = { wateringId: matricule, currentState: "ON"};
-    var newValue = { $set: { currentState: "OFF" } };
+    var dt = new Date();
+
+    //var query = { userId: matricule, title: "current", program: prog };
+    var query1 = { userId: matricule };
+    var newValue = { $set: { program: prog, dateActive: dt.getTime(), dateLastTime: dt.getTime() } };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
-        // TODO : Update programm before saving
-        db.db('smartwatering').collection('program').updateOne(query1, newValue, function (err, res2) {
+        db.db('smartwatering').collection('wateringCan').updateOne(query1, newValue, function (err, res2) {
             if (err) throw err;
             reponse = "Progamme Mise a jour";
             console.log(reponse);
         });
 
-        db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
+        /*db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
             if (err) throw err;
             reponse = "Progamme Enregistre";
             console.log(reponse);
             res.send(reponse);
-        });
+        });*/
+        res.send(reponse);
     });
     //res.send('GOOD (°_°)' + matricule);
 });
@@ -168,7 +170,7 @@ app.post('/api/saveprog', function (req, res) {
     var titre = req.param('t');
     var prog = req.param('p');
 
-    var query = { wateringId: matricule, currentState: "OFF", title: titre, programm: prog };
+    var query = { userId: matricule, title: titre, program: prog };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
             if (err) throw err;
@@ -208,12 +210,12 @@ app.get('/api/signup', function (req, res) {
                 var query = { email: addr_mail };
                 console.log('----->', db.db('smartwatering').collection('user').find(query).toArray(function (err, res2) {
                     if (err) throw err;
-                    reponse = res2[0]._id;
+                    reponse = res2[0]._id.toString();
                     console.log(reponse);
-
-		    /// Je cree en meme temps la table Program
-		    db.db('smartwatering').collection('program').insertOne({wateringId: res2[0]._id.toString(), currentState : "ON", programm : "ToDo : Default watering"});
-
+                    /// Je cree en meme temps la table Program
+                    var dt = new Date();
+		            db.db('smartwatering').collection('program').insertOne({userId: reponse, title : "Defaut", program : "Programme XML"});
+                    db.db('smartwatering').collection('wateringCan').insertOne({userId: reponse, program : "Programme PG", dateActive: dt.getTime(), dateLastTime: dt.getTime()});
 
                     res.send(reponse);
                 }));
@@ -243,11 +245,11 @@ app.get('/api/signin', function (req, res) {
                 res.send(reponse);
             } else if (result.length > 0) {
                 // Element trouve
-                reponse = 'Find OK';
-                console.log(reponse, result);
+                reponse = result[0]._id.toString();
+                console.log(reponse);
                 //res.render('pages/mypage');
                 //res.send('Maticule = ' + matricule + '\nState = ' + state);
-                res.send("FIND_" + reponse);
+                res.send("FIND_"+reponse);
             } else {
                 // Element trouve mais le mot de passe n'est pas correct
                 reponse = 'Find OK2';
