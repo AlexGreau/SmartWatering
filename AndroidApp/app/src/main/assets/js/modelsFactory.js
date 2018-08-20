@@ -61,6 +61,11 @@ class modelsFactory{
     getSelected(){
         return this.selectedModel;
     }
+
+    addModel(name, xml){
+        models_list[name] = xml;
+        this.load_BuiltInModels(); // reload to make appear new model
+    }
    
 }
 

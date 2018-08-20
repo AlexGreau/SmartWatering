@@ -71,7 +71,7 @@ function setObjectId(id) {
 }
 
 function getAllProg() {
-objectId = "5b77d6aab8095f03ac465d6e";
+objectId = "5b7a735762eb1808538b048b";
     var xhr = new XMLHttpRequest();
     var myURL = "http://134.59.129.150:8080/api/getallprog";
     xhr.open('GET', myURL+"?id="+objectId, true);
@@ -117,7 +117,7 @@ function setCreateNewButtonListener(){
 
 function setSaveButtonListener(){
 
-    var createBtn = document.getElementById("testsBtn");
+    var createBtn = document.getElementById("saveBtn");
     createBtn.onclick = function(){
         xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
         xmlText = Blockly.Xml.domToPrettyText(xmlDom);

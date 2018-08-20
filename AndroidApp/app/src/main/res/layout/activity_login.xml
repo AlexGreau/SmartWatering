@@ -101,7 +101,7 @@
             android:onClick="onCreateNewCompte"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:text="Nouveau Créer un compte"
+            android:text="Créer un compte"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:focusable="true" />
