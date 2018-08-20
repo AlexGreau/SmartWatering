@@ -49,7 +49,7 @@ router.use(function (req, res, next) {
 router.get("/", pageHome);
 
 
-// http://localhost:8080/api/alert?id=5b6c14c2145430027a6de35d&state=ON
+// http://localhost:8080/api/alert?id=5b7abc66fec24c01fcbd6db9&state=ON
 app.get('/api/alert', function (req, res) {
     var matricule = req.param('id');
     var state = req.param('state');
@@ -93,30 +93,35 @@ app.get('/api/alert', function (req, res) {
     res.send('Maticule = ' + matricule + '\nState = ' + state);
 });
 
-//http://localhost:8080/api/getprog?id=5b6c14c2145430027a6de35d
+// http://localhost:8080/api/getprog?id=5b7abc66fec24c01fcbd6db9
 app.get('/api/getprog', function (req, res) {
     var matricule = req.param('id');
 
-    var xml;
-
+    var dt = new Date();
     var query = { userId: matricule };
+    var newValue = { $set: { dateLastTime: dt.getTime() } };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('wateringCan').find(query, {_id: 0, program: 1}).toArray(function (err, res2) {
             if (err) throw err;
             reponse = res2[0].program;
             if (res2[0].dateActive >= res2[0].dateLastTime) {
+                // je change de date
+                db.db('smartwatering').collection('wateringCan').updateOne(query, newValue, function (err, res3) {
+                    if (err) throw err;
+                    console.log("Last Time Mise a jour");
+                });
                 console.log(reponse);
                 res.send(reponse);
             } else {
-                console.log("");
-                res.send("");
+                console.log("Pas de mise a jour");
+                res.send("Pas de mise a jour");
             }
         });
     });
     //res.send('GOOD (°_°)' + matricule);
 });
 
-//http://localhost:8080/api/getallprog?id=5b6c14c2145430027a6de35d
+// http://localhost:8080/api/getallprog?id=5b7abc66fec24c01fcbd6db9
 app.get('/api/getallprog', function (req, res) {
     var matricule = req.param('id');
 
@@ -127,7 +132,7 @@ app.get('/api/getallprog', function (req, res) {
             reponse = res2;
             var obj = {};
             reponse.forEach(function (element) {
-                obj[element.title] = element.programm;
+                obj[element.title] = element.program;
             });
             console.log(obj);
             res.send(obj);
@@ -136,7 +141,7 @@ app.get('/api/getallprog', function (req, res) {
     //res.send('GOOD (°_°)' + matricule);
 });
 
-//http://localhost:8080/api/setprog?id=5b718dd6b9c02f0d61626ef9&p=<xml>...</xml>
+// http://localhost:8080/api/setprog?id=5b7abc66fec24c01fcbd6db9&p=<xml>...</xml>
 app.post('/api/setprog', function (req, res) {
     var matricule = req.param('id');
     var prog = req.param('p');
@@ -151,6 +156,7 @@ app.post('/api/setprog', function (req, res) {
             if (err) throw err;
             reponse = "Progamme Mise a jour";
             console.log(reponse);
+            res.send(reponse);
         });
 
         /*db.db('smartwatering').collection('program').insertOne(query, function (err, res2) {
@@ -159,12 +165,11 @@ app.post('/api/setprog', function (req, res) {
             console.log(reponse);
             res.send(reponse);
         });*/
-        res.send(reponse);
     });
     //res.send('GOOD (°_°)' + matricule);
 });
 
-//http://localhost:8080/api/saveprog?id=5b718dd6b9c02f0d61626ef9&t=leTitreduProgramme&p=<xml>...</xml>
+// http://localhost:8080/api/saveprog?id=5b7abc66fec24c01fcbd6db9&t=leTitreduProgramme&p=<xml>...</xml>
 app.post('/api/saveprog', function (req, res) {
     var matricule = req.param('id');
     var titre = req.param('t');
@@ -182,7 +187,7 @@ app.post('/api/saveprog', function (req, res) {
     //res.send('GOOD (°_°)' + matricule);
 });
 
-// http://localhost:8080/api/signup?m=grace@smartwatering.com&p=I27G2Gyvougè&c=Nice,Fr
+// http://localhost:8080/api/signup?m=grace@gmail.com&p=azerty&c=Nice,Fr
 app.get('/api/signup', function (req, res) {
     var addr_mail = req.param('m');
     var password = req.param('p');
@@ -225,7 +230,7 @@ app.get('/api/signup', function (req, res) {
 });
 
 
-// http://localhost:8080/api/signin?m=grace@smartwatering.com&p=I27G2Gyvougè
+// http://localhost:8080/api/signin?m=grace@gmail.com&p=azerty
 app.get('/api/signin', function (req, res) {
     var addr_mail = req.param('m');
     var pass = req.param('p');
