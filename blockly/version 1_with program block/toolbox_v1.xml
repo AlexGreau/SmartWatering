@@ -1,0 +1,154 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+  <category name="Sprinkler">
+    <block type="sprinkler_type">
+      <field name="sprinkler_number">1</field>
+      <field name="sprinkler_active">TRUE</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Plants">
+    <block type="plant_type">
+      <field name="plant_name">name of plant</field>
+    </block>
+    <block type="plant_type_cactus">
+      <statement name="settings">
+        <block type="spklr_setting_duration">
+          <field name="duration_num">1</field>
+          <field name="duration_unit">min</field>
+          <next>
+            <block type="spklr_setting_frequency">
+              <field name="freq_time">1</field>
+              <field name="freq_times_unit">3</field>
+              <field name="freq_unit">month</field>
+              <next>
+                <block type="spklr_setting_moisture">
+                  <field name="moist_level">150</field>
+                  <next>
+                    <block type="spklr_setting_start_time">
+                      <field name="watering_hour">10</field>
+                      <field name="watering_min">0</field>
+                      <field name="watering_unit">pm</field>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block type="plant_type_roses">
+      <statement name="settings">
+        <block type="spklr_setting_duration">
+          <field name="duration_num">60</field>
+          <field name="duration_unit">sec</field>
+          <next>
+            <block type="spklr_setting_frequency">
+              <field name="freq_time">2</field>
+              <field name="freq_times_unit">5</field>
+              <field name="freq_unit">day</field>
+              <next>
+                <block type="spklr_setting_moisture">
+                  <field name="moist_level">300</field>
+                  <next>
+                    <block type="spklr_setting_start_time">
+                      <field name="watering_hour">9</field>
+                      <field name="watering_min">0</field>
+                      <field name="watering_unit">am</field>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Water">
+    <block type="spklr_setting_moisture">
+      <field name="moist_level">300</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Time">
+    <block type="spklr_setting_frequency">
+      <field name="freq_time">1</field>
+      <field name="freq_times_unit">1</field>
+      <field name="freq_unit">day</field>
+    </block>
+    <block type="spklr_setting_duration">
+      <field name="duration_num">60</field>
+      <field name="duration_unit">sec</field>
+    </block>
+    <block type="spklr_setting_start_time">
+      <field name="watering_hour">1</field>
+      <field name="watering_min">0</field>
+      <field name="watering_unit">am</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Meteo">
+    <block type="spklr_setting_meteo">
+      <field name="check_meteo">TRUE</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Season Modes">
+    <block type="spklr_setting_season_summer">
+      <statement name="settings">
+        <block type="spklr_setting_duration">
+          <field name="duration_num">5</field>
+          <field name="duration_unit">min</field>
+          <next>
+            <block type="spklr_setting_frequency">
+              <field name="freq_time">2</field>
+              <field name="freq_times_unit">1</field>
+              <field name="freq_unit">day</field>
+              <next>
+                <block type="spklr_setting_moisture">
+                  <field name="moist_level">300</field>
+                  <next>
+                    <block type="spklr_setting_start_time">
+                      <field name="watering_hour">9</field>
+                      <field name="watering_min">0</field>
+                      <field name="watering_unit">pm</field>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+    <block type="spklr_setting_season_winter">
+      <statement name="settings">
+        <block type="spklr_setting_duration">
+          <field name="duration_num">2</field>
+          <field name="duration_unit">min</field>
+          <next>
+            <block type="spklr_setting_frequency">
+              <field name="freq_time">2</field>
+              <field name="freq_times_unit">1</field>
+              <field name="freq_unit">week</field>
+              <next>
+                <block type="spklr_setting_moisture">
+                  <field name="moist_level">300</field>
+                  <next>
+                    <block type="spklr_setting_start_time">
+                      <field name="watering_hour">10</field>
+                      <field name="watering_min">0</field>
+                      <field name="watering_unit">am</field>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </category>
+</xml>

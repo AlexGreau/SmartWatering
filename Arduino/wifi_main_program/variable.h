@@ -38,7 +38,7 @@ char* meteoCity= (char*) malloc(sizeof(char)*100);
 
 // Smart watering server
 const int smartWateringHttpPort = 8080;
-const char* smartWateringHost = "192.168.0.46";
+const char* smartWateringHost = "134.59.129.150";
 
 
 // String with sprinklers program and user ID

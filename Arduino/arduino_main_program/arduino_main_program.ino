@@ -79,8 +79,7 @@ void setProgram(String progStr) {
 
   // Send acknowledge with status: 0 - program was not correctly received so resend it
   if(!progStr.startsWith("[") || !progStr.endsWith("]")) {      
-    Serial.print("ERROR! String received is not correct. String received: ");
-    Serial.println(progStr);
+    Serial.println("ERROR! String received is not correct.");
     ESPserial.write("ack:0");
     return;      
   }
@@ -121,9 +120,8 @@ void setProgram(String progStr) {
       checkMeteo = splitSring(str, ',', 1).toInt();
       stopTimer(&meteoTimerId);
       
-      if(checkMeteo) {
-        getMeteo(NULL);
-        meteoTimerId = timer.every(CHECK_METEO_TIME, getMeteo, NULL);
+      if(checkMeteo) {        
+        meteoTimerId = timer.after(START_CHECKING_METEO_TIME, startMeteoCheckingTimer, NULL);
       }
       else {        
         waterPlants = true;
@@ -142,16 +140,26 @@ void setProgram(String progStr) {
   ESPserial.write("ack:1");
 
   // TODO: ERASE
-  printForDebug();
+  //printForDebug();
 }
 
 
+void startMeteoCheckingTimer(void* p) {
+  getMeteo(p);
+
+  stopTimer(&meteoTimerId);
+  meteoTimerId = timer.every(CHECK_METEO_TIME, getMeteo, NULL);
+}
+
 void getMeteo(void* p) {
-  Serial.println("Checking meteo");
+  Serial.print("Checking meteo");
+  Serial.print("      ");
+    Serial.println(meteoTimerId);
       
   // write 'meteo' to the wifi module so it can go check the meteo site
   ESPserial.write("meteo");
 }
+
 
 void setMeteo(String result) {  
   Serial.println(splitSring(result, ':', 1).toInt());
@@ -194,7 +202,7 @@ void setWaterLevel() {
 void startWateringCycle(void* spklrId) {
   int i = (int) spklrId;
   Serial.print("Start watering cycle of sprinkler: ");
-  Serial.println((int) spklrId);
+  Serial.println(((int) spklrId) + 1);
 
   stopTimer(&sprinklerList[i].startTimerId); 
   sprinklerList[i].freqTimerId = timer.every(sprinklerList[i].frequency, timeToWater, spklrId);
@@ -209,13 +217,15 @@ void timeToWater(void* spklrId) {
   // Check moisture of the soil
   int moistureLevel = analogRead(moisturePinList[i]); // read data from sensor
   Serial.print("Pump: ");
-  Serial.print(i);
+  Serial.print(i+1);
   Serial.print("  Moist: ");
   Serial.print(moistureLevel);
   Serial.print("  Water low: ");
   Serial.print(isWaterLevelLow);
   Serial.print("   Result Meteo: ");
   Serial.print(waterPlants);
+  Serial.print("  ");
+    
   
   if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
 
@@ -223,7 +233,7 @@ void timeToWater(void* spklrId) {
       digitalWrite(pumpPinList[i], HIGH);
       //Serial.print("Pump: ");
       //Serial.print(i);
-      Serial.println("  ON");
+      Serial.print("  ON");
       
       sprinklerList[i].durationTimerId = timer.after(sprinklerList[i].duration, stopWatering, (void*)i);
 
@@ -231,6 +241,13 @@ void timeToWater(void* spklrId) {
       //printForDebug();
     }              
   }
+
+  Serial.print(sprinklerList[i].startTimerId);
+    Serial.print(" ");
+    Serial.print(sprinklerList[i].freqTimerId);
+    Serial.print(" ");
+    Serial.print(sprinklerList[i].durationTimerId);
+  Serial.println("");
 }
 
 
@@ -238,7 +255,7 @@ void stopWatering(void* spklrId) {
   int i = (int) spklrId;
   digitalWrite(pumpPinList[i], LOW);
   Serial.print("Pump: ");
-  Serial.print(i);
+  Serial.print(i+1);
   Serial.println("  off");
   stopTimer(&sprinklerList[i].durationTimerId);
   

@@ -184,7 +184,7 @@ String getPrecipitationData() {
   }
 
   if(connectToHost(smartWateringHost, smartWateringHttpPort)) {         
-    sendRequest(smartWateringHost,  String("/api/program?id=") + userId);
+    sendRequest(smartWateringHost,  String("/api/getprog?id=") + userId);
     //Serial.println("\nrecu host ");
     //Serial.println(client.readString());
     

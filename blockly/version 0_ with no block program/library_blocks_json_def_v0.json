@@ -1,0 +1,342 @@
+[{
+  "type": "sprinkler_type",
+  "message0": "I'm sprinkler number: %1 %2 I'm activated: %3 %4 %5",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "sprinkler_number",
+      "options": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_checkbox",
+      "name": "sprinkler_active",
+      "checked": true
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "sprinkler_settings"
+    }
+  ],
+  "colour": 270,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "plant_type",
+  "message0": "I water the %1 %2 %3",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "plant_name",
+      "text": "name of plant"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "plant_settings",
+      "check": [
+        "spklr_setting",
+        "plant_type_mode"
+      ]
+    }
+  ],
+  "previousStatement": "sprinkler_type",
+  "colour": 135,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "plant_type_cactus",
+  "message0": "I water the: Cactus %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "settings",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": "sprinkler_type",
+  "colour": 135,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_meteo",
+  "message0": "Check meteo: %1",
+  "args0": [
+    {
+      "type": "field_checkbox",
+      "name": "check_meteo",
+      "checked": true
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 225,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_season_summer",
+  "message0": "Summer mode %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "settings",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": [
+    "sprinkler_type",
+    "plant_type_mode"
+  ],
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_season_winter",
+  "message0": "Winter mode %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "settings",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": [
+    "sprinkler_type",
+    "plant_type_mode"
+  ],
+  "colour": 160,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_duration",
+  "message0": "Water for  %1 %2",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "duration_num",
+      "value": 60,
+      "min": 0
+    },
+    {
+      "type": "field_dropdown",
+      "name": "duration_unit",
+      "options": [
+        [
+          "sec",
+          "sec"
+        ],
+        [
+          "min",
+          "min"
+        ],
+        [
+          "hour",
+          "hour"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_start_time",
+  "message0": "Start watering at: %1 : %2 %3",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "watering_hour",
+      "value": 0,
+      "min": 1,
+      "max": 12
+    },
+    {
+      "type": "field_number",
+      "name": "watering_min",
+      "value": 0,
+      "min": 0,
+      "max": 59
+    },
+    {
+      "type": "field_dropdown",
+      "name": "watering_unit",
+      "options": [
+        [
+          "am",
+          "am"
+        ],
+        [
+          "pm",
+          "pm"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 315,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_moisture",
+  "message0": "Water when the soil is %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "moist_level",
+      "options": [
+        [
+          "super dry",
+          "150"
+        ],
+        [
+          "dry",
+          "300"
+        ],
+        [
+          "slightly moist",
+          "600"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 30,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_intensity",
+  "message0": "Water intensity: %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "water_intensity",
+      "options": [
+        [
+          "drop",
+          "drop"
+        ],
+        [
+          "low",
+          "low"
+        ],
+        [
+          "medium",
+          "medium"
+        ],
+        [
+          "high",
+          "high"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 195,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "spklr_setting_frequency",
+  "message0": "Water %1  time(s) every %2 %3",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "freq_time",
+      "value": 1,
+      "min": 0
+    },
+    {
+      "type": "field_number",
+      "name": "freq_times_unit",
+      "value": 1
+    },
+    {
+      "type": "field_dropdown",
+      "name": "freq_unit",
+      "options": [
+        [
+          "day(s)",
+          "day"
+        ],
+        [
+          "week(s)",
+          "week"
+        ],
+        [
+          "month(s)",
+          "month"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": "spklr_setting",
+  "nextStatement": "spklr_setting",
+  "colour": 180,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "plant_type_roses",
+  "message0": "I water the: Roses %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "settings",
+      "check": "spklr_setting"
+    }
+  ],
+  "previousStatement": "sprinkler_type",
+  "colour": 135,
+  "tooltip": "",
+  "helpUrl": ""
+}]
