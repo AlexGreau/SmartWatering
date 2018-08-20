@@ -73,7 +73,7 @@ function setObjectId(id) {
 function getAllProg() {
 objectId = "5b77d6aab8095f03ac465d6e";
     var xhr = new XMLHttpRequest();
-    var myURL = "http://192.168.43.171:8080/api/getallprog";
+    var myURL = "http://134.59.129.150:8080/api/getallprog";
     xhr.open('GET', myURL+"?id="+objectId, true);
     xhr.onreadystatechange = function() {//Call a function when the state changes.
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -129,7 +129,7 @@ function setSaveButtonListener(){
 
 // Creation du formulaire
         var xhttp = new XMLHttpRequest();
-        var myURL = "http://192.168.43.171:8080/api/saveprog";
+        var myURL = "http://134.59.129.150:8080/api/saveprog";
         xhttp.open("POST", myURL, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.onreadystatechange = function() {
@@ -160,7 +160,7 @@ function setSendButtonListener(){
 
         // Creation du formulaire
         var xhttp = new XMLHttpRequest();
-        var myURL = "http://192.168.43.171:8080/api/setprog";
+        var myURL = "http://134.59.129.150:8080/api/setprog";
         xhttp.open("POST", myURL, true);
         // Send the proper header information along with the request
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

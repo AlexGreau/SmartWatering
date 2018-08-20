@@ -11,6 +11,7 @@ var mongo       = require('mongodb');
 var mongoClient = require('mongodb').MongoClient;
 var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
+var parseString = require('xml2js').parseString;
 var urlbd       = "mongodb://localhost/smartwatering";
 
 // module d'envoi de MAIL
@@ -97,13 +98,39 @@ app.get('/api/alert', function (req, res) {
 app.get('/api/program', function (req, res) {
     var matricule = req.param('id');
 
+    var xml;
+
     var query = { wateringId: matricule, currentState: "ON" };
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('program').find(query, {_id: 0, "programm": 1}).toArray(function (err, res2) {
             if (err) throw err;
             reponse = res2[0].programm;
+            parseString(reponse, function (err, result) {
+                console.dir(JSON.stringify(result));
+            });
             console.log(reponse);
             res.send(reponse);
+        });
+    });
+    //res.send('GOOD (°_°)' + matricule);
+});
+
+//http://localhost:8080/api/getallprog?id=5b6c14c2145430027a6de35d
+app.get('/api/getallprog', function (req, res) {
+    var matricule = req.param('id');
+
+    var query = { wateringId: matricule, currentState: "OFF" };
+    mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
+        db.db('smartwatering').collection('program').find(query, {_id: 0, wateringId: 0, currentState: 0, programm: 1, title: 1}).toArray(function (err, res2) {
+            if (err) throw err;
+            reponse = res2;
+            var obj = {};
+            reponse.forEach(function (element) {
+                obj[element.title] = element.programm;
+            });
+            console.log(obj);
+            res.send(obj);
+
         });
     });
     //res.send('GOOD (°_°)' + matricule);
@@ -240,7 +267,7 @@ app.use("*", function (req, res) {
 });
 
 // Add headers
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -257,7 +284,7 @@ app.use(function (req, res, next) {
 
     // Pass to next layer of middleware
     next();
-});
+});*/
 
 app.listen(8080, function () {
     console.log("\tWelcome to SmartWatering\nConnected at http://localhost:8080");
