@@ -26,7 +26,7 @@ function init() {
     getAllProg();
     setupModelsDict();
     modelsFact = new modelsFactory(models_list,"defaut");
-    modelsFact.load_BuiltInModels()
+    modelsFact.load_Models()
     addListeners();
 
    // customizeToolbox(workspace);

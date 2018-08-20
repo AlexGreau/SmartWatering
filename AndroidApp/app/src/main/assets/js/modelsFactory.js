@@ -1,8 +1,5 @@
 // this file is dedicated to loading all built-in models buttons in the createNew modal to smoothen the process of adding a model to the list.
 
-// buttons are in a list
-
-
 // object to avoid global variable "selectedModel" for button validNewModel
 class modelsFactory{
     constructor (dictOfModels, selected) {
@@ -20,15 +17,6 @@ class modelsFactory{
                console.log (this.textContent + " pressed")
             }
         }
-  /*      this.dictOf_models.forEach(element => {
-            var id = build_buttonID(element);
-            var btn = document.getElementById(id);
-            var temp = this;
-           btn.onclick = function(){  
-               temp.selectedModel = element;
-               console.log (element + " pressed")
-            }
-        })*/
     }
 
     addAllmodels(){
@@ -40,26 +28,21 @@ class modelsFactory{
             button.textContent = i;
             button.setAttribute("class", "button");
             div.appendChild(button);
-        }
-  /*      this.dictOf_models.forEach(element => {
-            id = build_buttonID(element)
-            button = document.createElement("button");
-            button.id=  element + "Btn";
-            button.textContent = id;
-            button.setAttribute("class", "button");
-            div.appendChild(button);
-        });
-  */  
+        }  
         this.addAllListeners()
     }
 
-    load_BuiltInModels(){    
+    load_Models(){    
         this.addAllmodels();
         console.log("finished loading all built in models \n")
     }
 
     getSelected(){
         return this.selectedModel;
+    }
+
+    addModel(name, xml){
+        models_list[name] = xml;
     }
    
 }
@@ -106,7 +89,7 @@ function addAllmodels(listOfModels){
 }
 
 
-function load_BuiltInModels(modelsList){
+f load_Models(modelsList){
     var modelsList = ["cactus", "tomato","defaut"];
 
     addAllmodels(modelsList);
