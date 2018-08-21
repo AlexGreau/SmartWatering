@@ -90,7 +90,7 @@ bool connectToWifi() {
     Serial.write("st:-2");
     return false;
   }
-  //Serial.write("st:1");
+  Serial.write("st:1");
   return true;
 }
 
@@ -101,7 +101,7 @@ bool connectToHost(const char* host, const int port) {
       Serial.write("st:-3");
       return false;
   }    
-  //Serial.write("st:2");
+  Serial.write("st:2");
   return true;
 }
 
@@ -285,8 +285,7 @@ void setup() {
   server.begin();
 
   // Disconnect from any previous wifi
-  // WiFi.disconnect();
-  //  Serial.println("Setup done");
+  WiFi.disconnect();
   
   client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time  
 }

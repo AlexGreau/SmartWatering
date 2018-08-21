@@ -103,18 +103,24 @@ app.get('/api/getprog', function (req, res) {
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('wateringCan').find(query, {_id: 0, program: 1}).toArray(function (err, res2) {
             if (err) throw err;
-            reponse = res2[0].program;
-            if (res2[0].dateActive >= res2[0].dateLastTime) {
-                // je change de date
-                db.db('smartwatering').collection('wateringCan').updateOne(query, newValue, function (err, res3) {
-                    if (err) throw err;
-                    console.log("Last Time Mise a jour");
-                });
-                console.log(reponse);
-                res.send(reponse);
+            
+            if(res2.length > 0) {
+              reponse = res2[0].program;
+              if (res2[0].dateActive >= res2[0].dateLastTime) {
+                  // je change de date
+                  db.db('smartwatering').collection('wateringCan').updateOne(query, newValue, function (err, res3) {
+                      if (err) throw err;
+                      console.log("Last Time Mise a jour");
+                  });
+                  console.log(reponse);
+                  res.send(reponse);
+              } else {
+                  console.log("Pas de mise a jour");
+                  res.send("");
+              }
             } else {
-                console.log("Pas de mise a jour");
-                res.send("Pas de mise a jour");
+                  console.log("No program found so send empty string");
+                  res.send("");
             }
         });
     });
