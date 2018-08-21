@@ -22,6 +22,7 @@ class modelsFactory{
     addAllmodels(){
         var div = document.getElementById("listOfModels");
         var button;
+        div.innerHTML = "";
         for (var i in this.dictOf_models){
             button = document.createElement("button");
             button.id =  build_buttonID(i);
