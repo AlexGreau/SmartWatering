@@ -9,10 +9,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Request;
@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText addr_mail;
     private EditText pass;
-    private CardView signin_btn;
+    private Button signin_btn;
 
     private String myURI;
     String sMail;
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     queue.add(request);
-                    Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
                 }
             }
