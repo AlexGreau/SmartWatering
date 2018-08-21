@@ -23,10 +23,13 @@ function init() {
     // create the toolbox with the customize blocks
     toolboxXml = createBlocksAndToolboxXml();
     injectBlockly();
-    getAllProg();
+    //getAllProg();
+
+    console.log("LOG: "+ objectFromDB);
+
     setupModelsDict();
     modelsFact = new modelsFactory(models_list,"defaut");
-    modelsFact.load_Models()
+    //modelsFact.load_Models()
     addListeners();
 
    // customizeToolbox(workspace);

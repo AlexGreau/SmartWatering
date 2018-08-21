@@ -59,16 +59,19 @@ function setObjectId(id) {
 function getAllProg() {
     var xhr = new XMLHttpRequest();
     var myURL = "http://134.59.129.150:8080/api/getallprog";
+    xhr.responseType = 'json';
     xhr.open('GET', myURL+"?id="+objectId, true);
-    xhr.onreadystatechange = function() {//Call a function when the state changes.
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // Request finished. Do processing here.
-            console.log(objectId + " _______ "+xhr.responseText);
-            objectFromDB = xhr.responseText;
-        }
-    };
 
-    xhr.onload = function () {};
+    xhr.onload = function () {
+        objectFromDB = xhr.response;
+        console.log("LOG: " + objectId + " _______ "+objectFromDB);
+
+        for (var property1 in objectFromDB) {
+            console.log(property1 + ":" + objectFromDB[property1]);
+             modelsFact.addModel(property1, objectFromDB[property1]);
+        }
+        modelsFact.load_Models()
+    };
     xhr.send(null);
 }
 
