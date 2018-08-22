@@ -573,17 +573,22 @@
         <field name="ALIGN">LEFT</field>
         <statement name="FIELDS">
           <block type="field_static" id=";tl^r+IFx%O-rfXqXOU7">
-            <field name="TEXT">Water when the soil is</field>
+            <field name="TEXT">Water when the soil has</field>
             <next>
               <block type="field_dropdown" id="P*uB,p=5Hw3Swrd]Nqq9">
                 <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
                 <field name="FIELDNAME">moist_level</field>
-                <field name="USER0">super dry</field>
-                <field name="CPU0">150</field>
-                <field name="USER1">dry</field>
-                <field name="CPU1">300</field>
-                <field name="USER2">slightly moist</field>
+                <field name="USER0">25</field>
+                <field name="CPU0">200</field>
+                <field name="USER1">50</field>
+                <field name="CPU1">400</field>
+                <field name="USER2">75</field>
                 <field name="CPU2">600</field>
+                <next>
+                  <block type="field_static" id="u56rCeTJCW-T{EWDeD^_">
+                    <field name="TEXT">% of humidity</field>
+                  </block>
+                </next>
               </block>
             </next>
           </block>

@@ -12,7 +12,6 @@
 
 #define HTTP_TIMEOUT 5000 // max response time from server
 #define CHECK_SERVER_TIME 300000  // every 5 minutes (expressed in milliseconds)
-//#define LIMIT_PRECIPITATION 60
 
 
 // Credentials when module is in access point mode - the wifi created by the module

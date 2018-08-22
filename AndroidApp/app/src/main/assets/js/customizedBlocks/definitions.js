@@ -1,6 +1,26 @@
 // include before main.js
 
-customizeBlocks =
+/*$.getJSON('js/customize_blocks.json').done(function (block_list)
+{
+  console.log("leo");
+  block_list.forEach(block => {
+    console.log("creo");
+    Blockly.Blocks[block.type] = {
+      init: function() {
+        this.jsonInit(block);
+
+          console.log(block);
+      }
+    };
+  });
+
+
+  workspace.toolbox.refreshSelection();
+});
+
+*/
+
+var customizeBlocks =
 [{
     "categoryName" : "Sprinkler",
     "blocks" :
@@ -43,8 +63,22 @@ customizeBlocks =
             },
             {
               "type": "input_statement",
-              "name": "sprinkler_settings"
+              "name": "sprinkler_settings",
+              "check": [
+                "spklr_setting",
+                "sprinkler_plant",
+                "sprinkler_season_mode"
+              ]
             }
+          ],
+          "previousStatement": [
+              "program_sprinkler",
+              "sprinkler_sprinkler",
+              "sprinkler_meteo"
+          ],
+          "nextStatement": [
+              "sprinkler_sprinkler",
+              "sprinkler_meteo"
           ],
           "colour": 270,
           "tooltip": "",
@@ -71,17 +105,18 @@ customizeBlocks =
               "name": "plant_settings",
               "check": [
                 "spklr_setting",
-                "plant_type_mode"
+                "plant_season_mode"
               ]
             }
           ],
-          "previousStatement": "sprinkler_type",
+          "previousStatement": "sprinkler_plant",
           "colour": 135,
           "tooltip": "",
           "helpUrl": ""
         },
         {
           "type": "plant_type_cactus",
+          "name": "Cactus",
           "message0": "I water the: Cactus %1 %2",
           "args0": [
             {
@@ -93,24 +128,25 @@ customizeBlocks =
               "check": "spklr_setting"
             }
           ],
-          "previousStatement": "sprinkler_type",
+          "previousStatement": "sprinkler_plant",
           "colour": 135,
           "tooltip": "",
           "helpUrl": "",
           "childrenBlocksSettings": {
-                "duration_num": 15,
+                "duration_num": 1,
                 "duration_unit": "min",
                 "freq_time": 1,
+                "freq_times_unit": 3,
                 "freq_unit": "month",
-                "moist_level": 100,
-                "water_intensity": "drop",
+                "moist_level": 200,
                 "watering_hour": 10,
                 "watering_min": 0,
-                "watering_unit": "am"
+                "watering_unit": "pm"
           }
         },
          {
            "type": "plant_type_rose",
+           "name": "Rose",
            "message0": "I water the: Roses %1 %2",
            "args0": [
              {
@@ -122,95 +158,44 @@ customizeBlocks =
                "check": "spklr_setting"
              }
            ],
-           "previousStatement": "sprinkler_type",
+           "previousStatement": "sprinkler_plant",
            "colour": 135,
            "tooltip": "",
            "helpUrl": "",
            "childrenBlocksSettings": {
-               "duration_num": 5,
-               "duration_unit": "min",
-               "freq_time": 5,
+               "duration_num": 60,
+               "duration_unit": "sec",
+               "freq_time": 2,
+               "freq_times_unit": 5,
                "freq_unit": "day",
-               "moist_level": 200,
-               "water_intensity": "medium",
-               "watering_hour": 4,
+               "moist_level": 400,
+               "watering_hour": 9,
                "watering_min": 0,
-               "watering_unit": "pm"
+               "watering_unit": "am"
            }
          }]
  },
  {
      "categoryName" : "Water",
      "blocks" :
-         [/*{
-           "type": "spklr_setting_intensity",
-           "message0": "Water intensity: %1",
-           "args0": [
-             {
-               "type": "field_dropdown",
-               "name": "water_intensity",
-               "options": [
-                 [
-                   "drop",
-                   "drop"
-                 ],
-                 [
-                   "low",
-                   "low"
-                 ],
-                 [
-                   "medium",
-                   "medium"
-                 ],
-                 [
-                   "high",
-                   "high"
-                 ]
-               ]
-             }
-           ],
-           "previousStatement": "spklr_setting",
-           "nextStatement": "spklr_setting",
-           "colour": 195,
-           "tooltip": "",
-           "helpUrl": ""
-         },*/
-     /*     {
+         [{
             "type": "spklr_setting_moisture",
-            "message0": "Water if moisture level is less than %1",
-            "args0": [
-              {
-                "type": "field_number",
-                "name": "moist_level",
-                "value": 10,
-                "min": 0
-              }
-            ],
-            "previousStatement": "spklr_setting",
-            "nextStatement": "spklr_setting",
-            "colour": 30,
-            "tooltip": "",
-            "helpUrl": ""
-          }*/
-
-          {
-            "type": "spklr_setting_moisture",
-            "message0": "Water when the soil is %1",
+            "message0": "Water when the soil has %1 %% of humidity",
             "args0": [
               {
                 "type": "field_dropdown",
                 "name": "moist_level",
                 "options": [
                   [
-                    "super dry",
-                    "150"
+                    "25",
+                    "200"
                   ],
                   [
-                    "dry",
-                    "300"
+                    "50",
+                    "400"
                   ],
                   [
-                    "slightly moist",
+                    "75",
                     "600"
                   ]
                 ]
@@ -346,24 +331,22 @@ customizeBlocks =
       "blocks" :
           [{
               "type": "spklr_setting_meteo",
-              "message0": "Check meteo: %1 %2 Zip code: %3",
+              "message0": "Check meteo: %1",
               "args0": [
                 {
                   "type": "field_checkbox",
                   "name": "check_meteo",
                   "checked": true
-                },
-                {
-                  "type": "input_dummy"
-                },
-                {
-                  "type": "field_input",
-                  "name": "zip_code",
-                  "text": "06000"
                 }
               ],
-              "previousStatement": "spklr_setting",
-              "nextStatement": "spklr_setting",
+              "previousStatement": [
+                  "program_meteo",
+                  "sprinkler_meteo"
+              ],
+              "nextStatement": [
+                  "program_meteo",
+                  "sprinkler_meteo"
+              ],
               "colour": 225,
               "tooltip": "",
               "helpUrl": ""
@@ -386,19 +369,19 @@ customizeBlocks =
                 }
               ],
               "previousStatement": [
-                "sprinkler_type",
-                "plant_type_mode"
+                "sprinkler_season_mode",
+                "plant_season_mode"
               ],
               "colour": 0,
               "tooltip": "",
               "helpUrl": "",
               "childrenBlocksSettings": {
-                  "duration_num": 15,
+                  "duration_num": 5,
                   "duration_unit": "min",
-                  "freq_time": 5,
-                  "freq_unit": "week",
+                  "freq_time": 2,
+                  "freq_times_unit": 1,
+                  "freq_unit": "day",
                   "moist_level": 200,
-                  "water_intensity": "drop",
                   "watering_hour": 9,
                   "watering_min": 0,
                   "watering_unit": "pm"
@@ -418,112 +401,102 @@ customizeBlocks =
                 }
               ],
               "previousStatement": [
-                "sprinkler_type",
-                "plant_type_mode"
+                "sprinkler_season_mode",
+                "plant_season_mode"
               ],
               "colour": 160,
               "tooltip": "",
               "helpUrl": "",
               "childrenBlocksSettings": {
-                  "duration_num": 5,
+                  "duration_num": 2,
                   "duration_unit": "min",
                   "freq_time": 2,
+                  "freq_times_unit": 1,
                   "freq_unit": "week",
-                  "moist_level": 100,
-                  "water_intensity": "drop",
+                  "moist_level": 400,
                   "watering_hour": 10,
                   "watering_min": 0,
                   "watering_unit": "am"
               }
           }]
+},
+{
+      "categoryName" : "default",
+      "blocks" :
+          [{
+             "type": "program_type",
+             "message0": "Program %1 %2",
+             "args0": [
+               {
+                 "type": "input_dummy"
+               },
+               {
+                 "type": "input_statement",
+                 "name": "program",
+                 "check": [
+                   "program_meteo",
+                   "program_sprinkler"
+                 ]
+               }
+             ],
+             "colour": 0,
+             "tooltip": "",
+             "helpUrl": ""
+          }]
+
 }];
 
 
 
 function createBlocksAndToolboxXml() {
-    var toolboxXml = '<xml>';
+    var toolboxXml = '<xml id="toolbox" style="display: none;">';
 
-    /*
-        goog.require('Blockly.FieldDate');
-
-        Blockly.Blocks["example_date"] = {
-            init: function() {
-              this.jsonInit({
-               "type": "example_date",
-               "message0": "date: %1",
-               "args0": [
-                 {
-                   "type": "field_date",
-                   "name": "FIELDNAME",
-                   "date": "2020-02-20"
-                 }
-               ]
-             });
-            }
-        };
-
-        toolboxXml += '<block type="example_date"></block>';
-    */
-
-
-    toolbox = '<xml id="toolbox" style="display: none;">';
-    //toolbox +=  ' <button text="A button" callbackKey="myFirstButtonPressed" id="button1"></button>';
-    
     // Create the customize blocks
     customizeBlocks.forEach(category =>
     {
-        toolboxXml += "<category name='" + category.categoryName + "'>";
-
-        category.blocks.forEach(block =>
-        {
-            // initialize the block in blockly
-            Blockly.Blocks[block.type] = {
-                init: function() {
-                  this.jsonInit(block);
-                }
-            };
-
-            // create the xml of the block and add it to the toolbox's xml
-            if(block.childrenBlocksSettings != undefined) {
-                toolboxXml += createBlockXml(block.type, block.childrenBlocksSettings);
-            }
-            else
+        // initialize blocks but don't add them to the toolbox
+        if(category.categoryName == "default") {
+            category.blocks.forEach(block =>
             {
-                toolboxXml += '<block type="' + block.type + '"></block>';
-            }
-         });
+                // initialize the block in blockly
+                Blockly.Blocks[block.type] = {
+                    init: function() {
+                      this.jsonInit(block);
+                    }
+                };
+            });
 
-        toolboxXml += "</category><sep></sep>";
+        }
+        // initialize blocks AND add them to the toolbox
+        else {
+            toolboxXml += "<category name='" + category.categoryName + "'>";
+
+            category.blocks.forEach(block =>
+            {
+                // initialize the block in blockly
+                Blockly.Blocks[block.type] = {
+                    init: function() {
+                      this.jsonInit(block);
+                    }
+                };
+
+                // create the xml of the block and add it to the toolbox's xml
+                if(block.childrenBlocksSettings != undefined) {
+                    toolboxXml += createBlockXml(block.type, block.childrenBlocksSettings);
+                }
+                else
+                {
+                    toolboxXml += '<block type="' + block.type + '"></block>';
+                }
+             });
+
+            toolboxXml += "</category><sep></sep>";
+        }
     });
-
     toolboxXml += '</xml>';
 
     // generates all the executing code for the blocks
     generateAllStubs();
-
-    /*
-        PICK DATE BLOCK... MARCHE PAS :(
-
-        goog.require('Blockly.FieldDate');
-
-        Blockly.Blocks["example_date"] = {
-            init: function() {
-              this.jsonInit({
-               "type": "example_date",
-               "message0": "date: %1",
-               "args0": [
-                 {
-                   "type": "field_date",
-                   "name": "FIELDNAME",
-                   "date": "2020-02-20"
-                 }
-               ]
-             });
-            }
-        };
-
-        toolboxXml += '<block type="example_date"></block>';
-    */
 
     return toolboxXml;
 }
@@ -538,6 +511,7 @@ function createBlockXml(blockType, setting) {
         <next> \
           <block type='spklr_setting_frequency'> \
             <field name='freq_time'>" + setting.freq_time + "</field> \
+            <field name='freq_times_unit'>" + setting.freq_times_unit + "</field> \
             <field name='freq_unit'>" + setting.freq_unit + "</field> \
             <next> \
               <block type='spklr_setting_moisture'> \
@@ -561,6 +535,9 @@ function createBlockXml(blockType, setting) {
 }
 
 
+
+/* Functions used when by generator_stubs */
+
 function getSeasonBlocks() {
     var value = null;
 
@@ -577,5 +554,5 @@ function getPlantTypesBlocks() {
     customizeBlocks.forEach(category => {
         if (category.categoryName == "Plants") value = category.blocks;
     });
-    return value.splice(1, value.length);  // remove the first element which is 'plant_type' and only have the different types of plants (cactus, roses, etc..)
+    return value.slice(1, value.length);  // remove the first element which is 'plant_type' and only have the different types of plants (cactus, roses, etc..)
 }

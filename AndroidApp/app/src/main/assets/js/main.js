@@ -10,40 +10,35 @@
 var blocklyArea;
 var blocklyDiv;
 let workspace;
-var toolboxXml;
-var customizeBlocks;
 var modelsFact;
-var models_list;
-
 var objectFromDB;
 
 window.onload = init;
 
 function init() {
     // create the toolbox with the customize blocks
-    toolboxXml = createBlocksAndToolboxXml();
-    injectBlockly();
-    //getAllProg();
+    var toolboxXml = createBlocksAndToolboxXml();
+    injectBlockly(toolboxXml);
 
-    console.log("LOG: "+ objectFromDB);
+    var models_list = setupDefaultModelsDict();
+    modelsFact = new modelsFactory(models_list,"New");
+    modelsFact.loadSelectedModelIntoWorkspace();
 
-    setupModelsDict();
-    modelsFact = new modelsFactory(models_list,"defaut");
-    //modelsFact.load_Models()
     addListeners();
 
-   // customizeToolbox(workspace);
+    //customizeToolbox(workspace);
     Blockly.svgResize(workspace);
-    loadModel('defaut')
 
     console.log("page loaded");
 }
 
+
 function addListeners() {
     window.addEventListener('resize', resizeAll(), false);
     setButtonListeners();
-    //workspace.addChangeListener(updateGeneratedCode);
+   // workspace.addChangeListener(updateGeneratedCode);
 }
+
 
 function resizeAll() {
     // Compute the absolute coordinates and dimensions of blocklyArea.
@@ -65,7 +60,7 @@ function updateGeneratedCode(event) {
     document.getElementById('generated').value = code;
 }
 
-function injectBlockly() {
+function injectBlockly(toolboxXml) {
     blocklyArea = document.getElementById('blocklyArea');
 
     workspace = Blockly.inject('blocklyArea',
@@ -80,7 +75,7 @@ function injectBlockly() {
                 snap: true
             },
             trashcan: true,
-            zoom: 
+            zoom:
             {
                 controls: true,
                 startScale: 0.6,
@@ -97,4 +92,6 @@ function injectBlockly() {
 function customizeToolbox(space) {
     let toolBx = space.getToolbox().getWidth();
     console.log(' here is da toolbox : ' + toolBx);
-} 
+    //console.log(' here is da toolbox : ' + space.getBlockById("mainBlock"));
+    //space.getBlockById("mainBlock").setDeletable(false);
+}

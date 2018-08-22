@@ -242,22 +242,22 @@
 },
 {
   "type": "spklr_setting_moisture",
-  "message0": "Water when the soil is %1",
+  "message0": "Water when the soil has %1 %% of humidity",
   "args0": [
     {
       "type": "field_dropdown",
       "name": "moist_level",
       "options": [
         [
-          "super dry",
-          "150"
+          "25",
+          "200"
         ],
         [
-          "dry",
-          "300"
+          "50",
+          "400"
         ],
         [
-          "slightly moist",
+          "75",
           "600"
         ]
       ]

@@ -4,6 +4,18 @@
 
 function generateAllStubs() {
     // Starting blocks
+    Blockly.JavaScript['program_type'] = function(block) {
+      var statements_program = Blockly.JavaScript.statementToCode(block, 'program');
+      var code = statements_program.trim();
+
+      if(code.charAt( code.length-1 ) == "|") {
+          code = code.slice(0, code.length-1);
+      }
+
+      return code;
+    };
+
+
     Blockly.JavaScript['sprinkler_type'] = function(block) {
       var dropdown_sprinkler_number = block.getFieldValue('sprinkler_number');
       var checkbox_sprinkler_active = block.getFieldValue('sprinkler_active') == 'TRUE';
@@ -18,10 +30,19 @@ function generateAllStubs() {
         }
         code += ";" + tmp;
       }
-      code += "]";
+      code += "]|";
 
       return code;
     };
+
+
+    Blockly.JavaScript['spklr_setting_meteo'] = function(block) {
+      var checkbox_check_meteo = block.getFieldValue('check_meteo') == 'TRUE';
+      var text_zip_code = block.getFieldValue('zip_code');
+      var code = "pg[me," + (checkbox_check_meteo ? 1 : 0) + "]|";
+      return code;
+    };
+
 
     Blockly.JavaScript['plant_type'] = function(block) {
       var text_plant_name = block.getFieldValue('plant_name');
@@ -49,12 +70,7 @@ function generateAllStubs() {
       return code;
     };
 
-    Blockly.JavaScript['spklr_setting_meteo'] = function(block) {
-      var checkbox_check_meteo = block.getFieldValue('check_meteo') == 'TRUE';
-      var text_zip_code = block.getFieldValue('zip_code');
-      var code = "me," + (checkbox_check_meteo ? 1 : 0) + ";";
-      return code;
-    };
+
 
     Blockly.JavaScript['spklr_setting_frequency'] = function(block) {
       var number_freq_time = block.getFieldValue('freq_time');
@@ -69,12 +85,6 @@ function generateAllStubs() {
       var code = "m," + number_moist_level + ";";
       return code;
     };
-/*
-    Blockly.JavaScript['spklr_setting_intensity'] = function(block) {
-      var dropdown_water_intensity = block.getFieldValue('water_intensity');
-      var code = "\n<intensity level = '" + dropdown_water_intensity + "'/>";
-      return code;
-    };*/
 
 
 

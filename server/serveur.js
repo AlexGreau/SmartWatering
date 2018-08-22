@@ -226,7 +226,7 @@ app.get('/api/signup', function (req, res) {
                     /// Je cree en meme temps la table Program
                     var dt = new Date();
 		            db.db('smartwatering').collection('program').insertOne({userId: reponse, title : "Defaut", program : "Programme XML"});
-                    db.db('smartwatering').collection('wateringCan').insertOne({userId: reponse, program : "Programme PG", dateActive: dt.getTime(), dateLastTime: dt.getTime()});
+                db.db('smartwatering').collection('wateringCan').insertOne({userId: reponse, program : "Programme PG", dateActive: dt.getTime(), dateLastTime: dt.getTime()});
 
                     res.send(reponse);
                 }));

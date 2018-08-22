@@ -1,4 +1,56 @@
 <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
   <variables></variables>
-  <block type="program_type" id="#wG)%h9q$|GcF]HY~Ykc" x="38" y="38"></block>
+  <block type="program_type" id="E#{4Vnhzx!Bi5y).`~f/" x="38" y="38">
+    <statement name="program">
+      <block type="sprinkler_type" id="$+v.y-W%I?{[EKRO}[5~">
+        <field name="sprinkler_number">1</field>
+        <field name="sprinkler_active">TRUE</field>
+        <statement name="sprinkler_settings">
+                  <block type="plant_type_cactus" id="ner;w!+*B~x[q;NrP@nz">
+                    <statement name="settings">
+                      <block type="spklr_setting_duration" id="s=e!N:Cbh,zaBLMo,zea">
+                        <field name="duration_num">60</field>
+                        <field name="duration_unit">sec</field>
+                      </block>
+                    </statement>
+                  </block>
+        </statement>
+        <next>
+          <block type="sprinkler_type" id="PdPIZVi-4-M_hw#ief-S">
+            <field name="sprinkler_number">2</field>
+            <field name="sprinkler_active">TRUE</field>
+            <statement name="sprinkler_settings">
+                      <block type="plant_type_cactus" id="(4z{0Qq)xM)^~o,C}I,[">
+                        <statement name="settings">
+                          <block type="spklr_setting_duration" id="O)}{`wl,[R$+p)6T!Z6S">
+                            <field name="duration_num">60</field>
+                            <field name="duration_unit">sec</field>
+                          </block>
+                        </statement>
+                      </block>
+            </statement>
+            <next>
+              <block type="sprinkler_type" id="~{$}jX1ZQ^6Iwv?K4B=c">
+                <field name="sprinkler_number">3</field>
+                <field name="sprinkler_active">TRUE</field>
+                <statement name="sprinkler_settings">
+                        <block type="plant_type_cactus" id="j9[+6K,#Z1`Ct94,pUCo">
+                          <statement name="settings">
+                            <block type="spklr_setting_duration" id="42I=P%,aR9L`F!^,hbv]">
+                              <field name="duration_num">60</field>
+                              <field name="duration_unit">sec</field>
+                            </block>
+                          </statement>
+                        </block>
+                </statement>
+                
+                
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+      
+    </statement>
+  </block>
 </xml>

@@ -90,7 +90,7 @@ bool connectToWifi() {
     Serial.write("st:-2");
     return false;
   }
-  Serial.write("st:1");
+  //Serial.write("st:1");
   return true;
 }
 
@@ -101,7 +101,7 @@ bool connectToHost(const char* host, const int port) {
       Serial.write("st:-3");
       return false;
   }    
-  Serial.write("st:2");
+  //Serial.write("st:2");
   return true;
 }
 
@@ -163,16 +163,6 @@ String getPrecipitationData() {
 }
 
 
-/*void sendPrecipitationInfoToArduino(int precipitation) {
-  if (precipitation < LIMIT_PRECIPITATION) {
-    Serial.write("me:1"); // true  
-  } else {   
-    Serial.write("me:0"); // false
-  }
-}
-*/
-
-
 /*
  **************************************************
  *  Smart Watering Server communication methods
@@ -185,13 +175,9 @@ String getPrecipitationData() {
 
   if(connectToHost(smartWateringHost, smartWateringHttpPort)) {         
     sendRequest(smartWateringHost,  String("/api/getprog?id=") + userId);
-    //Serial.println("\nrecu host ");
-    //Serial.println(client.readString());
     
     if(isResponseFromServerOk()) {
-      //Serial.println("Yeap, connected to smart watering");
       progStr = client.readString();
-      //Serial.println(progStr);
       sendProgramToArduino(true);
     }
   }
@@ -226,9 +212,9 @@ void sendProgramToArduino(bool progWellReceived) {
  
 
 // When URI / is requested, send a web page with a form
-void handleRoot() {  
+/*void handleRoot() {  
   server.send(200, "text/html", "<form action=\"/config\" method=\"POST\">Wifi Name:<input type=\"text\" name=\"ssid\" placeholder=\"wifi name\"></br>Password:<input type=\"password\" name=\"pass\" placeholder=\"password\"></br>City:<input type=\"text\" name=\"city\" placeholder=\"city\"></br>City:<input type=\"text\" name=\"id\" placeholder=\"id\"></br></br></br><input type=\"submit\" value=\"Set Configuration\"></form>");
-}
+}*/
 
 
 // when a POST request is made to URI /config
@@ -279,7 +265,7 @@ void setup() {
   WiFi.softAP(myssid, mypassword);  // Set Access Point mode
 
   // Server configuration
-  server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
+  //server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
   server.on("/config", HTTP_POST, handleConfig); // Call the 'handleConfig' function when a POST request is made to URI "/config"
   server.onNotFound(handleNotFound);           // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
   server.begin();
@@ -313,8 +299,6 @@ void loop() {
   if(str == "alert") {
     if(connectToHost(smartWateringHost, smartWateringHttpPort)) {   
       sendRequest(smartWateringHost,  String("/api/alert?id=") + userId);
-      //Serial.println("\nrecu: ");
-      //Serial.println(client.readString());
 
       if(isResponseFromServerOk()) {
         Serial.write("st:3");
@@ -328,11 +312,8 @@ void loop() {
       
       if(isResponseFromServerOk()) {
         String prec = getPrecipitationData();
-        //Serial.write("Response server: ");
-        //Serial.write(prec);
         
         if(prec != "-1") {   // TODO: if there was an error what should we send back to arduino??   
-         // sendPrecipitationInfoToArduino(prec);
           Serial.write((String("me:") + prec).c_str());
         }   
       }

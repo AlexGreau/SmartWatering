@@ -1,13 +1,13 @@
 var xmlDom;
 var xmlText;
-
 var objectId;
+var host = "http://192.168.43.171:8080";
 
 function setButtonListeners(){
     setWindowListener();
     // menu button
     setMenuButtonListeners();
-   
+
     // inside the menu :
     setCreateNewButtonListener();
     setSaveButtonListener();
@@ -37,7 +37,7 @@ function setMenuButtonListeners() {
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-    
+
     // When the user clicks on the button, open the modal
     menuBtn.onclick = function () {
         menuBtn.classList.toggle("change");
@@ -58,19 +58,17 @@ function setObjectId(id) {
 
 function getAllProg() {
     var xhr = new XMLHttpRequest();
-    var myURL = "http://134.59.129.150:8080/api/getallprog";
+    var myURL = host + "/api/getallprog";
     xhr.responseType = 'json';
     xhr.open('GET', myURL+"?id="+objectId, true);
 
     xhr.onload = function () {
         objectFromDB = xhr.response;
-        console.log("LOG: " + objectId + " _______ "+objectFromDB);
 
         for (var property1 in objectFromDB) {
-            console.log(property1 + ":" + objectFromDB[property1]);
              modelsFact.addModel(property1, objectFromDB[property1]);
         }
-        modelsFact.load_Models()
+        modelsFact.addAllmodels();
     };
     xhr.send(null);
 }
@@ -80,9 +78,7 @@ function setCreateNewButtonListener(){
     var createModal = document.getElementById('createModal');
     createBtn.onclick = function(){
         var open = true;
-        //refresh models ?
-       // modelsFact.load_Models() // bugged
-       getAllProg()
+        getAllProg();
         console.log("create New button pressed");
 
         createModal.style.display = "block";
@@ -98,12 +94,12 @@ function setSaveButtonListener(){
         console.log(xmlText);
         console.log('export ok');
 
-        var titre = prompt("Please enter your programm name", "");
+        var titre = prompt("Please enter the name of your program", "");
 
 
-// Creation du formulaire
+        // Creation du formulaire
         var xhttp = new XMLHttpRequest();
-        var myURL = "http://134.59.129.150:8080/api/saveprog";
+        var myURL = host + "/api/saveprog";
         xhttp.open("POST", myURL, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.onreadystatechange = function() {
@@ -128,13 +124,11 @@ function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
     // TODO : get Programm and send that
     createBtn.onclick = function() {
-        var xml = Blockly.Xml.workspaceToDom(workspace);
-        var xml_text = Blockly.Xml.domToText(xml);
-//        console.error(xml_text);
+        var pgString = Blockly.JavaScript.workspaceToCode(workspace);
 
         // Creation du formulaire
         var xhttp = new XMLHttpRequest();
-        var myURL = "http://134.59.129.150:8080/api/setprog";
+        var myURL = host + "/api/setprog";
         xhttp.open("POST", myURL, true);
         // Send the proper header information along with the request
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -146,8 +140,8 @@ function setSendButtonListener(){
             }
         };
 
-        xhttp.send("id=" + objectId + "&p=" + xml_text);
-//        console.log("id=" + myURL);
+        xhttp.send("id=" + objectId + "&p=" + pgString);
+        console.log(pgString);
         document.getElementById("menuModal").style.display = "none";
         document.getElementById('menuBtn').classList.toggle("change");
     }
@@ -158,12 +152,9 @@ function validModelListener(){
     var name;
     // listeners sur chaque button ?
     validCreate.onclick = function (){
-        name = modelsFact.getSelected();
-        loadModel(name);
-        console.log("creating.." + name);
+        modelsFact.loadSelectedModelIntoWorkspace();
         document.getElementById("createModal").style.display = "none";
         document.getElementById("menuModal").style.display = "none";
         document.getElementById('menuBtn').classList.toggle("change");
-    } 
+    }
 }
-

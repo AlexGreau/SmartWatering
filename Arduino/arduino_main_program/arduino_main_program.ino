@@ -131,10 +131,7 @@ void setProgram(String progStr) {
     i++;
     str = splitSring(progStr, ';', i);  // get next parameter
   }
-  if(sprinklerList[spklrId].isActivated) {
-    stopAllCurrentSpklrTimers(spklrId);
-    sprinklerList[spklrId].startTimerId = timer.after(sprinklerList[spklrId].startingTime, startWateringCycle, (void*) spklrId);
-  }  
+  setStartingTimer(spklrId); 
 
   // Send acknowledge with status: 1 - program was well received
   ESPserial.write("ack:1");
@@ -199,6 +196,21 @@ void setWaterLevel() {
  *  Timer methods
  **************************************************
  */
+
+void setStartingTimer(int i) {
+  if(sprinklerList[i].isActivated) {
+    stopAllCurrentSpklrTimers(i);
+    sprinklerList[i].startTimerId = timer.after(sprinklerList[i].startingTime, startWateringCycle, (void*) i);
+  }
+}
+
+void setAllStartingTimers() {
+  for(int i = 0; i < NUM_SPRINKLERS; i++) {
+    setStartingTimer(i);
+  }
+}
+
+
 void startWateringCycle(void* spklrId) {
   int i = (int) spklrId;
   Serial.print("Start watering cycle of sprinkler: ");
@@ -233,7 +245,7 @@ void timeToWater(void* spklrId) {
       digitalWrite(pumpPinList[i], HIGH);
       //Serial.print("Pump: ");
       //Serial.print(i);
-      Serial.print("  ON");
+      Serial.print("  ON ");
       
       sprinklerList[i].durationTimerId = timer.after(sprinklerList[i].duration, stopWatering, (void*)i);
 
@@ -243,10 +255,10 @@ void timeToWater(void* spklrId) {
   }
 
   Serial.print(sprinklerList[i].startTimerId);
-    Serial.print(" ");
-    Serial.print(sprinklerList[i].freqTimerId);
-    Serial.print(" ");
-    Serial.print(sprinklerList[i].durationTimerId);
+  Serial.print(" ");
+  Serial.print(sprinklerList[i].freqTimerId);
+  Serial.print(" ");
+  Serial.print(sprinklerList[i].durationTimerId);
   Serial.println("");
 }
 
@@ -295,6 +307,10 @@ void setup() {
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     pinMode(pumpPinList[i], OUTPUT); 
   }
+
+  //sprinklerList[0].isActivated = true;
+  //sprinklerList[1].isActivated = true;
+  setAllStartingTimers();
 }
 
 

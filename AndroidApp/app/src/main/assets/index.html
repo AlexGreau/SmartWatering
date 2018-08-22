@@ -16,7 +16,6 @@
     <script src="js/blockly/blockly_compressed.js"></script>
     <script src="js/blockly/blocks_compressed.js"></script>
     <script src="js/blockly/javascript_compressed.js"></script>
-    <!--<script src="js/blockly/fr.js"></script>-->
     <script src="js/blockly/en.js"></script>
 
     <script src="js/customizedBlocks/definitions.js"></script>
@@ -32,73 +31,73 @@
 
 <body>
 
-    <div id="blocklyArea"></div>
+<div id="blocklyArea"></div>
 
-    <!-- Menu button that triggers/opens The Modal -->
-    <div id="menuBtn" class="container">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-    </div>
+<!-- Menu button that triggers/opens The Modal -->
+<div id="menuBtn" class="container">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+</div>
 
 
-    <!-- The Modal -->
-    <div id="menuModal" class="modal" tabindex="-1">
-        <!-- Modal content -->
-        <div class="menu-modal-content">
-            <div class="modal-header" style="display: none">
-                <span class="close">&times;</span>
-            </div>
+<!-- The Modal -->
+<div id="menuModal" class="modal" tabindex="-1">
+    <!-- Modal content -->
+    <div class="menu-modal-content">
+        <div class="modal-header" style="display: none">
+            <span class="close">&times;</span>
+        </div>
 
-            <div class="modal-body">
-                <div class="btn-group">
-                    <div class="round-button">
-                        <div class="round-button-circle" id="createBtn">
-                            <a href="#" class="round-button">create</a>
-                        </div>
+        <div class="modal-body">
+            <div class="btn-group">
+                <div class="round-button">
+                    <div class="round-button-circle" id="createBtn">
+                        <a href="#" class="round-button">create</a>
                     </div>
-                    <div class="round-button">
-                        <div class="round-button-circle" id="saveBtn">
-                            <a href="#" class="round-button">Save</a>
-                        </div>
+                </div>
+                <div class="round-button">
+                    <div class="round-button-circle" id="saveBtn">
+                        <a href="#" class="round-button">Save</a>
                     </div>
-                    <div class="round-button">
-                        <div class="round-button-circle" id="sendBtn">
-                            <a href="#" class="round-button">send</a>
-                        </div>
+                </div>
+                <div class="round-button">
+                    <div class="round-button-circle" id="sendBtn">
+                        <a href="#" class="round-button">send</a>
                     </div>
                 </div>
             </div>
-
-            <div class="modal-footer" style="display: none">
-                <h3>Modal Footer</h3>
-            </div>
         </div>
 
-    </div>
-
-    <div id="createModal" class="modal" tabindex="-1">
-        <div class="createNew-modal-content">
-            <div class="modal-header">
-                <h2>Create new project</h2>
-            </div>
-            <div class="modal-body" >
-                <div id="listOfModels" class = "btnBlockGroup">
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="validCreate" class="softEdgedButton"> Create </button>
-            </div>
+        <div class="modal-footer" style="display: none">
+            <h3>Modal Footer</h3>
         </div>
     </div>
 
+</div>
+
+<div id="createModal" class="modal" tabindex="-1">
+    <div class="createNew-modal-content">
+        <div class="modal-header">
+            <h2>Create new project</h2>
+        </div>
+        <div class="modal-body" >
+            <div id="listOfModels" class = "btnBlockGroup">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="validCreate" class="softEdgedButton"> Create </button>
+        </div>
+    </div>
+</div>
 
 <!--
-    <div id="generatedCodeArea">
-        <textarea id="generated">code</textarea>
-    </div>
+<div id="generatedCodeArea">
+    <textarea id="generated">code</textarea>
+</div>
 -->
+
 </body>
 
 </html>

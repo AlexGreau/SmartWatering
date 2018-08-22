@@ -15,10 +15,10 @@ Timer timer;
 
 // Structure used for the sprinklers
 struct Sprinkler {
-  bool isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
-  int moisture = 100;
-  long frequency = 10000;    // in milliseconds
-  long duration = 3000;      // in milliseconds
+  bool isActivated = true;    // TODO: OR BE ACTIVE BY DEFAULT???
+  int moisture = 400;
+  long frequency = 30000;//18000000;    // in milliseconds
+  long duration = 10000;//900000;      // in milliseconds
   long startingTime = 5000;  // in milliseconds
 
   // Auxiliary attributes

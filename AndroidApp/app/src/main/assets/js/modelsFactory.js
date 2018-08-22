@@ -4,7 +4,7 @@
 class modelsFactory{
     constructor (dictOfModels, selected) {
         this.dictOf_models = dictOfModels;
-        this.selectedModel = selected ;
+        this.selectedModel = selected;
     }
 
     addAllListeners(){
@@ -12,7 +12,7 @@ class modelsFactory{
             var id = build_buttonID(i);
             var btn = document.getElementById(id);
             var temp = this;
-            btn.onclick = function(){  
+            btn.onclick = function(){
                temp.selectedModel = this.textContent;
                console.log (this.textContent + " pressed")
             }
@@ -29,13 +29,9 @@ class modelsFactory{
             button.textContent = i;
             button.setAttribute("class", "button");
             div.appendChild(button);
-        }  
-        this.addAllListeners()
-    }
-
-    load_Models(){    
-        this.addAllmodels();
-        console.log("finished loading all built in models \n")
+        }
+        this.addAllListeners();
+        console.log("finished loading all built in models \n");
     }
 
     getSelected(){
@@ -43,7 +39,16 @@ class modelsFactory{
     }
 
     addModel(name, xml){
-        models_list[name] = xml;
+        this.dictOf_models[name] = xml;
+    }
+
+    loadSelectedModelIntoWorkspace() {
+        var workspaceBlocks = Blockly.Xml.textToDom(this.dictOf_models[this.selectedModel]);
+
+        // Clear and Load blocks to workspace.
+        Blockly.mainWorkspace.clear();
+        Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
+        console.log("model loaded");
     }
    
 }
@@ -51,48 +56,3 @@ class modelsFactory{
 function build_buttonID(name){
     return "" + name + "Btn";
 }
-
-
-
-
-
-
-
-
-
-/*function buildID(name){
-    return "" + name + "Btn";
-}
-
-function addAllListeners(listOfModels){
-    listOfModels.forEach(element => {
-        var id = buildID(element);
-        var btn = document.getElementById(id);
-       btn.onclick = function(){  
-            console.log(id + " button pressed");
-        }
-    })
-}
-
-function addAllmodels(listOfModels){
-    var div = document.getElementById("listOfModels");
-    var id,button;
-    listOfModels.forEach(element => {
-        id = buildID(element)
-        button = document.createElement("button");
-        button.id=  element + "Btn";
-        button.textContent = id;
-        button.setAttribute("class", "button");
-        div.appendChild(button);
-    });
-
-    addAllListeners(listOfModels)
-}
-
-
-f load_Models(modelsList){
-    var modelsList = ["cactus", "tomato","defaut"];
-
-    addAllmodels(modelsList);
-    console.log("finished loading all built in models \n")
-}*/

@@ -8,6 +8,7 @@ body{
     overflow: hidden;
     height: 100%;
     margin: 0%;
+    /*display: grid;*/
 }
 h1{
     font-weight: normal;
@@ -19,6 +20,7 @@ h2{
 }
 
 p {
+
     font-size: 5vh;
 }
 
