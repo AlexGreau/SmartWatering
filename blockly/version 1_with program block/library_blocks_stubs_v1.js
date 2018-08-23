@@ -52,8 +52,11 @@ Blockly.JavaScript['spklr_setting_duration'] = function(block) {
 };
 
 Blockly.JavaScript['spklr_setting_start_time'] = function(block) {
-  var number_watering_hour = block.getFieldValue('watering_hour');
-  var number_watering_min = block.getFieldValue('watering_min');
+  var dropdown_watering_day = block.getFieldValue('watering_day');
+  var dropdown_watering_month = block.getFieldValue('watering_month');
+  var dropdown_watering_year = block.getFieldValue('watering_year');
+  var dropdown_watering_hour = block.getFieldValue('watering_hour');
+  var dropdown_watering_min = block.getFieldValue('watering_min');
   var dropdown_watering_unit = block.getFieldValue('watering_unit');
   // TODO: Assemble JavaScript into code variable.
   var code = '...;\n';

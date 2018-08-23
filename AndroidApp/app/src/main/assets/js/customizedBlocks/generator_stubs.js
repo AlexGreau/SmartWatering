@@ -53,30 +53,64 @@ function generateAllStubs() {
 
 
 
-
     // Base blocks
+    Blockly.JavaScript['spklr_setting_start_time'] = function(block) {
+        var dropdown_watering_day = block.getFieldValue('watering_day');
+        var dropdown_watering_month = block.getFieldValue('watering_month');
+        var dropdown_watering_year = block.getFieldValue('watering_year');
+        var dropdown_watering_hour = block.getFieldValue('watering_hour');
+        var dropdown_watering_min = block.getFieldValue('watering_min');
+        var dropdown_watering_unit = block.getFieldValue('watering_unit');
+        var code = "st,";
+
+        if (dropdown_watering_unit == "pm") {
+            dropdown_watering_hour = parseInt(dropdown_watering_hour) + 12;
+        }
+        var startingDate = new Date(dropdown_watering_year, dropdown_watering_month - 1, dropdown_watering_day, dropdown_watering_hour, dropdown_watering_min);
+        var dif = Math.ceil((startingDate.getTime() - Date.now()) / 1000); // to transform it to seconds
+
+        if(dif < 0) {
+            dif = 0;
+        }
+        code += dif + ";";
+        return code;
+    };
+
+    Blockly.JavaScript['spklr_setting_frequency'] = function(block) {
+        var number_freq_time = block.getFieldValue('freq_time');
+        var number_freq_times_unit = block.getFieldValue('freq_times_unit');
+        var dropdown_freq_unit = block.getFieldValue('freq_unit');
+        var code = "f,";
+        var tmp = 86400; // total of seconds in a day
+
+        // Convert unit to seconds
+        if(dropdown_freq_unit == "day") {
+          tmp = number_freq_times_unit * tmp;
+        }
+        else if(dropdown_freq_unit == "week") {
+          tmp = number_freq_times_unit * tmp * 7;
+        }
+        else if(dropdown_freq_unit == "month") {
+          tmp = number_freq_times_unit * tmp * 30;
+        }
+        tmp = tmp / number_freq_time;
+        code += tmp + ";";
+        return code;
+    };
+
     Blockly.JavaScript['spklr_setting_duration'] = function(block) {
       var number_duration_num = block.getFieldValue('duration_num');
       var dropdown_duration_unit = block.getFieldValue('duration_unit');
-      var code = "d," + number_duration_num + ";";
-      return code;
-    };
+      var code = "d,";
 
-    Blockly.JavaScript['spklr_setting_start_time'] = function(block) {
-      var number_watering_hour = block.getFieldValue('watering_hour');
-      var number_watering_min = block.getFieldValue('watering_min');
-      var dropdown_watering_unit = block.getFieldValue('watering_unit');
-      var code = "st," + number_watering_hour + ";";
-      return code;
-    };
-
-
-
-    Blockly.JavaScript['spklr_setting_frequency'] = function(block) {
-      var number_freq_time = block.getFieldValue('freq_time');
-      var number_freq_times_unit = block.getFieldValue('freq_times_unit');
-      var dropdown_freq_unit = block.getFieldValue('freq_unit');
-      var code = "f," + number_freq_time + ";";
+      // Convert duration to seconds
+      if(dropdown_duration_unit == "min") {
+        number_duration_num = number_duration_num * 60;
+      }
+      else if(dropdown_duration_unit == "hour") {
+        number_duration_num = number_duration_num * 3600;
+      }
+      code += number_duration_num + ";";
       return code;
     };
 
@@ -85,7 +119,6 @@ function generateAllStubs() {
       var code = "m," + number_moist_level + ";";
       return code;
     };
-
 
 
 

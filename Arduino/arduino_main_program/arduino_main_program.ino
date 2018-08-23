@@ -172,24 +172,6 @@ void setMeteo(String result) {
 }
 
 
-void setWaterLevel() {
-  isWaterLevelLow = digitalRead(floaterPin);
-
-  Serial.print("Water low: ");
-  Serial.println(isWaterLevelLow);
-  if(isWaterLevelLow) {
-    for(int i = 0; i < NUM_SPRINKLERS; i++) {
-      digitalWrite(pumpPinList[i], LOW);
-      stopTimer(&sprinklerList[i].durationTimerId);
-    }
-    Serial.println("All pumps off");
-    ESPserial.write("alert");
-    // TODO: ERASE
-    printForDebug();
-  }  
-}
-
-
 
 /*
  **************************************************
@@ -199,12 +181,15 @@ void setWaterLevel() {
 
 void setStartingTimer(int i) {
   if(sprinklerList[i].isActivated) {
+    Serial.print("set: ");
+    Serial.println(i);
     stopAllCurrentSpklrTimers(i);
     sprinklerList[i].startTimerId = timer.after(sprinklerList[i].startingTime, startWateringCycle, (void*) i);
   }
 }
 
 void setAllStartingTimers() {
+  Serial.println("in setting");
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     setStartingTimer(i);
   }
@@ -310,7 +295,26 @@ void setup() {
 
   //sprinklerList[0].isActivated = true;
   //sprinklerList[1].isActivated = true;
+  //sprinklerList[2].isActivated = true;
   setAllStartingTimers();
+}
+
+
+void setWaterLevel() {
+  isWaterLevelLow = digitalRead(floaterPin);
+
+  Serial.print("Water low: ");
+  Serial.println(isWaterLevelLow);
+  if(isWaterLevelLow) {
+    for(int i = 0; i < NUM_SPRINKLERS; i++) {
+      digitalWrite(pumpPinList[i], LOW);
+      stopTimer(&sprinklerList[i].durationTimerId);
+    }
+    Serial.println("All pumps off");
+    ESPserial.write("alert");
+    // TODO: ERASE
+    printForDebug();
+  }  
 }
 
 

@@ -36,7 +36,7 @@ function init() {
 function addListeners() {
     window.addEventListener('resize', resizeAll(), false);
     setButtonListeners();
-   // workspace.addChangeListener(updateGeneratedCode);
+    workspace.addChangeListener(updateGeneratedCode);
 }
 
 

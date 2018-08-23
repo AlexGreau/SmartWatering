@@ -438,7 +438,7 @@
               <block type="field_number" id="dqA{75ru.ArHx;;a6Av1">
                 <field name="VALUE">60</field>
                 <field name="FIELDNAME">duration_num</field>
-                <field name="MIN">0</field>
+                <field name="MIN">1</field>
                 <field name="MAX">Infinity</field>
                 <field name="PRECISION">0</field>
                 <next>
@@ -497,32 +497,151 @@
         <field name="ALIGN">LEFT</field>
         <statement name="FIELDS">
           <block type="field_static" id="3(}5._Kiur-W5iwCDc]2">
-            <field name="TEXT">Start watering at:</field>
+            <field name="TEXT">Start watering on</field>
             <next>
-              <block type="field_number" id="yZYy)r?aw{L*K8QX/ls}">
-                <field name="VALUE">0</field>
-                <field name="FIELDNAME">watering_hour</field>
-                <field name="MIN">1</field>
-                <field name="MAX">12</field>
-                <field name="PRECISION">0</field>
+              <block type="field_dropdown" id="Xqr-[8RKH!qkjk`)]=^q">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                <field name="FIELDNAME">watering_day</field>
+                <field name="USER0">1</field>
+                <field name="CPU0">1</field>
+                <field name="USER1">2</field>
+                <field name="CPU1">2</field>
+                <field name="USER2">3</field>
+                <field name="CPU2">3</field>
+                <field name="USER3">4</field>
+                <field name="CPU3">4</field>
+                <field name="USER4">5</field>
+                <field name="CPU4">5</field>
+                <field name="USER5">6</field>
+                <field name="CPU5">6</field>
+                <field name="USER6">7</field>
+                <field name="CPU6">7</field>
+                <field name="USER7">8</field>
+                <field name="CPU7">8</field>
+                <field name="USER8">9</field>
+                <field name="CPU8">9</field>
+                <field name="USER9">10</field>
+                <field name="CPU9">10</field>
+                <field name="USER10">10</field>
+                <field name="CPU10">10</field>
+                <field name="USER11">11</field>
+                <field name="CPU11">11</field>
+                <field name="USER12">12</field>
+                <field name="CPU12">12</field>
                 <next>
                   <block type="field_static" id="Jq-{jgAM0mk9aZ~EKXG/">
-                    <field name="TEXT">:</field>
+                    <field name="TEXT">/</field>
                     <next>
-                      <block type="field_number" id="ebL9~E*z{Kv6avHf^COO">
-                        <field name="VALUE">0</field>
-                        <field name="FIELDNAME">watering_min</field>
-                        <field name="MIN">0</field>
-                        <field name="MAX">59</field>
-                        <field name="PRECISION">0</field>
+                      <block type="field_dropdown" id="x(k9x]:-+LoT?S1j(vSj">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">watering_month</field>
+                        <field name="USER0">1</field>
+                        <field name="CPU0">1</field>
+                        <field name="USER1">2</field>
+                        <field name="CPU1">2</field>
+                        <field name="USER2">3</field>
+                        <field name="CPU2">3</field>
+                        <field name="USER3">4</field>
+                        <field name="CPU3">4</field>
+                        <field name="USER4">5</field>
+                        <field name="CPU4">5</field>
+                        <field name="USER5">6</field>
+                        <field name="CPU5">6</field>
+                        <field name="USER6">7</field>
+                        <field name="CPU6">7</field>
+                        <field name="USER7">8</field>
+                        <field name="CPU7">8</field>
+                        <field name="USER8">9</field>
+                        <field name="CPU8">9</field>
+                        <field name="USER9">10</field>
+                        <field name="CPU9">10</field>
+                        <field name="USER10">10</field>
+                        <field name="CPU10">10</field>
+                        <field name="USER11">11</field>
+                        <field name="CPU11">11</field>
+                        <field name="USER12">12</field>
+                        <field name="CPU12">12</field>
                         <next>
-                          <block type="field_dropdown" id="#Q?9Dys,YD$/JvsGrt[Z">
-                            <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
-                            <field name="FIELDNAME">watering_unit</field>
-                            <field name="USER0">am</field>
-                            <field name="CPU0">am</field>
-                            <field name="USER1">pm</field>
-                            <field name="CPU1">pm</field>
+                          <block type="field_static" id="p%6XM^BPs+i%6A{6d`{P">
+                            <field name="TEXT">/</field>
+                            <next>
+                              <block type="field_dropdown" id="nd01v$tZ`dL%Y7lJZ.vD">
+                                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                                <field name="FIELDNAME">watering_year</field>
+                                <field name="USER0">2018</field>
+                                <field name="CPU0">2018</field>
+                                <field name="USER1">2019</field>
+                                <field name="CPU1">2019</field>
+                                <field name="USER2">2020</field>
+                                <field name="CPU2">2020</field>
+                                <next>
+                                  <block type="field_static" id="iDV+yoT=sR^^7EAk(Fm8">
+                                    <field name="TEXT">at</field>
+                                    <next>
+                                      <block type="field_dropdown" id="_^S]H#u*s:8vvbxr*U.l">
+                                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                                        <field name="FIELDNAME">watering_hour</field>
+                                        <field name="USER0">1</field>
+                                        <field name="CPU0">1</field>
+                                        <field name="USER1">2</field>
+                                        <field name="CPU1">2</field>
+                                        <field name="USER2">3</field>
+                                        <field name="CPU2">3</field>
+                                        <field name="USER3">4</field>
+                                        <field name="CPU3">4</field>
+                                        <field name="USER4">5</field>
+                                        <field name="CPU4">5</field>
+                                        <field name="USER5">6</field>
+                                        <field name="CPU5">6</field>
+                                        <field name="USER6">7</field>
+                                        <field name="CPU6">7</field>
+                                        <field name="USER7">8</field>
+                                        <field name="CPU7">8</field>
+                                        <field name="USER8">9</field>
+                                        <field name="CPU8">9</field>
+                                        <field name="USER9">10</field>
+                                        <field name="CPU9">10</field>
+                                        <field name="USER10">10</field>
+                                        <field name="CPU10">10</field>
+                                        <field name="USER11">11</field>
+                                        <field name="CPU11">11</field>
+                                        <field name="USER12">12</field>
+                                        <field name="CPU12">12</field>
+                                        <next>
+                                          <block type="field_static" id="+x{m}$tWlr4o8Jm|XWc9">
+                                            <field name="TEXT">:</field>
+                                            <next>
+                                              <block type="field_dropdown" id="D+b@Vr2ertNkUd|ob~ZZ">
+                                                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                                                <field name="FIELDNAME">watering_min</field>
+                                                <field name="USER0">0</field>
+                                                <field name="CPU0">0</field>
+                                                <field name="USER1">15</field>
+                                                <field name="CPU1">15</field>
+                                                <field name="USER2">30</field>
+                                                <field name="CPU2">30</field>
+                                                <field name="USER3">45</field>
+                                                <field name="CPU3">45</field>
+                                                <next>
+                                                  <block type="field_dropdown" id="drXXhKw=t?}?t.OSdk/m">
+                                                    <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
+                                                    <field name="FIELDNAME">watering_unit</field>
+                                                    <field name="USER0">am</field>
+                                                    <field name="CPU0">am</field>
+                                                    <field name="USER1">pm</field>
+                                                    <field name="CPU1">pm</field>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
                           </block>
                         </next>
                       </block>
@@ -695,7 +814,7 @@
               <block type="field_number" id=",JOF2B%bfBMGd9nfpjw%">
                 <field name="VALUE">1</field>
                 <field name="FIELDNAME">freq_time</field>
-                <field name="MIN">0</field>
+                <field name="MIN">1</field>
                 <field name="MAX">Infinity</field>
                 <field name="PRECISION">0</field>
                 <next>
@@ -705,7 +824,7 @@
                       <block type="field_number" id="~^{WEF%%;_dzj_oonte%">
                         <field name="VALUE">1</field>
                         <field name="FIELDNAME">freq_times_unit</field>
-                        <field name="MIN">-Infinity</field>
+                        <field name="MIN">1</field>
                         <field name="MAX">Infinity</field>
                         <field name="PRECISION">0</field>
                         <next>

@@ -13,7 +13,7 @@ public enum MyURL {
 
     @Override
     public String toString() {
-        String host = "http://192.168.43.171:8080";
+        String host = "http://134.59.129.203:8080";
         return host + "" + title;
     }
 }

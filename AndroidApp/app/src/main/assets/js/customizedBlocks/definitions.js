@@ -219,12 +219,13 @@ var customizeBlocks =
                  "type": "field_number",
                  "name": "freq_time",
                  "value": 1,
-                 "min": 0
+                 "min": 1
                },
                {
                  "type": "field_number",
                  "name": "freq_times_unit",
-                 "value": 1
+                 "value": 1,
+                 "min": 1
                },
                {
                  "type": "field_dropdown",
@@ -259,7 +260,7 @@ var customizeBlocks =
                   "type": "field_number",
                   "name": "duration_num",
                   "value": 60,
-                  "min": 0
+                  "min": 1
                 },
                 {
                   "type": "field_dropdown",
@@ -288,21 +289,164 @@ var customizeBlocks =
             },
             {
               "type": "spklr_setting_start_time",
-              "message0": "Start watering at: %1 : %2 %3",
+              "message0": "Start watering on %1 / %2 / %3 at %4 : %5 %6",
               "args0": [
                 {
-                  "type": "field_number",
-                  "name": "watering_hour",
-                  "value": 0,
-                  "min": 1,
-                  "max": 12
+                  "type": "field_dropdown",
+                  "name": "watering_day",
+                  "options":[["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["10", "10"],
+                             ["11", "11"], ["12", "12"], ["13", "13"], ["14", "14"], ["15", "15"], ["16", "16"], ["17", "17"], ["18", "18"], ["19", "19"],
+                             ["20", "20"], ["21", "21"], ["22", "22"], ["23", "23"], ["24", "24"], ["25", "25"], ["26", "26"], ["27", "27"], ["28", "28"], ["29", "29"],
+                             ["30", "30"], ["31", "31"]
+                  ]
                 },
                 {
-                  "type": "field_number",
+                  "type": "field_dropdown",
+                  "name": "watering_month",
+                  "options": [
+                    [
+                      "1",
+                      "1"
+                    ],
+                    [
+                      "2",
+                      "2"
+                    ],
+                    [
+                      "3",
+                      "3"
+                    ],
+                    [
+                      "4",
+                      "4"
+                    ],
+                    [
+                      "5",
+                      "5"
+                    ],
+                    [
+                      "6",
+                      "6"
+                    ],
+                    [
+                      "7",
+                      "7"
+                    ],
+                    [
+                      "8",
+                      "8"
+                    ],
+                    [
+                      "9",
+                      "9"
+                    ],
+                    [
+                      "10",
+                      "10"
+                    ],
+                    [
+                      "11",
+                      "11"
+                    ],
+                    [
+                      "12",
+                      "12"
+                    ]
+                  ]
+                },
+                {
+                  "type": "field_dropdown",
+                  "name": "watering_year",
+                  "options": [
+                    [
+                      "2018",
+                      "2018"
+                    ],
+                    [
+                      "2019",
+                      "2019"
+                    ],
+                    [
+                      "2020",
+                      "2020"
+                    ]
+                  ]
+                },
+                {
+                  "type": "field_dropdown",
+                  "name": "watering_hour",
+                  "options": [
+                    [
+                      "1",
+                      "1"
+                    ],
+                    [
+                      "2",
+                      "2"
+                    ],
+                    [
+                      "3",
+                      "3"
+                    ],
+                    [
+                      "4",
+                      "4"
+                    ],
+                    [
+                      "5",
+                      "5"
+                    ],
+                    [
+                      "6",
+                      "6"
+                    ],
+                    [
+                      "7",
+                      "7"
+                    ],
+                    [
+                      "8",
+                      "8"
+                    ],
+                    [
+                      "9",
+                      "9"
+                    ],
+                    [
+                      "10",
+                      "10"
+                    ],
+                    [
+                      "11",
+                      "11"
+                    ],
+                    [
+                      "12",
+                      "12"
+                    ]
+                  ]
+                },
+                {
+                  "type": "field_dropdown",
                   "name": "watering_min",
-                  "value": 0,
-                  "min": 0,
-                  "max": 59
+                  "options": [
+                    [
+                      "0",
+                      "0"
+                    ],
+                    [
+                      "15",
+                      "15"
+                    ],
+                    [
+                      "30",
+                      "30"
+                    ],
+                    [
+                      "45",
+                      "45"
+                    ]
+                  ]
                 },
                 {
                   "type": "field_dropdown",
@@ -324,7 +468,7 @@ var customizeBlocks =
               "colour": 315,
               "tooltip": "",
               "helpUrl": ""
-          }]
+            }]
  },
 {
       "categoryName" : "Meteo",
@@ -447,8 +591,8 @@ var customizeBlocks =
 }];
 
 
-
 function createBlocksAndToolboxXml() {
+
     var toolboxXml = '<xml id="toolbox" style="display: none;">';
 
     // Create the customize blocks

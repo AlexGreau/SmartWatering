@@ -8,7 +8,7 @@ body{
     overflow: hidden;
     height: 100%;
     margin: 0%;
-    /*display: grid;*/
+    display: grid;
 }
 h1{
     font-weight: normal;
@@ -60,7 +60,7 @@ ul{
     width: 100%;
     background-color: blanchedalmond;
     margin: 0%;
-    position: absolute;
+    /*position: absolute;*/
 }
 
 #blocklyDiv{
