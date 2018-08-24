@@ -1,6 +1,11 @@
 #include <Timer.h>
 #include <Event.h>
-#include <SoftwareSerial.h>
+#include <MySoftwareSerial.h>
+
+#define NO_PORTB_PINCHANGES
+#define NO_PORTD_PINCHANGES
+#include <PinChangeInt.h>
+
 
 #define RX_WiFi 8
 #define TX_WiFi 9
@@ -45,12 +50,12 @@ const uint8_t moisturePinList[NUM_SPRINKLERS] = {A0, A1, A2, A3};
 
 
 // Speed sensor - to measure water level in the tank with the floater
-const uint8_t floaterPin = 3;
+const uint8_t floaterPin = A4;
 volatile bool isWaterLevelLow = false;
 
 
 //Set the serial port for the wifi module
-SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
+MySoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 
 

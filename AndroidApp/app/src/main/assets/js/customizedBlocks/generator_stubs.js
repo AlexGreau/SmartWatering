@@ -47,7 +47,7 @@ function generateAllStubs() {
     Blockly.JavaScript['plant_type'] = function(block) {
       var text_plant_name = block.getFieldValue('plant_name');
       var statements_plant_settings = Blockly.JavaScript.statementToCode(block, 'plant_settings');
-      var code = statements_plant_settings;
+      var code = statements_plant_settings.trim();
       return code;
     };
 
@@ -128,7 +128,7 @@ function generateAllStubs() {
     getSeasonBlocks().forEach(block => {
         Blockly.JavaScript[block.type] = function(b) {
           var statements_settings = Blockly.JavaScript.statementToCode(b, 'settings');
-          var code = statements_settings;
+          var code = statements_settings.trim();
           return code;
         };
     });
@@ -138,7 +138,7 @@ function generateAllStubs() {
     getPlantTypesBlocks().forEach(block => {
         Blockly.JavaScript[block.type] = function(b) {
           var statements_settings = Blockly.JavaScript.statementToCode(b, 'settings');
-          var code = statements_settings;
+          var code = statements_settings.trim();
           return code;
         };
     });

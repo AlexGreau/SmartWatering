@@ -35,9 +35,6 @@ String readFromSerial() {
   if(ESPserial.available()) {
     return ESPserial.readString();
   }
-  /*if(Serial.available()) {
-    return Serial.readString();
-  } */
   return "";
 }
 
@@ -75,7 +72,6 @@ void printForDebug() {
 void setProgram(String progStr) { 
    
   progStr.remove(0, 2);
-  //Serial.println(progStr); 
 
   // Send acknowledge with status: 0 - program was not correctly received so resend it
   if(!progStr.startsWith("[") || !progStr.endsWith("]")) {      
@@ -92,7 +88,6 @@ void setProgram(String progStr) {
   
   while(str != "") {        
     String param = splitSring(str, ',', 0);  // get the different data from the parameter
-    //Serial.println(str);
     
     // sprinkler
     if (param == "s") {
@@ -137,7 +132,7 @@ void setProgram(String progStr) {
   ESPserial.write("ack:1");
 
   // TODO: ERASE
-  //printForDebug();
+  printForDebug();
 }
 
 
@@ -148,10 +143,11 @@ void startMeteoCheckingTimer(void* p) {
   meteoTimerId = timer.every(CHECK_METEO_TIME, getMeteo, NULL);
 }
 
+
 void getMeteo(void* p) {
   Serial.print("Checking meteo");
   Serial.print("      ");
-    Serial.println(meteoTimerId);
+  Serial.println(meteoTimerId);
       
   // write 'meteo' to the wifi module so it can go check the meteo site
   ESPserial.write("meteo");
@@ -166,7 +162,6 @@ void setMeteo(String result) {
   } else {   
     waterPlants = false;
   }
-  //waterPlants = splitSring(result, ':', 1).toInt(); 
   Serial.print("Meteo result: ");
   Serial.println(waterPlants);
 }
@@ -181,15 +176,16 @@ void setMeteo(String result) {
 
 void setStartingTimer(int i) {
   if(sprinklerList[i].isActivated) {
-    Serial.print("set: ");
+    Serial.print("set sprinkler: ");
     Serial.println(i);
     stopAllCurrentSpklrTimers(i);
     sprinklerList[i].startTimerId = timer.after(sprinklerList[i].startingTime, startWateringCycle, (void*) i);
   }
 }
 
+
 void setAllStartingTimers() {
-  Serial.println("in setting");
+  Serial.println("setting...");
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     setStartingTimer(i);
   }
@@ -222,14 +218,11 @@ void timeToWater(void* spklrId) {
   Serial.print("   Result Meteo: ");
   Serial.print(waterPlants);
   Serial.print("  ");
-    
   
   if(0 < moistureLevel && moistureLevel < sprinklerList[i].moisture) { 
 
     if(!isWaterLevelLow && waterPlants) {      
       digitalWrite(pumpPinList[i], HIGH);
-      //Serial.print("Pump: ");
-      //Serial.print(i);
       Serial.print("  ON ");
       
       sprinklerList[i].durationTimerId = timer.after(sprinklerList[i].duration, stopWatering, (void*)i);
@@ -238,7 +231,6 @@ void timeToWater(void* spklrId) {
       //printForDebug();
     }              
   }
-
   Serial.print(sprinklerList[i].startTimerId);
   Serial.print(" ");
   Serial.print(sprinklerList[i].freqTimerId);
@@ -281,26 +273,7 @@ void stopAllCurrentSpklrTimers(int i) {
  *****************
  *****************
  */
-void setup() {
-  Serial.begin(9600);
-  ESPserial.begin(115200);
-
-  // initialize floater pin to input
-  pinMode(floaterPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(floaterPin), setWaterLevel, CHANGE);
-
-  for(int i = 0; i < NUM_SPRINKLERS; i++) {
-    pinMode(pumpPinList[i], OUTPUT); 
-  }
-
-  //sprinklerList[0].isActivated = true;
-  //sprinklerList[1].isActivated = true;
-  //sprinklerList[2].isActivated = true;
-  setAllStartingTimers();
-}
-
-
-void setWaterLevel() {
+ void setWaterLevel() {
   isWaterLevelLow = digitalRead(floaterPin);
 
   Serial.print("Water low: ");
@@ -315,6 +288,23 @@ void setWaterLevel() {
     // TODO: ERASE
     printForDebug();
   }  
+}
+
+
+void setup() {
+  Serial.begin(9600);
+  ESPserial.begin(115200);
+
+  // initialize floater pin to input  
+  pinMode(floaterPin, INPUT);     //set the pin to input
+  digitalWrite(floaterPin, HIGH); //use the internal pullup resistor
+  PCintPort::attachInterrupt(floaterPin, setWaterLevel, CHANGE); // attach a PinChange Interrupt to our pin
+  
+  for(int i = 0; i < NUM_SPRINKLERS; i++) {
+    pinMode(pumpPinList[i], OUTPUT); 
+  }
+
+  setAllStartingTimers();
 }
 
 

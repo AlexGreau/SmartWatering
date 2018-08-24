@@ -90,7 +90,7 @@ bool connectToWifi() {
     Serial.write("st:-2");
     return false;
   }
-  //Serial.write("st:1");
+  Serial.write("st:1");
   return true;
 }
 
@@ -101,7 +101,7 @@ bool connectToHost(const char* host, const int port) {
       Serial.write("st:-3");
       return false;
   }    
-  //Serial.write("st:2");
+  Serial.write("st:2");
   return true;
 }
 
@@ -209,12 +209,11 @@ void sendProgramToArduino(bool progWellReceived) {
  ****************************************************************************
  ****************************************************************************
  */
- 
 
 // When URI / is requested, send a web page with a form
-/*void handleRoot() {  
+void handleRoot() {  
   server.send(200, "text/html", "<form action=\"/config\" method=\"POST\">Wifi Name:<input type=\"text\" name=\"ssid\" placeholder=\"wifi name\"></br>Password:<input type=\"password\" name=\"pass\" placeholder=\"password\"></br>City:<input type=\"text\" name=\"city\" placeholder=\"city\"></br>City:<input type=\"text\" name=\"id\" placeholder=\"id\"></br></br></br><input type=\"submit\" value=\"Set Configuration\"></form>");
-}*/
+}
 
 
 // when a POST request is made to URI /config
@@ -234,6 +233,7 @@ void handleConfig() {
 
     server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
 
+    Serial.write("rec");
     stopTimer(&checkServerTimerId);
     checkServerTimerId = timer.every(CHECK_SERVER_TIME, checkServer, NULL);
     checkServer(NULL);    
@@ -265,13 +265,13 @@ void setup() {
   WiFi.softAP(myssid, mypassword);  // Set Access Point mode
 
   // Server configuration
-  //server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
+  server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
   server.on("/config", HTTP_POST, handleConfig); // Call the 'handleConfig' function when a POST request is made to URI "/config"
   server.onNotFound(handleNotFound);           // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
   server.begin();
 
   // Disconnect from any previous wifi
-  WiFi.disconnect();
+  //WiFi.disconnect();
   
   client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time  
 }

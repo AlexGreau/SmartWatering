@@ -135,6 +135,7 @@ function setSendButtonListener(){
 
         xhttp.onreadystatechange = function() {//Call a function when the state changes.
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                alert("Program sent");
                 // Request finished. Do processing here.
                 // document.getElementById("demo").innerHTML = this.responseText;
             }

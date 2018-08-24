@@ -4,11 +4,7 @@
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
-#include <SoftwareSerial.h>
 #include <ArduinoJson.h>
-
-#define RX_WiFi 8
-#define TX_WiFi 9
 
 #define HTTP_TIMEOUT 5000 // max response time from server
 #define CHECK_SERVER_TIME 300000  // every 5 minutes (expressed in milliseconds)
@@ -48,9 +44,5 @@ char* userId = (char*) malloc(sizeof(char)*100);
 
 Timer timer;
 int checkServerTimerId = -1;
-
-
-//Set the serial port for the wifi module
-SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 
