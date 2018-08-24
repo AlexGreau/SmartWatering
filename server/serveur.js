@@ -103,7 +103,7 @@ app.get('/api/getprog', function (req, res) {
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
         db.db('smartwatering').collection('wateringCan').find(query, {_id: 0, program: 1}).toArray(function (err, res2) {
             if (err) throw err;
-            
+
             if(res2.length > 0) {
               reponse = res2[0].program;
               if (res2[0].dateActive >= res2[0].dateLastTime) {
@@ -225,9 +225,8 @@ app.get('/api/signup', function (req, res) {
                     console.log(reponse);
                     /// Je cree en meme temps la table Program
                     var dt = new Date();
-		            db.db('smartwatering').collection('program').insertOne({userId: reponse, title : "Defaut", program : "Programme XML"});
-                db.db('smartwatering').collection('wateringCan').insertOne({userId: reponse, program : "Programme PG", dateActive: dt.getTime(), dateLastTime: dt.getTime()});
-
+//		            db.db('smartwatering').collection('program').insertOne({userId: reponse, title : "Defaut", program : "Programme XML"});
+                    db.db('smartwatering').collection('wateringCan').insertOne({userId: reponse, program : "", dateActive: dt.getTime(), dateLastTime: dt.getTime()});
                     res.send(reponse);
                 }));
             }
