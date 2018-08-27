@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     editor.putBoolean("isConnect", true);
                                     editor.apply();
 
-                                    goToMainActivity();
+                                    goToNextActivity();
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -133,6 +133,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void goToMainActivity() {
         Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
+        startActivity(intent);
+    }
+    
+    public void goToNextActivity(){
+        Intent intent = new Intent(RegisterActivity.this,ConfigESPActivity.class);
         startActivity(intent);
     }
 }
