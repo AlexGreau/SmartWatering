@@ -166,7 +166,7 @@ public class ConfigESPActivity extends AppCompatActivity {
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
-            InputStream inputStream = context.getAssets().open("city.json");
+            InputStream inputStream = context.getAssets().open("city.all.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
