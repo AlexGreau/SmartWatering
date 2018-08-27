@@ -45,14 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
     private String myURI;
     String sMail;
     String sPass;
-    String sCity;
-
-    ArrayAdapter<String> adapter;
-
-    private static final String[] CITY = new String[] {
-            "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
-    };
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -61,8 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         initView();
-
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, CITY);
 
         addr_mail.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -80,15 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return false;
             }
         });
-        city.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.setFocusable(true);
-                view.setFocusableInTouchMode(true);
-                return false;
-            }
-        });
-        city.setAdapter(adapter);
+
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!addr_mail.getText().toString().isEmpty() || !pass.getText().toString().isEmpty() || city.getText().toString().isEmpty()) {
                     sMail = addr_mail.getText().toString();
                     sPass = pass.getText().toString();
-                    sCity = city.getText().toString();
-                    myURI = "m=" + sMail + "&p=" + sPass + "&c=" + sCity;
+                    myURI = "m=" + sMail + "&p=" + sPass ;
 
                     RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                     final StringRequest request = new StringRequest(Request.Method.GET, MyURL.SIGNUP.toString()+""+myURI,
@@ -140,7 +121,6 @@ public class RegisterActivity extends AppCompatActivity {
         myURI = "";
         addr_mail = findViewById(R.id.et_register_mail);
         pass = findViewById(R.id.et_register_password);
-        city = findViewById(R.id.actv_register_city);
         signup_btn = findViewById(R.id.cv_register);
     }
 
