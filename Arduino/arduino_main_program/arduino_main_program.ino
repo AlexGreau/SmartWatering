@@ -33,7 +33,6 @@ String splitSring(String data, char separator, int index) {
 
 String readFromSerial() {
   if(ESPserial.available()) {
-    Serial.println("----------------------------------"+ESPserial.readString());
     return ESPserial.readString();
   }
   return "";
@@ -138,16 +137,16 @@ void setProgram(String progStr) {
 
 
 void startMeteoCheckingTimer(void* p) {
-  getMeteo(p);
-
   stopTimer(&meteoTimerId);
   meteoTimerId = timer.every(CHECK_METEO_TIME, getMeteo, NULL);
+
+  getMeteo(p);
 }
 
 
 void getMeteo(void* p) {
   Serial.print("Checking meteo");
-  Serial.print("      ");
+  Serial.print("      timer: ");
   Serial.println(meteoTimerId);
       
   // write 'meteo' to the wifi module so it can go check the meteo site
@@ -186,7 +185,7 @@ void setStartingTimer(int i) {
 
 
 void setAllStartingTimers() {
-  Serial.println("setting...");
+  Serial.println("setting");
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     setStartingTimer(i);
   }
@@ -262,7 +261,8 @@ void stopTimer(int *id) {
 void stopAllCurrentSpklrTimers(int i) {
   stopTimer(&sprinklerList[i].startTimerId);
   stopTimer(&sprinklerList[i].freqTimerId); 
-  stopTimer(&sprinklerList[i].durationTimerId); 
+  stopTimer(&sprinklerList[i].durationTimerId);
+  digitalWrite(pumpPinList[i], LOW);
 }
 
 
@@ -299,7 +299,7 @@ void setup() {
   // initialize floater pin to input  
   pinMode(floaterPin, INPUT);     //set the pin to input
   digitalWrite(floaterPin, HIGH); //use the internal pullup resistor
-  /*PCintPort::*/attachInterrupt(floaterPin, setWaterLevel, CHANGE); // attach a PinChange Interrupt to our pin
+  PCintPort::attachInterrupt(floaterPin, setWaterLevel, CHANGE); // attach a PinChange Interrupt to our pin
   
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     pinMode(pumpPinList[i], OUTPUT); 

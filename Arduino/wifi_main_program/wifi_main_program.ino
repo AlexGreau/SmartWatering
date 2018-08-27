@@ -1,15 +1,10 @@
-// Wi-Fi_Neema_azerty123
-// Wi-Fi_Muahaha_andre2018nice
-// Place_nice,fr
-// Place_london,uk
-
 /*
   STATUS:
-    -1 wifi info not set
+    -1 wifi configuration not set
     -2 wifi not connected after 3 attemps
     -3 connection to host failed
-    -4 Unexpected response - http response status
-    -5 Invalid headers - http response
+    -4 Unexpected response (http response status)
+    -5 Invalid headers (http response)
     -6 Parsing json failed
 
      1 wifi connected
@@ -18,17 +13,17 @@
 
   Passed to arduino:
     st:x    -> status
-    me:x    -> water or not according to the meteo info
-    pg[...] -> program of a sprinkler
+    me:x    -> meteo humidity value
+    pg[...] -> program of a sprinkler or meteo
 
   Received from arduino:
     meteo -> get meteo info
-    alert -> send alert of water level
-    ack   -> acknowledge that he has received an entire program for a pump and that it can send the next one
+    alert -> send alert of low water level
+    ack   -> acknowledge that he has received an entire program for a sprinkler and that it can send the next one
 
   Received from smart watering server:
     pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
-    -> program of all the sprinklers    
+    -> program of all the sprinklers and meteo
 */
  
 #include "variable.h"
@@ -58,12 +53,6 @@ String readFromSerial() {
 }
 
 
-void stopTimer(int *id) {
-  timer.stop(*id);
-  *id = -1;
-}
-
-
 
 /*
  **********************************************************************
@@ -80,8 +69,7 @@ bool connectToWifi() {
 
   byte i = 0;
   
-  // TODO: See how to better manage this part because when connected to the arduino this is not practical. 
-  // give a timeout. if it doesn't connect after the 3 attemps then try it later?
+  // If is not connected to the wifi then try max 3 times
   for (i = 0; WiFi.status() != WL_CONNECTED && i < 3; i++) {   
       WiFi.begin(ssid, password);
       delay(5000);
@@ -163,6 +151,7 @@ String getPrecipitationData() {
 }
 
 
+
 /*
  **************************************************
  *  Smart Watering Server communication methods
@@ -200,6 +189,11 @@ void sendProgramToArduino(bool progWellReceived) {
 }
 
 
+void stopTimer(int *id) {
+  timer.stop(*id);
+  *id = -1;
+}
+
 
 
 /*
@@ -209,7 +203,6 @@ void sendProgramToArduino(bool progWellReceived) {
  ****************************************************************************
  ****************************************************************************
  */
-
 // When URI / is requested, send a web page with a form
 void handleRoot() {  
   server.send(200, "text/html", "<form action=\"/config\" method=\"POST\">Wifi Name:<input type=\"text\" name=\"ssid\" placeholder=\"wifi name\"></br>Password:<input type=\"password\" name=\"pass\" placeholder=\"password\"></br>City:<input type=\"text\" name=\"city\" placeholder=\"city\"></br>City:<input type=\"text\" name=\"id\" placeholder=\"id\"></br></br></br><input type=\"submit\" value=\"Set Configuration\"></form>");
@@ -233,7 +226,6 @@ void handleConfig() {
 
     server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
 
-    //Serial.write("wifi set. ");
     stopTimer(&checkServerTimerId);
     checkServerTimerId = timer.every(CHECK_SERVER_TIME, checkServer, NULL);
     checkServer(NULL);    
@@ -245,7 +237,6 @@ void handleConfig() {
 void handleNotFound(){
   server.send(404, "text/plain", "404: Not found");
 }
-
 
 
 
@@ -275,7 +266,6 @@ void setup() {
   
   client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time  
 }
-
 
 
 void loop() {    

@@ -1,8 +1,4 @@
 #include <Timer.h>
-#include <Event.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
 
@@ -28,12 +24,12 @@ const char* meteoHost = "api.openweathermap.org";
 const char* apiKey = "217b07a5c3c0dc0c6036378abf0a750f";
 
 // City to search the forecast of
-char* meteoCityID= (char*) malloc(sizeof(char)*100);
+char* meteoCityID= (char*) malloc(sizeof(char)*20);
 
 
 // Smart watering server
 const int smartWateringHttpPort = 8080;
-const char* smartWateringHost = "192.168.43.171";
+const char* smartWateringHost = "134.59.129.150";
 
 
 // String with sprinklers program and user ID

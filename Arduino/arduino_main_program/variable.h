@@ -1,18 +1,17 @@
 #include <Timer.h>
 #include <Event.h>
-#include <SoftwareSerial.h>
+#include <MySoftwareSerial.h>
 
-/*#define NO_PORTB_PINCHANGES
+#define NO_PORTB_PINCHANGES
 #define NO_PORTD_PINCHANGES
-#include <PinChangeInt.h>*/
-
+#include <PinChangeInt.h>
 
 #define RX_WiFi 8
 #define TX_WiFi 9
 
 #define NUM_SPRINKLERS 4
-#define START_CHECKING_METEO_TIME 30000
-#define CHECK_METEO_TIME  30000//300000  // every 5 minutes (expressed in milliseconds)
+#define START_CHECKING_METEO_TIME 60000 // start 1 minute (expressed in milliseconds) after meteo it's been set. To give time to finish reading the programs
+#define CHECK_METEO_TIME  300000  // every 5 minutes (expressed in milliseconds)
 #define LIMIT_PRECIPITATION 60
 
 
@@ -55,7 +54,6 @@ volatile bool isWaterLevelLow = false;
 
 
 //Set the serial port for the wifi module
-SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
-
+MySoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 

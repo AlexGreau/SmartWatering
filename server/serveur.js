@@ -193,18 +193,15 @@ app.post('/api/saveprog', function (req, res) {
     //res.send('GOOD (°_°)' + matricule);
 });
 
-// http://localhost:8080/api/signup?m=grace@gmail.com&p=azerty&c=Nice,Fr
+// http://localhost:8080/api/signup?m=grace@gmail.com&p=azerty
 app.get('/api/signup', function (req, res) {
     var addr_mail = req.param('m');
     var password = req.param('p');
-    var city = req.param('c');
-
     var reponse;
 
     var data = {
         "email": addr_mail,
-        "password": password,
-        "localite": city
+        "password": password
     }
     // res.send('Email = ' + addr_mail + '\nPassword = ' + password + '\nCity = ' + city);
     mongoClient.connect(urlbd, { useNewUrlParser: true }, function (error, db) {
