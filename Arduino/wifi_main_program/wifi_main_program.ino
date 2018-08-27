@@ -90,7 +90,7 @@ bool connectToWifi() {
     Serial.write("st:-2");
     return false;
   }
-  Serial.write("st:1");
+  //Serial.write("st:1");
   return true;
 }
 
@@ -101,7 +101,7 @@ bool connectToHost(const char* host, const int port) {
       Serial.write("st:-3");
       return false;
   }    
-  Serial.write("st:2");
+  //Serial.write("st:2");
   return true;
 }
 
@@ -228,12 +228,12 @@ void handleConfig() {
     server.arg("id").toCharArray(userId, server.arg("id").length() + 1);
     server.arg("ssid").toCharArray(ssid, server.arg("ssid").length() + 1);
     server.arg("pass").toCharArray(password, server.arg("pass").length() + 1);
-    server.arg("city").toCharArray(meteoCity, server.arg("city").length() + 1);
+    server.arg("city").toCharArray(meteoCityID, server.arg("city").length() + 1);
     isWifiConfigSet = true;
 
     server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
 
-    Serial.write("rec");
+    //Serial.write("wifi set. ");
     stopTimer(&checkServerTimerId);
     checkServerTimerId = timer.every(CHECK_SERVER_TIME, checkServer, NULL);
     checkServer(NULL);    
@@ -271,7 +271,7 @@ void setup() {
   server.begin();
 
   // Disconnect from any previous wifi
-  //WiFi.disconnect();
+  WiFi.disconnect();
   
   client.setTimeout(HTTP_TIMEOUT);  // set the maximum client waiting time  
 }
@@ -308,12 +308,12 @@ void loop() {
 
   if(str == "meteo") { 
     if(connectToHost(meteoHost, meteoHttpPort)) { 
-      sendRequest(meteoHost, String("/data/2.5/weather?q=") + meteoCity + "&appid=" + apiKey);
+      sendRequest(meteoHost, String("/data/2.5/weather?id=") + meteoCityID + "&appid=" + apiKey);
       
       if(isResponseFromServerOk()) {
         String prec = getPrecipitationData();
         
-        if(prec != "-1") {   // TODO: if there was an error what should we send back to arduino??   
+        if(prec != "-1") {   
           Serial.write((String("me:") + prec).c_str());
         }   
       }

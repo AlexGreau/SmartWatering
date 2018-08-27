@@ -28,12 +28,12 @@ const char* meteoHost = "api.openweathermap.org";
 const char* apiKey = "217b07a5c3c0dc0c6036378abf0a750f";
 
 // City to search the forecast of
-char* meteoCity= (char*) malloc(sizeof(char)*100);
+char* meteoCityID= (char*) malloc(sizeof(char)*100);
 
 
 // Smart watering server
 const int smartWateringHttpPort = 8080;
-const char* smartWateringHost = "134.59.129.203";
+const char* smartWateringHost = "192.168.43.171";
 
 
 // String with sprinklers program and user ID
