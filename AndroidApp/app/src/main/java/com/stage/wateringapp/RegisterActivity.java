@@ -24,6 +24,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -43,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String[] CITY = new String[] {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
     };
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

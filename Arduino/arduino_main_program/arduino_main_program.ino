@@ -33,6 +33,7 @@ String splitSring(String data, char separator, int index) {
 
 String readFromSerial() {
   if(ESPserial.available()) {
+    Serial.println("----------------------------------"+ESPserial.readString());
     return ESPserial.readString();
   }
   return "";
@@ -298,7 +299,7 @@ void setup() {
   // initialize floater pin to input  
   pinMode(floaterPin, INPUT);     //set the pin to input
   digitalWrite(floaterPin, HIGH); //use the internal pullup resistor
-  PCintPort::attachInterrupt(floaterPin, setWaterLevel, CHANGE); // attach a PinChange Interrupt to our pin
+  /*PCintPort::*/attachInterrupt(floaterPin, setWaterLevel, CHANGE); // attach a PinChange Interrupt to our pin
   
   for(int i = 0; i < NUM_SPRINKLERS; i++) {
     pinMode(pumpPinList[i], OUTPUT); 

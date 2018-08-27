@@ -1,0 +1,29 @@
+[
+  {
+    "id": 3017680,
+    "name": "Forville",
+    "country": "FR",
+    "coord": {
+      "lon": 6.6239,
+      "lat": 44.913849
+    }
+  },
+  {
+    "id": 3007202,
+    "name": "La Portanière",
+    "country": "FR",
+    "coord": {
+      "lon": 6.17341,
+      "lat": 43.248611
+    }
+  },
+  {
+    "id": 6441676,
+    "name": "Wittenheim",
+    "country": "FR",
+    "coord": {
+      "lon": 7.33333,
+      "lat": 47.816669
+    }
+  }
+]
