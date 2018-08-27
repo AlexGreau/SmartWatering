@@ -1,7 +1,7 @@
 var xmlDom;
 var xmlText;
 var objectId;
-var host = "http://192.168.43.171:8080";
+var host = "http://134.59.129.150:8080";
 
 function setButtonListeners(){
     setWindowListener();
