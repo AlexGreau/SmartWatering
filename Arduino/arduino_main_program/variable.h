@@ -1,10 +1,10 @@
 #include <Timer.h>
 #include <Event.h>
-#include <MySoftwareSerial.h>
+#include <SoftwareSerial.h>
 
-#define NO_PORTB_PINCHANGES
+/*#define NO_PORTB_PINCHANGES
 #define NO_PORTD_PINCHANGES
-#include <PinChangeInt.h>
+#include <PinChangeInt.h>*/
 
 
 #define RX_WiFi 8
@@ -55,7 +55,7 @@ volatile bool isWaterLevelLow = false;
 
 
 //Set the serial port for the wifi module
-MySoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
+SoftwareSerial ESPserial(RX_WiFi, TX_WiFi);
 
 
 

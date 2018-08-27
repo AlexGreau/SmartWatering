@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,7 +23,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,11 +47,15 @@ public class ConfigESPActivity extends AppCompatActivity {
     String sObjectID;
     String sCity;
 
+    String idCity;
+
     ArrayAdapter<String> adapter;
 
-    private static final String[] CITY = new String[] {
+    /*private static final String[] CITY = new String[] {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
-    };
+    };*/
+
+    private static List<String> CITY = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -53,6 +64,21 @@ public class ConfigESPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config_esp);
 
         initView();
+
+        try {
+            JSONArray json = new JSONArray(loadJSONFromAsset(this));
+            Log.e("LISTE_VILLE", loadJSONFromAsset(this));
+
+            for (int i = 0; i < json.length(); i++) {
+                final JSONObject e = json.getJSONObject(i);
+                idCity = e.getString("id");
+                String name = e.getString("name");
+                CITY.add(name);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, CITY);
 
@@ -94,7 +120,9 @@ public class ConfigESPActivity extends AppCompatActivity {
                 if (!ssid.getText().toString().isEmpty() || !pass.getText().toString().isEmpty() || city.getText().toString().isEmpty()) {
                     sSSID = ssid.getText().toString();
                     sPass = pass.getText().toString();
-                    sCity = city.getText().toString();
+                    if (idCity != null) {
+                        sCity = idCity;
+                    }
 
                     // TODO : GetSharePreference ObjectID, City
                     SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
@@ -133,6 +161,22 @@ public class ConfigESPActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String loadJSONFromAsset(Context context) {
+        String json = null;
+        try {
+            InputStream inputStream = context.getAssets().open("city.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
     public void initView() {

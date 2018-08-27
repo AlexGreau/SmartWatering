@@ -106,7 +106,7 @@ app.get('/api/getprog', function (req, res) {
 
             if(res2.length > 0) {
               reponse = res2[0].program;
-              if (res2[0].dateActive >= res2[0].dateLastTime) {
+              //if (res2[0].dateActive >= res2[0].dateLastTime) {
                   // je change de date
                   db.db('smartwatering').collection('wateringCan').updateOne(query, newValue, function (err, res3) {
                       if (err) throw err;
@@ -114,10 +114,10 @@ app.get('/api/getprog', function (req, res) {
                   });
                   console.log(reponse);
                   res.send(reponse);
-              } else {
+              /*} else {
                   console.log("Pas de mise a jour");
                   res.send("");
-              }
+              }*/
             } else {
                   console.log("No program found so send empty string");
                   res.send("");
