@@ -15,6 +15,7 @@
     st:x    -> status
     me:x    -> meteo humidity value
     pg[...] -> program of a sprinkler or meteo
+    rst     -> to tell arduino to reset the sprinklers to default values because his going to received a new program
 
   Received from arduino:
     meteo -> get meteo info
@@ -22,7 +23,7 @@
     ack   -> acknowledge that he has received an entire program for a sprinkler and that it can send the next one
 
   Received from smart watering server:
-    pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
+    rst|pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
     -> program of all the sprinklers and meteo
 */
  
@@ -167,7 +168,12 @@ String getPrecipitationData() {
     
     if(isResponseFromServerOk()) {
       progStr = client.readString();
-      sendProgramToArduino(true);
+      progStr.trim();
+
+      if(progStr != "") {
+        progStr = "rst|" + progStr;
+        sendProgramToArduino(true);  
+      }      
     }
   }
 }

@@ -10,6 +10,8 @@
     Example program:
       pg[s,1,1;m,300;st,5;f,30;d,20]
       pg[me,1]
+
+      rst|pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
 */
 
 #include "variable.h"
@@ -28,14 +30,6 @@ String splitSring(String data, char separator, int index) {
       }
   }
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
-}
-
-
-String readFromSerial() {
-  if(ESPserial.available()) {
-    return ESPserial.readString();
-  }
-  return "";
 }
 
 
@@ -67,16 +61,13 @@ void printForDebug() {
 }
 
 
-
 // Extract the parameters from the string containing the program and configure the corresponding sprinkler
-void setProgram(String progStr) { 
-   
-  progStr.remove(0, 2);
-
-  // Send acknowledge with status: 0 - program was not correctly received so resend it
+void setProgram(String progStr) {    
+  progStr.remove(0, 2); // remove the 'pg' from the string
+  
   if(!progStr.startsWith("[") || !progStr.endsWith("]")) {      
     Serial.println("ERROR! String received is not correct.");
-    ESPserial.write("ack:0");
+    ESPserial.write("ack:0"); // Send acknowledge with status: 0 - program was not correctly received so resend it
     return;      
   }
   progStr.remove(0, 1);
@@ -121,6 +112,12 @@ void setProgram(String progStr) {
       else {        
         waterPlants = true;
       }
+    }
+    else {
+      Serial.println("ERROR 2! String received is not correct.");
+      setSprinklerDefaultValue(spklrId); // set the sprinkler back to the default value
+      ESPserial.write("ack:0"); // Send acknowledge with status: 0 - program was not correctly received so resend it
+      return;
     }
     
     i++;
@@ -177,7 +174,7 @@ void setMeteo(String result) {
 void setStartingTimer(int i) {
   if(sprinklerList[i].isActivated) {
     Serial.print("set sprinkler: ");
-    Serial.println(i);
+    Serial.println(i+1);
     stopAllCurrentSpklrTimers(i);
     sprinklerList[i].startTimerId = timer.after(sprinklerList[i].startingTime, startWateringCycle, (void*) i);
   }
@@ -242,11 +239,11 @@ void timeToWater(void* spklrId) {
 
 void stopWatering(void* spklrId) {
   int i = (int) spklrId;
-  digitalWrite(pumpPinList[i], LOW);
+  digitalWrite(pumpPinList[i], LOW);  
+  stopTimer(&sprinklerList[i].durationTimerId);
   Serial.print("Pump: ");
   Serial.print(i+1);
   Serial.println("  off");
-  stopTimer(&sprinklerList[i].durationTimerId);
   
   // TODO: ERASE
   //printForDebug();
@@ -274,7 +271,26 @@ void stopAllCurrentSpklrTimers(int i) {
  *****************
  *****************
  */
- void setWaterLevel() {
+void setSprinklerDefaultValue(int i) {
+  sprinklerList[i].isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
+  sprinklerList[i].moisture = 600;
+  sprinklerList[i].frequency = 10000;//18000000;    // in milliseconds
+  sprinklerList[i].duration = 5000;//900000;      // in milliseconds
+  sprinklerList[i].startingTime = 1000;  // in milliseconds
+
+  stopAllCurrentSpklrTimers(i); // all timers ID will be -1 by default which means they don't have a timer assigned yet
+}
+
+void setAllSprinklersDefaultValues() {
+  for(int i = 0; i < NUM_SPRINKLERS; i++) {
+    setSprinklerDefaultValue(i);
+  }
+  // TODO: ERASE
+  printForDebug();
+}
+
+  
+void setWaterLevel() {
   isWaterLevelLow = digitalRead(floaterPin);
 
   Serial.print("Water low: ");
@@ -305,16 +321,26 @@ void setup() {
     pinMode(pumpPinList[i], OUTPUT); 
   }
 
+  setAllSprinklersDefaultValues();
   setAllStartingTimers();
 }
 
 
-void loop() {
+void loop() { 
+  String str = "";
   
-  String str = readFromSerial();
-  str.trim(); // erase any posible whitespaces at both ends
-  
-  if(str.startsWith("pg")) { 
+  if(ESPserial.available()) {
+    str = ESPserial.readString();
+    str.trim(); // erase any posible whitespaces at both ends
+  }  
+
+  if(str.startsWith("rst")) { 
+    Serial.println(str);
+    setAllSprinklersDefaultValues(); 
+    
+    ESPserial.write("ack:1"); // Send acknowledge with status: 1 - rst was well received
+  } 
+  else if(str.startsWith("pg")) { 
     Serial.println(str);
     setProgram(str);  
   } 

@@ -70,7 +70,7 @@ function generateAllStubs() {
         var dif = Math.ceil((startingDate.getTime() - Date.now()) / 1000); // to transform it to seconds
 
         if(dif < 0) {
-            dif = 0;
+            dif = 60; // if difference is negative then start in one minute (60 sec)
         }
         code += dif + ";";
         return code;

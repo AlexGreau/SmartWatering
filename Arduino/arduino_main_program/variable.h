@@ -6,6 +6,7 @@
 #define NO_PORTD_PINCHANGES
 #include <PinChangeInt.h>
 
+
 #define RX_WiFi 8
 #define TX_WiFi 9
 
@@ -19,16 +20,16 @@ Timer timer;
 
 // Structure used for the sprinklers
 struct Sprinkler {
-  bool isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
-  int moisture = 600;
-  long frequency = 10000;//18000000;    // in milliseconds
-  long duration = 5000;//900000;      // in milliseconds
-  long startingTime = 1000;  // in milliseconds
+  bool isActivated;
+  int moisture;
+  long frequency;    // in milliseconds
+  long duration;     // in milliseconds
+  long startingTime; // in milliseconds
 
-  // Auxiliary attributes
-  int startTimerId = -1;
-  int freqTimerId = -1; 
-  int durationTimerId = -1;  
+  // timers
+  int startTimerId;
+  int freqTimerId; 
+  int durationTimerId;  
 };
 
 struct Sprinkler sprinklerList[NUM_SPRINKLERS];
