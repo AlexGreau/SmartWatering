@@ -6,6 +6,7 @@ public enum MyURL {
     SIGNIN ("/api/signin?");
 
     private String title;
+    private final String host = "http://134.59.129.150:8080";
 
     MyURL(String title) {
         this.title = title;
@@ -13,7 +14,6 @@ public enum MyURL {
 
     @Override
     public String toString() {
-        String host = "http://134.59.129.150:8080";
-        return host + "" + title;
+        return this.host + "" + title;
     }
 }
