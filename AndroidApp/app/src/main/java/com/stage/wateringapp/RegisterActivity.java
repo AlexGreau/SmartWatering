@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,13 +76,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 // ToDo : Action register
                 if (!isConnected()) {
-                    Snackbar.make(view, "Vous n'etes pas connecte a internet", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, "Please connect to internet to proceed", Snackbar.LENGTH_LONG).show();
                 }
-
-                if (!addr_mail.getText().toString().isEmpty() || !pass.getText().toString().isEmpty() || city.getText().toString().isEmpty()) {
+                else if (!addr_mail.getText().toString().isEmpty() || !pass.getText().toString().isEmpty() || city.getText().toString().isEmpty()) {
                     sMail = addr_mail.getText().toString();
                     sPass = pass.getText().toString();
                     myURI = "m=" + sMail + "&p=" + sPass ;
@@ -95,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
-                                    // ToDO: enregistrer l'ObjectId
                                     SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
                                     editor.putString("ObjectId", response);
                                     editor.putBoolean("isConnect", true);
@@ -107,10 +107,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("ERROR", error.toString());
+                            Snackbar.make(view, "could not connect to server on register action", Snackbar.LENGTH_LONG).show();
                         }
                     });
                     queue.add(request);
-                    //Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
                 }
             }
@@ -130,13 +130,21 @@ public class RegisterActivity extends AppCompatActivity {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-
-    public void goToMainActivity() {
-        Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
-        startActivity(intent);
+    private boolean isConnectedToServer(String url, int timeout) {
+        try{
+            URL myUrl = new URL(url);
+            URLConnection connection = myUrl.openConnection();
+            connection.setConnectTimeout(timeout);
+            connection.connect();
+            return true;
+        } catch (Exception e) {
+            // Handle your exceptions
+            Log.e("ERROR", "could not connect to server on register action");
+            return false;
+        }
     }
     
-    public void goToNextActivity(){
+    private void goToNextActivity(){
         Intent intent = new Intent(RegisterActivity.this,ConfigESPActivity.class);
         startActivity(intent);
     }

@@ -163,6 +163,13 @@ public class ConfigESPActivity extends AppCompatActivity {
         });
     }
 
+    public void initView() {
+        ssid = findViewById(R.id.et_ssid);
+        pass = findViewById(R.id.et_config_password);
+        city = findViewById(R.id.actv_config_city);
+        config_btn = findViewById(R.id.cv_config);
+    }
+
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
@@ -177,13 +184,6 @@ public class ConfigESPActivity extends AppCompatActivity {
             return null;
         }
         return json;
-    }
-
-    public void initView() {
-        ssid = findViewById(R.id.et_ssid);
-        pass = findViewById(R.id.et_config_password);
-        city = findViewById(R.id.actv_config_city);
-        config_btn = findViewById(R.id.cv_config);
     }
 
     private boolean isConnected() {
