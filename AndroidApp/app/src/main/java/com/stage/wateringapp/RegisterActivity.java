@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 // ToDo : Action register
                 if (!isConnected()) {
                     Snackbar.make(view, "Please connect to internet to proceed", Snackbar.LENGTH_LONG).show();
@@ -96,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
                                      * Le Compte a ete cree avec succes
                                      * on peut maintenant se connecter
                                      */
-                                    // ToDO: enregistrer l'ObjectId
                                     SharedPreferences.Editor editor = getSharedPreferences("SMART_WATERING", MODE_PRIVATE).edit();
                                     editor.putString("ObjectId", response);
                                     editor.putBoolean("isConnect", true);
@@ -108,10 +107,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("ERROR", error.toString());
+                            Snackbar.make(view, "could not connect to server on register action", Snackbar.LENGTH_LONG).show();
                         }
                     });
                     queue.add(request);
-                  //  Snackbar.make(view, "" +request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
                 }
             }
@@ -144,13 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    public void goToMainActivity() {
-        Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
-        startActivity(intent);
-    }
     
-    public void goToNextActivity(){
+    private void goToNextActivity(){
         Intent intent = new Intent(RegisterActivity.this,ConfigESPActivity.class);
         startActivity(intent);
     }
