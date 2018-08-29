@@ -12,10 +12,10 @@
      3 alert sent
 
   Passed to arduino:
-    st:x    -> status
-    me:x    -> meteo humidity value
-    pg[...] -> program of a sprinkler or meteo
-    rst     -> to tell arduino to reset the sprinklers to default values because his going to received a new program
+    st:x              -> status
+    me:x              -> meteo humidity value
+    pg[...][checksum] -> program of a sprinkler or meteo and the checksum to verify the program is received correctly in arduino side
+    rst               -> to tell arduino to reset the sprinklers to default values because his going to receive a new program
 
   Received from arduino:
     meteo -> get meteo info
@@ -23,8 +23,7 @@
     ack   -> acknowledge that he has received an entire program for a sprinkler and that it can send the next one
 
   Received from smart watering server:
-    rst|pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
-    -> program of all the sprinklers and meteo
+    pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1] -> program of all the sprinklers and meteo
 */
  
 #include "variable.h"
@@ -43,14 +42,6 @@ String splitSring(String data, char separator, int index) {
       }
   }
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
-}
-
-
-String readFromSerial() {
-  if(Serial.available()) {
-    return Serial.readString();
-  }  
-  return "";
 }
 
 
@@ -187,11 +178,24 @@ void sendProgramToArduino(bool progWellReceived) {
   str.trim(); // erase any posible whitespaces at both ends
   
   if(str != "") {  
+    addChecksum(&str);
     Serial.write(str.c_str());
   } else {
     progStr = "";
     indexProg = -1;
   }
+}
+
+s
+// calculates the total ascii value of the program string, just the part inside the brackets -> pg[...]
+void addChecksum(String *str) {
+  int total = 0;
+  for(int i = 3; i < str->length() - 1; i++) {   // starts at 3 to leave out 'pg[' and finishes at length-2 to leave out ']' -> example: pg[s,1,1;m,300;st,20;f,30;d,20]
+    total += str->charAt(i);
+  }
+  str->concat("[");
+  str->concat(total);
+  str->concat("]");
 }
 
 
@@ -216,8 +220,7 @@ void handleRoot() {
 
 
 // when a POST request is made to URI /config
-void handleConfig() {           
-
+void handleConfig() {    
   if( !server.hasArg("id") || !server.hasArg("ssid") || !server.hasArg("pass") || !server.hasArg("city")
       || server.arg("id") == NULL || server.arg("ssid") == NULL || server.arg("pass") == NULL || server.arg("city") == NULL) { 
     server.send(400, "text/plain", "400: Invalid Request");
@@ -278,7 +281,12 @@ void loop() {
   timer.update(); // update the timers
   server.handleClient();  // listen for clients
 
-  String str = readFromSerial();
+  String str = "";
+
+  if(Serial.available()) {
+    str = Serial.readString();
+    str.trim(); // erase any posible whitespaces at both ends
+  }  
 
   if (str.startsWith("ack")) {
     sendProgramToArduino(splitSring(str, ':', 1).toInt());

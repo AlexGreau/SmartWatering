@@ -12,6 +12,8 @@
       pg[me,1]
 
       rst|pg[s,1,1;m,300;st,20;f,30;d,20]|pg[s,2,1;m,400;st,20;f,20;d,10]|pg[s,3,1;m,500;st,20;f,20;d,5]|pg[s,4,1;m,600;st,20;f,25;d,15]|pg[me,1]
+
+      pg[s,1,0;m,300;st,20;f,30;d,20][1696]
 */
 
 #include "variable.h"
@@ -61,17 +63,29 @@ void printForDebug() {
 }
 
 
-// Extract the parameters from the string containing the program and configure the corresponding sprinkler
-void setProgram(String progStr) {    
-  progStr.remove(0, 2); // remove the 'pg' from the string
+bool verifyChecksum(String str) {
+  String checksumInString = str.substring(str.indexOf("[", 3) + 1, str.length() - 1);
+  String prog = str.substring(3, str.indexOf("]")); // to get the string inside pg[...]
   
-  if(!progStr.startsWith("[") || !progStr.endsWith("]")) {      
+  int total = 0;
+  for(int i = 0; i < prog.length(); i++) {
+    total += prog.charAt(i);
+  }
+
+  return total == checksumInString.toInt();  
+}
+
+
+// Extract the parameters from the string containing the program and configure the corresponding sprinkler
+void setProgram(String progStr) {  
+     
+  if(!verifyChecksum(progStr)) {
     Serial.println("ERROR! String received is not correct.");
     ESPserial.write("ack:0"); // Send acknowledge with status: 0 - program was not correctly received so resend it
-    return;      
+    return;
   }
-  progStr.remove(0, 1);
-  progStr.remove(progStr.length() - 1, 1);
+
+  progStr = progStr.substring(3, progStr.indexOf("]")); // to get the string inside pg[...]
       
   byte spklrId;
   byte i = 0;      
@@ -172,10 +186,11 @@ void setMeteo(String result) {
  */
 
 void setStartingTimer(int i) {
+  stopAllCurrentSpklrTimers(i);
+  
   if(sprinklerList[i].isActivated) {
     Serial.print("set sprinkler: ");
     Serial.println(i+1);
-    stopAllCurrentSpklrTimers(i);
     sprinklerList[i].startTimerId = timer.after(sprinklerList[i].startingTime, startWateringCycle, (void*) i);
   }
 }
