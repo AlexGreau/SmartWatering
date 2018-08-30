@@ -6,7 +6,7 @@ public enum MyURL {
     SIGNIN ("/api/signin?");
 
     private String title;
-    private final String host = "http://134.59.129.150:8080";
+    private final String host = "http://192.168.43.171:8080";
 
     MyURL(String title) {
         this.title = title;
