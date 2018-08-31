@@ -2,3 +2,5 @@
 .DS_Store
 *.ser
 *.ser
+
+AndroidApp/\.idea/
