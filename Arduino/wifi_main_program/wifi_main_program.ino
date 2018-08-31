@@ -186,7 +186,7 @@ void sendProgramToArduino(bool progWellReceived) {
   }
 }
 
-s
+
 // calculates the total ascii value of the program string, just the part inside the brackets -> pg[...]
 void addChecksum(String *str) {
   int total = 0;
@@ -232,6 +232,11 @@ void handleConfig() {
     server.arg("pass").toCharArray(password, server.arg("pass").length() + 1);
     server.arg("city").toCharArray(meteoCityID, server.arg("city").length() + 1);
     isWifiConfigSet = true;
+
+    Serial.println(password);
+    Serial.println(ssid);
+    Serial.println(meteoCityID);
+    
 
     server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
 

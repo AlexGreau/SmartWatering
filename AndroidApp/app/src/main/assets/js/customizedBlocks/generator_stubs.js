@@ -70,7 +70,7 @@ function generateAllStubs() {
         var dif = Math.ceil((startingDate.getTime() - Date.now()) / 1000); // to transform it to seconds
 
         if(dif < 0) {
-            dif = 60; // if difference is negative then start in one minute (60 sec)
+            dif = 120; // if difference is negative then start in one minute (60 sec)
         }
         code += dif + ";";
         return code;
@@ -93,7 +93,7 @@ function generateAllStubs() {
         else if(dropdown_freq_unit == "month") {
           tmp = number_freq_times_unit * tmp * 30;
         }
-        tmp = tmp / number_freq_time;
+        tmp = Math.ceil(tmp / number_freq_time);
         code += tmp + ";";
         return code;
     };

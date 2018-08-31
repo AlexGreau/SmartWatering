@@ -2,6 +2,7 @@ package com.stage.wateringapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -135,6 +137,10 @@ public class ConfigESPActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.e("RES", response);
+
+                                    Intent intent = new Intent(ConfigESPActivity.this, MenuActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             },
                             new Response.ErrorListener() {

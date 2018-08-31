@@ -22,21 +22,21 @@ Timer timer;
 struct Sprinkler {
   bool isActivated;
   int moisture;
-  long frequency;    // in milliseconds
-  long duration;     // in milliseconds
-  long startingTime; // in milliseconds
+  unsigned long frequency;    // in milliseconds
+  unsigned long duration;     // in milliseconds
+  unsigned long startingTime; // in milliseconds
 
   // timers
-  int startTimerId;
-  int freqTimerId; 
-  int durationTimerId;  
+  int8_t startTimerId;
+  int8_t freqTimerId; 
+  int8_t durationTimerId;  
 };
 
 struct Sprinkler sprinklerList[NUM_SPRINKLERS];
 
 
 // Meteo
-int meteoTimerId = -1;  
+int8_t meteoTimerId = -1;  
 bool checkMeteo = false;
 bool waterPlants = true;
 

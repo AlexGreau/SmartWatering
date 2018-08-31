@@ -628,8 +628,10 @@ function createBlocksAndToolboxXml() {
                 if(block.childrenBlocksSettings != undefined) {
                     toolboxXml += createBlockXml(block.type, block.childrenBlocksSettings);
                 }
-                else
-                {
+                else if (block.type == "spklr_setting_start_time") {
+                    toolboxXml += createStartingTimeBlockXml(block.type);
+                }
+                else {
                     toolboxXml += '<block type="' + block.type + '"></block>';
                 }
              });
@@ -647,6 +649,7 @@ function createBlocksAndToolboxXml() {
 
 
 function createBlockXml(blockType, setting) {
+  var today = new Date();
   var xml = "<block type='" + blockType + "'> \
     <statement name='settings'> \
       <block type='spklr_setting_duration'> \
@@ -665,6 +668,9 @@ function createBlockXml(blockType, setting) {
                     <field name='watering_hour'>" + setting.watering_hour + "</field> \
                     <field name='watering_min'>" + setting.watering_min + "</field> \
                     <field name='watering_unit'>" + setting.watering_unit + "</field> \
+                    <field name='watering_day'>" + today.getDate() + "</field> \
+                    <field name='watering_month'>" + (today.getMonth() + 1) + "</field> \
+                    <field name='watering_year'>" + today.getFullYear() + "</field>\
                   </block> \
                 </next> \
               </block> \
@@ -676,6 +682,34 @@ function createBlockXml(blockType, setting) {
   </block>";
 
   return xml;
+}
+
+
+function createStartingTimeBlockXml(blockType) {
+    var today = new Date();
+    var hour = today.getHours();
+    var xml = "<block type='" + blockType + "'> \
+        <field name='watering_day'>" + today.getDate() + "</field> \
+        <field name='watering_month'>" + (today.getMonth() + 1) + "</field> \
+        <field name='watering_year'>" + today.getFullYear() + "</field>";
+
+    if(hour == 0) {
+        xml += "<field name='watering_hour'>12</field>";
+    } else if (hour <= 12) {
+        xml += "<field name='watering_hour'>" + hour + "</field>";
+    } else {
+        xml += "<field name='watering_hour'>" + (hour - 12) + "</field>";
+    }
+
+    if(0 <= hour && hour < 12) {
+        xml += "<field name='watering_unit'>am</field>";
+    } else {
+        xml += "<field name='watering_unit'>pm</field>";
+    }
+    xml += "<field name='watering_min'>30</field> \
+            </block>";
+
+    return xml;
 }
 
 

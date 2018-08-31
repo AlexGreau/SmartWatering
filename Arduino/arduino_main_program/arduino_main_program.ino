@@ -71,7 +71,6 @@ bool verifyChecksum(String str) {
   for(int i = 0; i < prog.length(); i++) {
     total += prog.charAt(i);
   }
-
   return total == checksumInString.toInt();  
 }
 
@@ -265,7 +264,7 @@ void stopWatering(void* spklrId) {
 }
 
 
-void stopTimer(int *id) {
+void stopTimer(int8_t *id) {
   timer.stop(*id);
   *id = -1;
 }
@@ -288,10 +287,10 @@ void stopAllCurrentSpklrTimers(int i) {
  */
 void setSprinklerDefaultValue(int i) {
   sprinklerList[i].isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
-  sprinklerList[i].moisture = 600;
-  sprinklerList[i].frequency = 10000;//18000000;    // in milliseconds
-  sprinklerList[i].duration = 5000;//900000;      // in milliseconds
-  sprinklerList[i].startingTime = 1000;  // in milliseconds
+  sprinklerList[i].moisture = 400;        //
+  sprinklerList[i].frequency = 10000;    // 10 seconds in milliseconds
+  sprinklerList[i].duration = 5000;;     // 5 seconds in milliseconds
+  sprinklerList[i].startingTime = 1000;  // 1 second in milliseconds
 
   stopAllCurrentSpklrTimers(i); // all timers ID will be -1 by default which means they don't have a timer assigned yet
 }

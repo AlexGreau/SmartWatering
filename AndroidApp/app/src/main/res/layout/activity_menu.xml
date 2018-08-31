@@ -34,13 +34,13 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Programmer"
+            android:text="Create Program"
             android:onClick="onProgram"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Configurer"
+            android:text="Configure Wifi"
             android:onClick="configWiFi"/>
 
     </LinearLayout>
@@ -49,7 +49,7 @@
         android:id="@+id/btn_signout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Se deconnecter"
+        android:text="Disconnect"
         android:onClick="signOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
