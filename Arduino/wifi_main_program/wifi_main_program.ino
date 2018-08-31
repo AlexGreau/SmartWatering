@@ -231,12 +231,7 @@ void handleConfig() {
     server.arg("ssid").toCharArray(ssid, server.arg("ssid").length() + 1);
     server.arg("pass").toCharArray(password, server.arg("pass").length() + 1);
     server.arg("city").toCharArray(meteoCityID, server.arg("city").length() + 1);
-    isWifiConfigSet = true;
-
-    Serial.println(password);
-    Serial.println(ssid);
-    Serial.println(meteoCityID);
-    
+    isWifiConfigSet = true;    
 
     server.send(200, "text/plain", "CONFIG_"+server.arg("id")+" "+server.arg("ssid")+" "+ server.arg("pass")+" "+server.arg("city")); 
 

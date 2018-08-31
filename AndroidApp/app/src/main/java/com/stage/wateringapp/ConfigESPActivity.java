@@ -58,8 +58,6 @@ public class ConfigESPActivity extends AppCompatActivity {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
     };*/
 
-    Map<String, String> map = new HashMap<>();
-
     private static List<String> CITY = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
@@ -79,12 +77,8 @@ public class ConfigESPActivity extends AppCompatActivity {
                 idCity = e.getString("id");
                 String name = e.getString("name");
                 CITY.add(name);
-<<<<<<< HEAD
-
                 map.put(name, idCity);
-=======
-                map.put(name,idCity);
->>>>>>> 2c39d886ccb55a094eb0d82a1a10160a6a53ff33
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
