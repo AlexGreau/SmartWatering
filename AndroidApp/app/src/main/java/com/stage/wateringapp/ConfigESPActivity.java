@@ -53,9 +53,12 @@ public class ConfigESPActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapter;
 
+    Map<String,String> map = new HashMap<>();
     /*private static final String[] CITY = new String[] {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
     };*/
+
+    Map<String, String> map = new HashMap<>();
 
     private static List<String> CITY = new ArrayList<>();
 
@@ -76,6 +79,12 @@ public class ConfigESPActivity extends AppCompatActivity {
                 idCity = e.getString("id");
                 String name = e.getString("name");
                 CITY.add(name);
+<<<<<<< HEAD
+
+                map.put(name, idCity);
+=======
+                map.put(name,idCity);
+>>>>>>> 2c39d886ccb55a094eb0d82a1a10160a6a53ff33
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -126,6 +135,7 @@ public class ConfigESPActivity extends AppCompatActivity {
                         sCity = idCity;
                     }
 
+
                     // TODO : GetSharePreference ObjectID, City
                     SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
                     sObjectID = preferences.getString("ObjectId", "No ObjectID");
@@ -156,14 +166,18 @@ public class ConfigESPActivity extends AppCompatActivity {
                             params.put("id", sObjectID);
                             params.put("ssid", sSSID);
                             params.put("pass", sPass);
-                            params.put("city", sCity);
+                            params.put("city", map.get(city.getText().toString()));
                             return params;
                         }
-                    }
-                            ;
+                    };
+
+                    Log.e("TTT", idCity+" "+sCity);
+
                     queue.add(request);
                     Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
+                    Log.e("ZEUBY",map.get(city.getText().toString()));
+
                 }
             }
         });
