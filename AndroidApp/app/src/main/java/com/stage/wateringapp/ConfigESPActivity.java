@@ -55,6 +55,8 @@ public class ConfigESPActivity extends AppCompatActivity {
             "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
     };*/
 
+    Map<String, String> map = new HashMap<>();
+
     private static List<String> CITY = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
@@ -74,6 +76,8 @@ public class ConfigESPActivity extends AppCompatActivity {
                 idCity = e.getString("id");
                 String name = e.getString("name");
                 CITY.add(name);
+
+                map.put(name, idCity);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -124,6 +128,7 @@ public class ConfigESPActivity extends AppCompatActivity {
                         sCity = idCity;
                     }
 
+
                     // TODO : GetSharePreference ObjectID, City
                     SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
                     sObjectID = preferences.getString("ObjectId", "No ObjectID");
@@ -150,11 +155,13 @@ public class ConfigESPActivity extends AppCompatActivity {
                             params.put("id", sObjectID);
                             params.put("ssid", sSSID);
                             params.put("pass", sPass);
-                            params.put("city", sCity);
+                            params.put("city", map.get(city.getText().toString()));
                             return params;
                         }
-                    }
-                            ;
+                    };
+
+                    Log.e("TTT", idCity+" "+sCity);
+
                     queue.add(request);
                     Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
