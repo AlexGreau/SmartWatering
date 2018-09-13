@@ -105,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     queue.add(request);
-                    //Snackbar.make(view, ""+request.getUrl(), Snackbar.LENGTH_LONG).show();
                     Log.e("RESULT", request.getUrl());
                 }
             }

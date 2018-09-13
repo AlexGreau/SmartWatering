@@ -23,7 +23,7 @@ function createProgramXml(blockType, setting){
                    <statement name="program">';
 
     for (i = 1; i <= 4; i++) {
-        xml += '<block type="sprinkler_type">\
+        xml += '<block type="sprinkler_type">'\
                   <field name="sprinkler_number">' + i +'</field>\
                   <field name="sprinkler_active">TRUE</field>\
                   <statement name="sprinkler_settings">'
@@ -43,7 +43,7 @@ function createProgramXml(blockType, setting){
         }
     }
 
-    xml += '</statement>\
+    xml += '</statement>'\
          </block>\
        </xml>';
 

@@ -122,7 +122,6 @@ function setSaveButtonListener(){
 
 function setSendButtonListener(){
     var createBtn = document.getElementById("sendBtn");
-    // TODO : get Programm and send that
     createBtn.onclick = function() {
         var pgString = Blockly.JavaScript.workspaceToCode(workspace);
 
@@ -137,7 +136,6 @@ function setSendButtonListener(){
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 alert("Program sent");
                 // Request finished. Do processing here.
-                // document.getElementById("demo").innerHTML = this.responseText;
             }
         };
 

@@ -1,8 +1,8 @@
 
-/*$.getJSON('js/customize_blocks.json').done(function (block_list) 
+/*$.getJSON('js/customize_blocks.json').done(function (block_list)
 {
   console.log("leo");
-  block_list.forEach(block => { 
+  block_list.forEach(block => {
     console.log("creo");
     Blockly.Blocks[block.type] = {
       init: function() {
@@ -18,9 +18,6 @@
 });
 
 */
-
-
-
 
 
 var a = [{
