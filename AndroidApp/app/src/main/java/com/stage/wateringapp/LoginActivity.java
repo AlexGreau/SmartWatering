@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent browser= new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.nationalgeographic.com/animals/mammals/l/llama/"));
+                Intent browser= new Intent(Intent.ACTION_VIEW, Uri.parse("http://i3s.unice.fr/master-info/"));
                 startActivity(browser);
             }
 

@@ -54,9 +54,6 @@ public class ConfigESPActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     Map<String,String> map = new HashMap<>();
-    /*private static final String[] CITY = new String[] {
-            "Nice, Fr", "Paris, Fr", "Nantes, Fr", "Lyon, fr"
-    };*/
 
     private static List<String> CITY = new ArrayList<>();
 
@@ -116,8 +113,6 @@ public class ConfigESPActivity extends AppCompatActivity {
         config_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ToDo : Action connection
-                // ToDo : Action register
                 if (!isConnected()) {
                     Snackbar.make(view, "Vous n'etes pas connecte a internet", Snackbar.LENGTH_LONG).show();
                 }
@@ -130,7 +125,6 @@ public class ConfigESPActivity extends AppCompatActivity {
                     }
 
 
-                    // TODO : GetSharePreference ObjectID, City
                     SharedPreferences preferences = getSharedPreferences("SMART_WATERING", MODE_PRIVATE);
                     sObjectID = preferences.getString("ObjectId", "No ObjectID");
                     Log.e("CONFIG ESP-01", sObjectID);
