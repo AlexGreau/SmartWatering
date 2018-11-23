@@ -286,7 +286,7 @@ void stopAllCurrentSpklrTimers(int i) {
  *****************
  */
 void setSprinklerDefaultValue(int i) {
-  sprinklerList[i].isActivated = false;    // TODO: OR BE ACTIVE BY DEFAULT???
+  sprinklerList[i].isActivated = true;    // TODO: OR BE ACTIVE BY DEFAULT???
   sprinklerList[i].moisture = 400;        //
   sprinklerList[i].frequency = 10000;    // 10 seconds in milliseconds
   sprinklerList[i].duration = 5000;;     // 5 seconds in milliseconds
